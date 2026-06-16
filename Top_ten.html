@@ -30,28 +30,24 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
             padding-bottom: 40px;
             text-align: center;
+            overflow: hidden;
         }
 
-        /* هيدر اللوجو الجديد مع الخلفية البيج الناعمة المتناسقة مع صورته */
-        .header-banner {
+        /* الهيدر الجديد لعرض الصورة كاملة كما هي بدون اقتصاص أو مسافات */
+        .header-image-container {
             width: 100%;
-            background-color: #e3d3c4; /* لون مستوحى من خلفية اللوجو الجديد ليظهر بشكل احترافي */
-            padding: 25px 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            line-height: 0; /* لمنع وجود أي فراغ أبيض أسفل الصورة */
         }
 
-        .header-banner img {
-            max-width: 180px;
+        .header-image-container img {
+            width: 100%;
             height: auto;
-            object-fit: contain;
+            display: block;
         }
 
-        /* قسم العناوين */
+        /* قسم العناوين والأزرار */
         .content-section {
-            padding: 25px 20px 10px 20px;
+            padding: 30px 20px 10px 20px;
         }
 
         .brand-title {
@@ -74,7 +70,7 @@
             table-layout: fixed;
             border-collapse: separate;
             border-spacing: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .social-item {
@@ -109,24 +105,23 @@
             font-weight: 500;
         }
 
-        /* ألوان أزرار السوشيال ميديا بالظبط كالصورة */
+        /* ألوان أزرار السوشيال ميديا الحقيقية كالصورة الأصلية */
         .telegram { background: #2ca5e0; }
         .tiktok { background: #000000; }
-        /* تدرج الإنستجرام الشهير */
         .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .facebook { background: #1877f2; }
 
-        /* الأزرار العريضة السفلية */
+        /* الأزرار العريضة السفلية ذات الحواف الناعمة والـ Shadow خفيف */
         .wide-card {
             display: block;
             background: #ffffff;
             border-radius: 18px;
-            margin: 0 15px 15px 15px;
-            padding: 15px 20px;
+            margin: 0 5px 15px 5px;
+            padding: 18px 20px;
             text-decoration: none;
             color: #000000;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-            border: 1px solid #f0f0f0;
+            border: 1px solid #f5f5f5;
             transition: background-color 0.2s ease;
         }
 
@@ -134,7 +129,7 @@
             background-color: #fafafa;
         }
 
-        /* تصميم الصف الداخلي للأزرار العريضة لتوزيع العناصر */
+        /* تقسيم الأزرار العريضة باستخدام Table لتوزيع النصوص والأيقونة */
         .card-table {
             display: table;
             width: 100%;
@@ -165,7 +160,7 @@
             color: #888888;
         }
 
-        /* الدائرة الخلفية للأيقونات السفلية */
+        /* تصميم الدائرة الرمادية للأيقونات السفلية */
         .icon-circle {
             width: 42px;
             height: 42px;
@@ -178,11 +173,12 @@
             font-size: 18px;
         }
         
-        /* تخصيص أيقونة ألفا بكسل لتشبه الشعار المربع بالصورة */
+        /* علامة ألفا بكسل المخصصة لتشبه اللوجو الصغير */
         .alpha-icon {
             font-weight: 900;
             font-style: italic;
             font-family: 'Arial Black', Gadget, sans-serif;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -190,8 +186,8 @@
 
     <div class="container">
         
-        <div class="header-banner">
-            <img src="https://images.gemini.googleusercontent.com/api/view?docid=EkoBMTMwMDI2LmpwZw" alt="Top Ten Logo">
+        <div class="header-image-container">
+            <img src="https://images.gemini.googleusercontent.com/api/view?docid=EkoBMTMwMDI2LmpwZw" alt="Top Ten Storefront">
         </div>
 
         <div class="content-section">
