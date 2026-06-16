@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Ten Woman's Wear</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* حاوية الموبايل الرئيسية المتطابقة مع التصميم */
+        .page-container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px;
+            position: relative;
+        }
+
+        /* البانر العلوي الفخم الأسود بناءً على اللوجو الخاص بك */
+        .brand-header {
+            width: 100%;
+            background-color: #000000;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-placeholder {
+            border: 2px solid #ffffff;
+            padding: 15px 30px;
+            display: inline-block;
+        }
+
+        .logo-placeholder h1 {
+            font-family: 'Playfair Display', serif;
+            color: #ffffff;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .logo-placeholder p {
+            color: #ffffff;
+            font-size: 13px;
+            letter-spacing: 4px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* عنوان الصفحة الرئيسي بعد الهيدر */
+        .page-title {
+            color: #1a73e8; /* نفس درجة اللون الأزرق في الصورة المرجعية */
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: #444444;
+            margin-bottom: 25px;
+        }
+
+        /* شبكة أزرار السوشيال ميديا (4 أعمدة متطابقة تماماً) */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 90%;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 15px 5px;
+            border-radius: 16px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .social-btn:active {
+            transform: scale(0.95);
+        }
+
+        .social-btn i {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        /* ألوان الأزرار المتطابقة مع الصورة المرجعية */
+        .btn-facebook {
+            background: #1877f2;
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .btn-tiktok {
+            background: #000000;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+        }
+
+        /* كروت الاتصال والملفات العريضة ذات الحواف الدائرية والظلال الناعمة */
+        .wide-card {
+            width: 90%;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333333;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease;
+        }
+
+        .wide-card:active {
+            transform: scale(0.98);
+        }
+
+        /* الأيقونات الدائرية الرمادية الصغيرة داخل الكروت */
+        .card-icon-circle {
+            width: 48px;
+            height: 48px;
+            background-color: #f0f2f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px; /* مسافة من اليمين لأن الاتجاه RTL */
+        }
+
+        .card-icon-circle i {
+            font-size: 20px;
+            color: #000000;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .card-main-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000000;
+            line-height: 1.2;
+        }
+
+        .card-sub-text {
+            font-size: 13px;
+            color: #777777;
+            margin-top: 4px;
+        }
+
+        /* الجملة التسويقية السفلية الممتدة */
+        .footer-banner {
+            width: 90%;
+            margin-top: 25px;
+            text-align: center;
+            border-top: 1px solid #eeeeee;
+            padding-top: 20px;
+        }
+
+        .footer-banner href {
+            text-decoration: none;
+        }
+
+        .footer-text {
+            font-size: 15px;
+            color: #222222;
+            font-weight: 600;
+            word-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        
+        <div class="brand-header">
+            <div class="logo-placeholder">
+                <h1>TOP TEN</h1>
+                <p>Woman's Wear</p>
+            </div>
+        </div>
+
+        <div class="page-title">Top Ten Woman's Wear</div>
+        <div class="section-subtitle">تابعونا على</div>
+
+        <div class="social-grid">
+            <a href="https://facebook.com" class="social-btn btn-facebook" target="_blank">
+                <i class="fab fa-facebook"></i>
+                <span>facebook</span>
+            </a>
+            <a href="https://instagram.com" class="social-btn btn-instagram" target="_blank">
+                <i class="fab fa-instagram"></i>
+                <span>instagram</span>
+            </a>
+            <a href="https://tiktok.com" class="social-btn btn-tiktok" target="_blank">
+                <i class="fab fa-tiktok"></i>
+                <span>tiktok</span>
+            </a>
+            <a href="https://wa.me/201044800322" class="social-btn btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                <span>whatsapp</span>
+            </a>
+        </div>
+
+        <a href="tel:+201044800322" class="wide-card">
+            <div class="card-icon-circle">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            <div class="card-info">
+                <span class="card-main-text" dir="ltr">+20 1044800322</span>
+                <span class="card-sub-text">رقم الهاتف</span>
+            </div>
+        </a>
+
+        <a href="#" class="wide-card">
+            <div class="card-icon-circle">
+                <i class="fa-solid fa-file-pdf" style="color: #da251d;"></i>
+            </div>
+            <div class="card-info">
+                <span class="card-main-text">عرض الملف</span>
+                <span class="card-sub-text">PDF اضغط لفتح</span>
+            </div>
+        </a>
+
+        <div class="footer-banner">
+            <p class="footer-text">لو عايز تعمل صفحه و كارد زاى دول دوس هنا</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
