@@ -27,7 +27,7 @@
             padding: 0;
         }
 
-        /* حاوية الموبايل الرئيسية المتطابقة مع التصميم */
+        /* حاوية الموبايل الرئيسية المتطابقة مع التصميم المرجي بالملي */
         .page-container {
             width: 100%;
             max-width: 480px;
@@ -40,38 +40,43 @@
             position: relative;
         }
 
-        /* البانر العلوي الفخم الأسود بناءً على اللوجو الخاص بك */
+        /* البانر العلوي الفخم باللون الأسود طبق الأصل من اللوجو */
         .brand-header {
             width: 100%;
             background-color: #000000;
-            padding: 40px 20px;
+            padding: 35px 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .logo-placeholder {
-            border: 2px solid #ffffff;
-            padding: 15px 30px;
-            display: inline-block;
+        /* رسمة اللوجو العلوية المدمجة SVG بدقة ممتازة */
+        .logo-svg {
+            width: 90px;
+            height: auto;
+            margin-bottom: 10px;
         }
 
-        .logo-placeholder h1 {
+        .brand-header h1 {
             font-family: 'Playfair Display', serif;
             color: #ffffff;
-            font-size: 38px;
+            font-size: 34px;
             font-weight: 700;
             letter-spacing: 2px;
             line-height: 1.1;
         }
 
-        .logo-placeholder p {
+        .brand-header p {
             color: #ffffff;
             font-size: 13px;
-            letter-spacing: 4px;
-            margin-top: 5px;
+            letter-spacing: 3px;
+            margin-top: 4px;
             text-transform: uppercase;
-            font-weight: 400;
-            opacity: 0.9;
+            font-weight: 600;
+            opacity: 0.95;
         }
 
         /* عنوان الصفحة الرئيسي بعد الهيدر */
@@ -122,7 +127,7 @@
             margin-bottom: 8px;
         }
 
-        /* ألوان الأزرار المتطابقة مع الصورة المرجعية */
+        /* ألوان أزرار شبكة التواصل الاجتماعي */
         .btn-facebook {
             background: #1877f2;
         }
@@ -139,7 +144,7 @@
             background: #25d366;
         }
 
-        /* كروت الاتصال والملفات العريضة ذات الحواف الدائرية والظلال الناعمة */
+        /* كروت العرض العريضة ذات الحواف الدائرية والظلال الناعمة المتطابقة */
         .wide-card {
             width: 90%;
             background: #ffffff;
@@ -159,7 +164,7 @@
             transform: scale(0.98);
         }
 
-        /* الأيقونات الدائرية الرمادية الصغيرة داخل الكروت */
+        /* الدائرة الرمادية المخصصة للأيقونات أو اللوجوهات الصغيرة داخل الكروت */
         .card-icon-circle {
             width: 48px;
             height: 48px;
@@ -168,12 +173,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: 15px; /* مسافة من اليمين لأن الاتجاه RTL */
+            margin-left: 15px; /* مسافة من اليمين لتناسب اتجاه الـ RTL */
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
         .card-icon-circle i {
             font-size: 20px;
             color: #000000;
+        }
+
+        /* حاوية اللوجو الخاص بـ Team Alpha المدمج كـ SVG مصمم بدقة داخل الدائرة */
+        .ta-logo-svg {
+            width: 28px;
+            height: auto;
         }
 
         .card-info {
@@ -183,36 +196,16 @@
         }
 
         .card-main-text {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #000000;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         .card-sub-text {
             font-size: 13px;
             color: #777777;
-            margin-top: 4px;
-        }
-
-        /* الجملة التسويقية السفلية الممتدة */
-        .footer-banner {
-            width: 90%;
-            margin-top: 25px;
-            text-align: center;
-            border-top: 1px solid #eeeeee;
-            padding-top: 20px;
-        }
-
-        .footer-banner href {
-            text-decoration: none;
-        }
-
-        .footer-text {
-            font-size: 15px;
-            color: #222222;
-            font-weight: 600;
-            word-spacing: 1px;
+            margin-top: 3px;
         }
     </style>
 </head>
@@ -221,10 +214,11 @@
     <div class="page-container">
         
         <div class="brand-header">
-            <div class="logo-placeholder">
-                <h1>TOP TEN</h1>
-                <p>Woman's Wear</p>
-            </div>
+            <svg class="logo-svg" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 35C20 35 15 25 25 18C35 11 48 20 50 35C52 42 52 48 51 54M51 32C51 30 55 25 60 26C68 28 73 18 64 12C55 6 48 18 51 32ZM51 32V54M47 42H55" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1>TOP TEN</h1>
+            <p>Woman's Wear</p>
         </div>
 
         <div class="page-title">Top Ten Woman's Wear</div>
@@ -259,19 +253,19 @@
             </div>
         </a>
 
-        <a href="#" class="wide-card">
+        <a href="https://alpha30-pixel.github.io/template/p.html?id=510326" class="wide-card" target="_blank">
             <div class="card-icon-circle">
-                <i class="fa-solid fa-file-pdf" style="color: #da251d;"></i>
+                <svg class="ta-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 25H55L43 80H26L31 55H15L10 25Z" fill="black"/>
+                    <path d="M50 25H88L76 80H59L67 45H57L53 62H42L50 25Z" fill="black"/>
+                    <path d="M43 45H71" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                </svg>
             </div>
             <div class="card-info">
-                <span class="card-main-text">عرض الملف</span>
-                <span class="card-sub-text">PDF اضغط لفتح</span>
+                <span class="card-main-text">لو عايز تعمل صفحه و QR</span>
+                <span class="card-sub-text">اضغط هنا</span>
             </div>
         </a>
-
-        <div class="footer-banner">
-            <p class="footer-text">لو عايز تعمل صفحه و كارد زاى دول دوس هنا</p>
-        </div>
 
     </div>
 
