@@ -14,7 +14,12 @@
         }
 
         body {
-            background-color: #fcfbf9;
+            /* تعيين الصورة كخلفية كاملة للموقع */
+            background-image: url('1000130023.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -25,31 +30,20 @@
         .container {
             width: 100%;
             max-width: 480px;
-            background-color: #ffffff;
+            /* جعل الخلفية شبه شفافة لتظهر صورة الخلفية بجمالية ولتسهيل القراءة */
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
             padding-bottom: 40px;
             text-align: center;
             overflow: hidden;
         }
 
-        /* الستايل المحدث للهيدر ليحتوي على الصورة بشكل متناسق */
-        .brand-header {
-            width: 100%;
-            background-color: #e6dad1; /* لون مطابق تماماً لخلفية الصورة الأصلية */
-            display: block;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .brand-header img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* قسم العناوين والأزرار */
+        /* قسم العناوين والأزرار مع إضافة مسافة علوية بديلة للهيدر المحذوف */
         .content-section {
-            padding: 20px 20px 10px 20px;
+            padding: 40px 20px 10px 20px;
         }
 
         .brand-title {
@@ -113,17 +107,17 @@
         .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .facebook { background: #1877f2; }
 
-        /* الأزرار العريضة السفلية ذات الحواف الناعمة والـ Shadow خفيف */
+        /* الأزرار العريضة السفلية */
         .wide-card {
             display: block;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 18px;
             margin: 0 5px 15px 5px;
             padding: 18px 20px;
             text-decoration: none;
             color: #000000;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-            border: 1px solid #f5f5f5;
+            border: 1px solid rgba(245, 245, 245, 0.8);
             transition: background-color 0.2s ease;
         }
 
@@ -186,9 +180,9 @@
         .mall-sections {
             margin: 10px 5px 25px 5px;
             padding: 20px;
-            background-color: #fcfbf9; /* متناسق مع لون خلفية الموقع العامة */
+            background-color: rgba(252, 251, 249, 0.9);
             border-radius: 18px;
-            border: 1px dashed #e3d3c4; /* لون مستوحى من لون الهيدر لإعطاء لمسة جمالية */
+            border: 1px dashed #e3d3c4;
             text-align: right;
         }
 
@@ -223,10 +217,6 @@
 <body>
 
     <div class="container">
-        
-        <div class="brand-header">
-            <img src="1000130023.jpg" alt="Top Ten للملابس الحريمي">
-        </div>
 
         <div class="content-section">
             <h1 class="brand-title">Top Ten Woman's Wear</h1>
