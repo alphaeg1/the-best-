@@ -194,6 +194,43 @@
             font-size: 16px;
             letter-spacing: 0.5px;
         }
+
+        /* التنسيق الجديد لقسم أقسام المول المضاف في الأسفل */
+        .mall-sections {
+            margin: 30px 5px 10px 5px;
+            padding: 20px;
+            background-color: #fcfbf9; /* متناسق مع لون خلفية الموقع العامة */
+            border-radius: 18px;
+            border: 1px dashed #e3d3c4; /* لون مستوحى من لون الهيدر لإعطاء لمسة جمالية */
+            text-align: right;
+        }
+
+        .mall-sections h3 {
+            color: #2b2b2b;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e3d3c4;
+            display: inline-block;
+        }
+
+        .mall-list {
+            list-style: none;
+        }
+
+        .mall-list li {
+            font-size: 15px;
+            color: #444444;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-weight: 500;
+        }
+
+        .mall-list li:last-child {
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
@@ -268,6 +305,16 @@
                     </div>
                 </div>
             </a>
+
+            <div class="mall-sections">
+                <h3>اقسام المول</h3>
+                <ul class="mall-list">
+                    <li>١- كاچول + دريسات</li>
+                    <li>٢- سواريه</li>
+                    <li>٣- عبايات + عبايات استقبال</li>
+                    <li>٤- لانچيري + هوم وير</li>
+                </ul>
+            </div>
 
         </div>
     </div>
