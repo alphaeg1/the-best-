@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المعلم | يوسف البحيري</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif; /* خط عربي حديث وجميل */
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #fff;
+            padding: 20px;
+            border-bottom: 2px solid #007bff;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            color: #007bff;
+        }
+        header p {
+            margin: 5px 0 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .profile-image {
+            flex: 0 0 200px;
+            margin-left: 30px;
+        }
+        .profile-image img {
+            width: 100%;
+            border-radius: 50%; /* صورة دائرية */
+            border: 4px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .profile-details {
+            flex: 1;
+        }
+        .profile-details h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .profile-details ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 0;
+        }
+        .profile-details li {
+            margin-bottom: 10px;
+        }
+        .profile-details strong {
+            display: inline-block;
+            width: 120px;
+            color: #555;
+        }
+        .contact-section {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .contact-section h3 {
+            margin-top: 0;
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .contact-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            text-decoration: none;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .contact-link img {
+            width: 24px;
+            height: 24px;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+            padding: 20px;
+        }
+        /* استعلامات الوسائط للتجاوب */
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-image {
+                margin-left: 0;
+                margin-bottom: 20px;
+            }
+            .profile-details ul {
+                text-align: right; /* عودة النص لليمين في الشاشات الصغيرة */
+            }
+            .profile-details strong {
+                width: auto;
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+    <!-- إضافة خط Tajawal من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>المعلم: يوسف البحيري</h1>
+            <p>مُعلم لغة عربية مُبدع - للمرحلتين الابتدائية والإعدادية</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="profile-section">
+            <div class="profile-image">
+                <img src="image_0.png" alt="صورة المعلم يوسف البحيري">
+            </div>
+            <div class="profile-details">
+                <h2>نبذة عن المعلم</h2>
+                <p>معلم لغة عربية متخصص وشغوف، ملتزم بتعزيز حب اللغة العربية وتطوير مهارات الطلاب في القراءة، الكتابة، والنحو. أتبع أساليب تدريس حديثة وتفاعلية لضمان فهم واستيعاب الطلاب للمادة.</p>
+                <ul>
+                    <li><strong>المراحل الدراسية:</strong> الابتدائية والإعدادية</li>
+                    <li><strong>المؤهل العلمي:</strong> بكالوريوس من كلية الآداب - جامعة القاهرة</li>
+                    <li><strong>أماكن العمل (المراكز):</strong>
+                        <ul>
+                            <li>سنتر الجامعة</li>
+                            <li>سنتر حكيم</li>
+                            <li>سنتر فيوتشر</li>
+                        </ul>
+                    </li>
+                    <li><strong>أماكن العمل (المدرسة):</strong> مدرسة مصر العليا الخاصة</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h3>للتواصل والاستفسار</h3>
+            <div class="contact-links">
+                <a href="tel:+201155521369" class="contact-link">
+                    <img src="https://img.icons8.com/fluency/48/phone.png" alt="Phone Icon">
+                    <span>+201155521369</span>
+                </a>
+                <a href="tel:+201146265775" class="contact-link">
+                    <img src="https://img.icons8.com/fluency/48/phone.png" alt="Phone Icon">
+                    <span>+201146265775</span>
+                </a>
+                <a href="https://www.facebook.com/share/1UME9aYz8i/" target="_blank" class="contact-link">
+                    <img src="https://img.icons8.com/fluency/48/facebook-new.png" alt="Facebook Icon">
+                    <span>صفحتي على فيسبوك</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 جميع الحقوق محفوظة - المعلم يوسف البحيري</p>
+            <p>تم إنشاء هذا الموقع باستخدام HTML/CSS</p>
+        </div>
+    </footer>
+
+</body>
+</html>
