@@ -11,23 +11,22 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         
-        /* حاوية الصفحة الرئيسية المحاكية لشاشة الموبايل */
+        /* حاوية الصفحة الرئيسية بالخلفية البيضاء */
         .container {
             width: 100%;
             max-width: 480px;
-            /* جعل الخلفية شبه شفافة لتظهر صورة الخلفية بجمالية ولتسهيل القراءة */
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background-color: #ffffff; /* تم تحويل الخلفية إلى اللون الأبيض الصريح */
             min-height: 100vh;
             box-shadow: 0 0 30px rgba(0,0,0,0.1);
             padding-bottom: 40px;
             text-align: center;
             overflow: hidden;
+            margin: 0 auto; /* لتوسيط الصفحة في شاشات الكمبيوتر */
         }
 
-        /* تنسيق الهيدر الجديد المخصص لعرض الصورة المعدلة بوضوح وبأبعادها الحقيقية */
+        /* تنسيق الهيدر المخصص لعرض الصورة */
         .top-banner {
             width: 100%;
             display: block;
@@ -39,7 +38,7 @@
             display: block;
         }
 
-        /* قسم العناوين والأزرار مع ضبط المسافات بعد إضافة الصورة بالأعلى */
+        /* قسم العناوين والأزرار */
         .content-section {
             padding: 20px 20px 10px 20px;
         }
@@ -57,7 +56,7 @@
             margin-bottom: 25px;
         }
 
-        /* شبكة أزرار السوشيال ميديا (محدثة لتستوعب 5 أزرار متجاورة بشكل متناسق) */
+        /* شبكة أزرار السوشيال ميديا */
         .social-grid {
             display: table;
             width: 100%;
@@ -101,7 +100,7 @@
             overflow: hidden;
         }
 
-        /* ألوان أزرار السوشيال ميديا الحقيقية */
+        /* ألوان أزرار السوشيال ميديا */
         .telegram { background: #2ca5e0; }
         .tiktok { background: #000000; }
         .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
@@ -111,14 +110,14 @@
         /* الأزرار العريضة السفلية */
         .wide-card {
             display: block;
-            background: rgba(255, 255, 255, 0.9);
+            background: #ffffff;
             border-radius: 18px;
             margin: 0 5px 15px 5px;
             padding: 18px 20px;
             text-decoration: none;
             color: #000000;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(245, 245, 245, 0.8);
+            border: 1px solid #f5f5f5;
             transition: background-color 0.2s ease;
         }
 
@@ -126,7 +125,7 @@
             background-color: #fafafa;
         }
 
-        /* تقسيم الأزرار العريضة باستخدام Table لتوزيع النصوص والأيقونة */
+        /* تقسيم الأزرار العريضة */
         .card-table {
             display: table;
             width: 100%;
@@ -157,7 +156,7 @@
             color: #888888;
         }
 
-        /* تصميم الدائرة الرمادية للأيقونات السفلية */
+        /* تصميم الدائرة للأيقونات السفلية */
         .icon-circle {
             width: 42px;
             height: 42px;
@@ -170,18 +169,17 @@
             font-size: 18px;
         }
         
-        /* الشعار النصي الجديد TA الخاص بـ Team Alpha */
         .ta-icon {
             font-weight: bold;
             font-size: 16px;
             letter-spacing: 0.5px;
         }
 
-        /* التنسيق الجديد لقسم أقسام المول المضاف في الأسفل */
+        /* قسم أقسام المول المضاف في الأسفل */
         .mall-sections {
             margin: 10px 5px 25px 5px;
             padding: 20px;
-            background-color: rgba(252, 251, 249, 0.9);
+            background-color: #fcfbf9;
             border-radius: 18px;
             border: 1px dashed #e3d3c4;
             text-align: right;
@@ -219,8 +217,9 @@
 
     <div class="container">
 
+        <!-- تم تعديل وسم الصورة وإضافة اسم ملف جيت هاب المباشر -->
         <div class="top-banner">
-            <jpg src="IMG-20260617-WA0055.jpg">
+            <img src="IMG-20260617-WA0055.jpg" alt="Top Banner">
         </div>
 
         <div class="content-section">
@@ -308,4 +307,3 @@
     </div>
 
 </body>
-</html>
