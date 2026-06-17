@@ -59,13 +59,13 @@
             margin-bottom: 25px;
         }
 
-        /* شبكة أزرار السوشيال ميديا (الـ 4 أزرار المتجاورة) */
+        /* شبكة أزرار السوشيال ميديا (محدثة لتستوعب 5 أزرار متجاورة بشكل متناسق) */
         .social-grid {
             display: table;
             width: 100%;
             table-layout: fixed;
             border-collapse: separate;
-            border-spacing: 10px;
+            border-spacing: 6px;
             margin-bottom: 25px;
         }
 
@@ -78,7 +78,7 @@
         .social-btn {
             display: block;
             border-radius: 14px;
-            padding: 15px 5px;
+            padding: 12px 2px;
             color: #ffffff;
             text-decoration: none;
             transition: transform 0.2s ease;
@@ -90,22 +90,25 @@
         }
 
         .social-btn i {
-            font-size: 24px;
+            font-size: 22px;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .social-btn span {
-            font-size: 11px;
+            font-size: 10px;
             display: block;
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
-        /* ألوان أزرار السوشيال ميديا الحقيقية كالصورة الأصلية */
+        /* ألوان أزرار السوشيال ميديا الحقيقية */
         .telegram { background: #2ca5e0; }
         .tiktok { background: #000000; }
         .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .facebook { background: #1877f2; }
+        .whatsapp { background: #25D366; }
 
         /* الأزرار العريضة السفلية */
         .wide-card {
@@ -252,13 +255,20 @@
                     </a>
                 </div>
 
+                <div class="social-item">
+                    <a href="https://wa.me/201044800322" class="social-btn whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>whatsapp</span>
+                    </a>
+                </div>
+
             </div>
 
-            <a href="https://wa.me/201044800322" class="wide-card" target="_blank">
+            <a href="tel:201044800322" class="wide-card">
                 <div class="card-table">
                     <div class="card-cell-text">
                         <div class="card-title" dir="ltr">+20 1044800322</div>
-                        <div class="card-subtitle">رقم الهاتف والواتساب</div>
+                        <div class="card-subtitle">اضغط لإجراء اتصال هاتفي مباشر</div>
                     </div>
                     <div class="card-cell-icon">
                         <div class="icon-circle">
