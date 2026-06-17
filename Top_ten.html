@@ -33,7 +33,7 @@
             overflow: hidden;
         }
 
-        /* الستايل الخاص بالهيدر بعد إزالة اللوجو */
+        /* الستايل الخاص بالهيدر */
         .brand-header {
             width: 100%;
             display: flex;
@@ -41,23 +41,14 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background-color: #fcfbf9; /* تم تعديل اللون ليتناسب مع خلفية الصورة */
         }
 
-        .brand-header h1 {
-            color: #2b2b2b;
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            line-height: 1.2;
-        }
-
-        .brand-header p {
-            color: #555555;
-            font-size: 13px;
-            letter-spacing: 2px;
-            margin-top: 4px;
-            text-transform: uppercase;
-            font-weight: 600;
+        .brand-header img {
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            display: block;
         }
 
         /* قسم العناوين والأزرار */
@@ -78,7 +69,7 @@
             margin-bottom: 25px;
         }
 
-        /* شبكة أزرار السوشيال ميديا (الـ 4 أزرار المتجاورة) */
+        /* شبكة أزرار السوشيال ميديا */
         .social-grid {
             display: table;
             width: 100%;
@@ -120,13 +111,11 @@
             font-weight: 500;
         }
 
-        /* ألوان أزرار السوشيال ميديا الحقيقية كالصورة الأصلية */
         .telegram { background: #2ca5e0; }
         .tiktok { background: #000000; }
         .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .facebook { background: #1877f2; }
 
-        /* الأزرار العريضة السفلية ذات الحواف الناعمة والـ Shadow خفيف */
         .wide-card {
             display: block;
             background: #ffffff;
@@ -144,7 +133,6 @@
             background-color: #fafafa;
         }
 
-        /* تقسيم الأزرار العريضة باستخدام Table لتوزيع النصوص والأيقونة */
         .card-table {
             display: table;
             width: 100%;
@@ -175,7 +163,6 @@
             color: #888888;
         }
 
-        /* تصميم الدائرة الرمادية للأيقونات السفلية */
         .icon-circle {
             width: 42px;
             height: 42px;
@@ -188,20 +175,18 @@
             font-size: 18px;
         }
         
-        /* الشعار النصي الجديد TA الخاص بـ Team Alpha */
         .ta-icon {
             font-weight: bold;
             font-size: 16px;
             letter-spacing: 0.5px;
         }
 
-        /* التنسيق الجديد لقسم أقسام المول المضاف في الأسفل */
         .mall-sections {
             margin: 10px 5px 25px 5px;
             padding: 20px;
-            background-color: #fcfbf9; /* متناسق مع لون خلفية الموقع العامة */
+            background-color: #fcfbf9;
             border-radius: 18px;
-            border: 1px dashed #e3d3c4; /* لون مستوحى من لون الهيدر لإعطاء لمسة جمالية */
+            border: 1px dashed #e3d3c4;
             text-align: right;
         }
 
@@ -237,9 +222,9 @@
 
     <div class="container">
         
-        <div class="brand-header" style="background-color: #e3d3c4; padding: 35px 10px;">
-            <h1>TOP TEN</h1>
-            <p>Woman's Wear</p>
+        <div class="brand-header">
+            <!-- تم استبدال النص بالصورة 1000130011.jpg -->
+            <img src="1000130011.jpg" alt="Top Ten Logo">
         </div>
 
         <div class="content-section">
@@ -278,7 +263,6 @@
 
             </div>
 
-            <!-- زر رقم الهاتف والواتساب -->
             <a href="https://wa.me/201044800322" class="wide-card" target="_blank">
                 <div class="card-table">
                     <div class="card-cell-text">
@@ -293,7 +277,6 @@
                 </div>
             </a>
 
-            <!-- قسم أقسام المول أصبح مباشرة تحت رقم الهاتف -->
             <div class="mall-sections">
                 <h3>اقسام المول</h3>
                 <ul class="mall-list">
@@ -304,7 +287,6 @@
                 </ul>
             </div>
 
-            <!-- الزر الخاص بـ QR أصبح في الأسفل تماماً -->
             <a href="https://alpha30-pixel.github.io/template/p.html?id=510326" class="wide-card" target="_blank">
                 <div class="card-table">
                     <div class="card-cell-text">
