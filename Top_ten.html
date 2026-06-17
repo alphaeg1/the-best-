@@ -14,7 +14,7 @@
         }
 
         body {
-            /* تعيين الصورة كخلفية كاملة للموقع */
+            /* تعيين الصورة الأصلية كخلفية كاملة للموقع */
             background-image: url('1000130023.jpg');
             background-size: cover;
             background-position: center;
@@ -41,9 +41,21 @@
             overflow: hidden;
         }
 
-        /* قسم العناوين والأزرار مع إضافة مسافة علوية بديلة للهيدر المحذوف */
+        /* تنسيق الهيدر الجديد المخصص لعرض الصورة المعدلة بوضوح وبأبعادها الحقيقية */
+        .top-banner {
+            width: 100%;
+            display: block;
+        }
+
+        .top-banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* قسم العناوين والأزرار مع ضبط المسافات بعد إضافة الصورة بالأعلى */
         .content-section {
-            padding: 40px 20px 10px 20px;
+            padding: 20px 20px 10px 20px;
         }
 
         .brand-title {
@@ -220,6 +232,10 @@
 <body>
 
     <div class="container">
+
+        <div class="top-banner">
+            <img src="1000131440.jpg" alt="Top Ten Logo">
+        </div>
 
         <div class="content-section">
             <h1 class="brand-title">Top Ten Woman's Wear</h1>
