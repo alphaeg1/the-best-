@@ -3,200 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المعلم | يوسف البحيري</title>
+    <title>الأستاذ يوسف البحيري | معلم اللغة العربية</title>
+    <!-- استدعاء خط Cairo العصري -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: 'Tajawal', sans-serif; /* خط عربي حديث وجميل */
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131a2c;
+            --accent-primary: #00f2fe;
+            --accent-secondary: #4facfe;
+            --text-main: #ffffff;
+            --text-muted: #a0aec0;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
         }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* الأشكال الخلفية التكنولوجية */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, transparent 70%);
+            top: -100px;
+            right: -150px;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(79, 172, 254, 0.1) 0%, transparent 70%);
+            bottom: 10%;
+            left: -200px;
+            z-index: -1;
+        }
+
         .container {
-            max-width: 960px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
+
+        /* الهيدر / القائمة العلوية */
         header {
-            background-color: #fff;
-            padding: 20px;
-            border-bottom: 2px solid #007bff;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            color: #007bff;
-        }
-        header p {
-            margin: 5px 0 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-        .profile-section {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-top: 30px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .profile-image {
-            flex: 0 0 200px;
-            margin-left: 30px;
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .profile-image img {
-            width: 100%;
-            border-radius: 50%; /* صورة دائرية */
-            border: 4px solid #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+        /* القسم الرئيسي (البطل) */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 60px 0;
         }
-        .profile-details {
-            flex: 1;
+
+        .hero-text h1 {
+            font-size: 3rem;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
-        .profile-details h2 {
-            margin-top: 0;
-            color: #007bff;
+
+        .hero-text h1 span {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .profile-details ul {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0 0;
-        }
-        .profile-details li {
-            margin-bottom: 10px;
-        }
-        .profile-details strong {
+
+        .badge {
             display: inline-block;
-            width: 120px;
-            color: #555;
-        }
-        .contact-section {
-            margin-top: 30px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .contact-section h3 {
-            margin-top: 0;
-            color: #007bff;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            padding: 6px 16px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--accent-primary);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
             margin-bottom: 20px;
         }
-        .contact-links {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+
+        .hero-text p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
         }
-        .contact-link {
-            text-decoration: none;
-            background-color: #e9ecef;
-            color: #495057;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+
+        /* صورة المدرس بتأثيرات تكنولوجية */
+        .hero-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .image-glow {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            animation: morphing 10s infinite alternate;
+            padding: 5px;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.2);
+        }
+
+        .image-glow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morphing 10s infinite alternate;
+        }
+
+        @keyframes morphing {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+            50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+            75% { border-radius: 42% 58% 52% 48% / 33% 54% 46% 67%; }
+            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        }
+
+        /* قسم البطاقات التعريفية */
+        .grid-section {
+            padding: 60px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        .contact-link:hover {
-            background-color: #007bff;
             color: #fff;
         }
-        .contact-link img {
-            width: 24px;
-            height: 24px;
+
+        .card h3 svg {
+            color: var(--accent-primary);
         }
-        footer {
-            margin-top: 50px;
+
+        .card p, .card li {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card li::before {
+            content: '✦';
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+        }
+
+        /* قسم التواصل */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(19, 26, 44, 0.8), rgba(11, 15, 25, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 40px 0 80px 0;
             text-align: center;
-            font-size: 0.9em;
-            color: #777;
-            padding: 20px;
         }
-        /* استعلامات الوسائط للتجاوب */
+
+        .contact-section h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* التجاوب مع الهواتف الذكية */
         @media (max-width: 768px) {
-            .profile-section {
-                flex-direction: column;
+            .hero-section {
+                grid-template-columns: 1fr;
                 text-align: center;
+                padding: 30px 0;
             }
-            .profile-image {
-                margin-left: 0;
-                margin-bottom: 20px;
+            .hero-text h1 {
+                font-size: 2.2rem;
             }
-            .profile-details ul {
-                text-align: right; /* عودة النص لليمين في الشاشات الصغيرة */
+            .hero-text p {
+                margin: 0 auto 30px auto;
             }
-            .profile-details strong {
-                width: auto;
-                display: block;
-                margin-bottom: 5px;
+            .image-glow {
+                width: 280px;
+                height: 280px;
+            }
+            .grid-section {
+                grid-template-columns: 1fr;
             }
         }
     </style>
-    <!-- إضافة خط Tajawal من Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <h1>المعلم: يوسف البحيري</h1>
-            <p>مُعلم لغة عربية مُبدع - للمرحلتين الابتدائية والإعدادية</p>
-        </div>
-    </header>
-
     <div class="container">
-        <section class="profile-section">
-            <div class="profile-image">
-                <img src="image_0.png" alt="صورة المعلم يوسف البحيري">
+        <!-- الهيدر العلوي -->
+        <header>
+            <div class="logo">يوسف البحيري</div>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">بورتفوليو ذكي ⚡</span>
+        </header>
+
+        <!-- القسم الرئيسي -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <span class="badge">المنصة التعليمية الحديثة</span>
+                <h1>الأستاذ <br><span>يوسف البحيري</span></h1>
+                <p>مُعلِّم ومُخصّص لغة عربية للمرحلتين الابتدائية والإعدادية. أدمج بين بلاغة لغتنا الجميلة وتقنيات التعليم المعاصرة لبناء جيل متميز.</p>
+                <div class="buttons-container" style="justify-content: flex-start;">
+                    <a href="#contact" class="btn btn-primary">تواصل معي الآن</a>
+                </div>
             </div>
-            <div class="profile-details">
-                <h2>نبذة عن المعلم</h2>
-                <p>معلم لغة عربية متخصص وشغوف، ملتزم بتعزيز حب اللغة العربية وتطوير مهارات الطلاب في القراءة، الكتابة، والنحو. أتبع أساليب تدريس حديثة وتفاعلية لضمان فهم واستيعاب الطلاب للمادة.</p>
-                <ul>
-                    <li><strong>المراحل الدراسية:</strong> الابتدائية والإعدادية</li>
-                    <li><strong>المؤهل العلمي:</strong> بكالوريوس من كلية الآداب - جامعة القاهرة</li>
-                    <li><strong>أماكن العمل (المراكز):</strong>
-                        <ul>
-                            <li>سنتر الجامعة</li>
-                            <li>سنتر حكيم</li>
-                            <li>سنتر فيوتشر</li>
-                        </ul>
-                    </li>
-                    <li><strong>أماكن العمل (المدرسة):</strong> مدرسة مصر العليا الخاصة</li>
+            <div class="hero-image-container">
+                <div class="image-glow">
+                    <!-- تم ربط الصورة بالاسم المذكور من مستودعك -->
+                    <img src="IMG-20260618-WA0000.jpg" alt="الأستاذ يوسف البحيري">
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم البطاقات الرقمية -->
+        <section class="grid-section">
+            <!-- بطاقة المؤهل -->
+            <div class="card">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                    المؤهل الأكاديمي
+                </h3>
+                <p>حاصل على شهادة معتمدة من <strong>كلية الآداب - جامعة القاهرة</strong>، مع التركيز على علوم اللغة والآداب لتقديم مادة علمية رصينة ومبسطة للطلاب.</p>
+            </div>
+
+            <!-- بطاقة المراكز التدريبية -->
+            <div class="card">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5"/></svg>
+                    المراكز التعليمية
+                </h3>
+                <p>يسعدني لقاء طلابي في أكبر المنصات والسناتر التعليمية المتطورة:</p>
+                <ul style="margin-top: 10px;">
+                    <li>سنتر الجامعة</li>
+                    <li>سنتر حكيم</li>
+                    <li>سنتر فيوتشر</li>
                 </ul>
             </div>
+
+            <!-- بطاقة العمل الحالي -->
+            <div class="card">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    العمل المدرسي الحالي
+                </h3>
+                <p>أعمل فخوراً كعضو هيئة تدريس في <strong>مدرسة مصر العليا الخاصة</strong>، حيث نسعى لتقديم نظام تربوي وتعليمي متكامل بأحدث المقاييس.</p>
+            </div>
         </section>
 
-        <section class="contact-section">
-            <h3>للتواصل والاستفسار</h3>
-            <div class="contact-links">
-                <a href="tel:+201155521369" class="contact-link">
-                    <img src="https://img.icons8.com/fluency/48/phone.png" alt="Phone Icon">
-                    <span>+201155521369</span>
+        <!-- قسم اتصل بنا التكنولوجي -->
+        <section id="contact" class="contact-section">
+            <h2>انضم إلى رحلة النجاح والتفوق</h2>
+            <p>لا تتردد في الاتصال لحجز المقاعد أو الاستفسار عن المواعيد والدروس المتاحة.</p>
+            
+            <div class="buttons-container">
+                <a href="tel:+201155521369" class="btn btn-primary">
+                    📞 اتصل بنا: 201155521369+
                 </a>
-                <a href="tel:+201146265775" class="contact-link">
-                    <img src="https://img.icons8.com/fluency/48/phone.png" alt="Phone Icon">
-                    <span>+201146265775</span>
+                <a href="tel:+201146265775" class="btn btn-secondary">
+                    📞 اتصل بنا: 201146265775+
                 </a>
-                <a href="https://www.facebook.com/share/1UME9aYz8i/" target="_blank" class="contact-link">
-                    <img src="https://img.icons8.com/fluency/48/facebook-new.png" alt="Facebook Icon">
-                    <span>صفحتي على فيسبوك</span>
+                <a href="https://www.facebook.com/share/1UME9aYz8i/" target="_blank" class="btn btn-secondary" style="border-color: #1877f2; color: #1877f2;">
+                    🌐 تابعني على فيسبوك
                 </a>
             </div>
         </section>
-    </div>
 
-    <footer>
-        <div class="container">
-            <p>© 2024 جميع الحقوق محفوظة - المعلم يوسف البحيري</p>
-            <p>تم إنشاء هذا الموقع باستخدام HTML/CSS</p>
-        </div>
-    </footer>
+        <!-- الفوتر السُفلي -->
+        <footer>
+            <p>© 2026 الأستاذ يوسف البحيري. جميع الحقوق محفوظة.</p>
+        </footer>
+    </div>
 
 </body>
 </html>
