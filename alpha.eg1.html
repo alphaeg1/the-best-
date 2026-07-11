@@ -18,6 +18,163 @@
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8; /* لراحة العين أثناء القراءة */
+            overflow-x: hidden;
+        }
+
+        /* --- شاشة الترحيب والانفجار (Intro & Explosion) --- */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.4s ease;
+        }
+
+        /* الشخصية الكرتونية (CSS Art) */
+        .character-container {
+            position: relative;
+            width: 150px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: characterAppear 0.5s ease-out forwards;
+        }
+
+        .char-head {
+            width: 60px;
+            height: 60px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            position: relative;
+        }
+
+        /* نظارة كرتونية كول */
+        .char-head::after {
+            content: "";
+            position: absolute;
+            top: 22px;
+            left: 5px;
+            width: 50px;
+            height: 15px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 0 10px #fff;
+        }
+
+        .char-body {
+            width: 70px;
+            height: 90px;
+            background: #111;
+            border: 2px solid var(--neon-blue);
+            border-radius: 15px 15px 5px 5px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        /* الشنطة المفخخة بالأنميشن */
+        .bag {
+            position: absolute;
+            width: 55px;
+            height: 45px;
+            background: #ff3366; 
+            border-radius: 8px;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%) scale(1);
+            opacity: 0;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
+            /* سقوط ثم اهتزاز ثم انتفاخ سريع قبل الانفجار */
+            animation: dropBag 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.5s forwards, 
+                      shakeAndSwell 0.6s ease-in-out 1.3s forwards;
+        }
+
+        /* يد الشنطة */
+        .bag::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 22px;
+            height: 12px;
+            border: 3px solid #ff3366;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+        }
+
+        /* فلاش وتأثير الانفجار */
+        .explosion-flash {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff 10%, var(--neon-blue) 40%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .explode-active {
+            animation: flashBang 0.5s ease-out forwards;
+        }
+
+        /* أنيميشن ظهور الشخصية */
+        @keyframes characterAppear {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* أنيميشن سقوط الشنطة */
+        @keyframes dropBag {
+            0% { top: 40px; opacity: 0; }
+            30% { opacity: 1; }
+            100% { top: 180px; opacity: 1; }
+        }
+
+        /* اهتزاز الشنطة وانتفاخها استعداداً للانفجار */
+        @keyframes shakeAndSwell {
+            0% { transform: translateX(-50%) rotate(0deg) scale(1); }
+            20% { transform: translateX(-55%) rotate(-8deg) scale(1.1); background: #ff1a53; }
+            40% { transform: translateX(-45%) rotate(8deg) scale(1.2); }
+            60% { transform: translateX(-53%) rotate(-5deg) scale(1.3); background: #ff0040; box-shadow: 0 0 35px #ff0040; }
+            80% { transform: translateX(-47%) rotate(5deg) scale(1.4); }
+            100% { transform: translateX(-50%) rotate(0deg) scale(1.6); background: #fff; box-shadow: 0 0 50px #fff; }
+        }
+
+        /* أنيميشن فلاش الانفجار لتغطية الشاشة */
+        @keyframes flashBang {
+            0% { width: 10px; height: 10px; opacity: 1; transform: scale(1); }
+            50% { opacity: 1; }
+            100% { width: 300vmax; height: 300vmax; opacity: 0; transform: scale(1); }
+        }
+
+        /* إخفاء شاشة الانترو بسلاسة بعد الانفجار */
+        .intro-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* محتوى الموقع الأساسي يخرج من الانفجار (Zoom & Fade In) */
+        #main-content {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #main-content.visible {
+            opacity: 1;
+            transform: scale(1);
         }
 
         /* نقوش الخلفية (عناصر الدعاية) */
@@ -63,7 +220,7 @@
             padding: 0 20px;
         }
 
-        /* تنسيق الخانات الجديد لجعلها مريحة للعين */
+        /* تنسيق الخانات لجعلها مريحة للعين */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -120,7 +277,7 @@
         }
 
         .feature-card li::before {
-            content: "→"; /* سهم بسيط يوجه العين للقراءة */
+            content: "→"; 
             position: absolute;
             right: 0;
             color: var(--neon-blue);
@@ -147,7 +304,7 @@
             font-size: 2.5rem;
             color: #fff;
             text-decoration: none;
-            font-weight: 200; /* خط رفيع وشيك */
+            font-weight: 200; 
             font-family: 'Courier New', Courier, monospace;
             transition: 0.3s;
         }
@@ -169,55 +326,87 @@
 </head>
 <body>
 
-    <section class="hero">
-        <h1>TEAM ALPHA</h1>
-        <span class="slogan">براند ألفا.. كيان مش مكان</span>
-        <div class="intro-text">
-            تيم ألفا مش مجرد براند دعاية مستجد، إحنا فريق حفر اسمه في السوق من خلال العمل مع البراندات و تطويرها . خبرتنا الطويلة هي ضمانك للسيطرة على السوق وتنفيذ الأفكار اللي بتسمّع في الشارع.
+    <div id="intro-overlay">
+        <div class="character-container">
+            <div class="char-head"></div>
+            <div class="char-body"></div>
+            <div class="bag"></div>
         </div>
-    </section>
-
-    <div class="grid-container">
-        <div class="feature-card">
-            <h3>تعاله اقولك احنا مين</h3>
-            <p>خمس سنوات من الإبداع والخبرة الميدانية المتواصلة في قلب القاهرة والجيزة. لسنا مجرد مكان، نحن كيان متكامل يخدم علامتك التجارية.</p>
-        </div>
-
-        <div class="feature-card">
-            <h3>لي تخترنا ؟</h3>
-            <p>لأننا نملك آراء حقيقية من عملائنا تثبت جودة عملنا، ولأن تاريخنا مع البراندات الكبرى يجعلنا الخيار الأول والآمن لنمو بيزنس الخاص بك.</p>
-        </div>
-
-        <div class="feature-card">
-            <h3>الدعاية الميدانية</h3>
-            <ul>
-                <li>دعاية وعروض بعربات الدودج (Dodge).</li>
-                <li>فريق سكاترز (Skaters) محترف.</li>
-                <li>توفير وتجهيز الأعلام الدعائية.</li>
-                <li>تصوير فوتوغرافي ومونتاج فيديو الي يناسب براندك.</li>
-                <li>تغطية شاملة لأي فعالية تخص الدعاية.</li>
-            </ul>
-        </div>
-
-        <div class="feature-card">
-            <h3>الحلول الذكية</h3>
-            <ul>
-                <li>توفير الـ Digital Card NFC بالويب سايت الخاص بها.</li>
-                <li>تصميم وبرمجة ويب سايت و بورتفوليو.</li>
-                <li>خدمات التصميم الجرافيكي و المونتاج.</li>
-                <li>تنفيذ أي فكرة دعائية تخص علامتك التجارية.</li>
-            </ul>
-        </div>
+        <div class="explosion-flash" id="flash-element"></div>
     </div>
 
-    <div class="contact-section">
-        <span class="contact-label">اتصل بنا مباشرة</span>
-        <a href="tel:01150605708" class="phone-number">01150605708</a>
+    <div id="main-content">
+        <section class="hero">
+            <h1>TEAM ALPHA</h1>
+            <span class="slogan">براند ألفا.. كيان مش مكان</span>
+            <div class="intro-text">
+                تيم ألفا مش مجرد براند دعاية مستجد، إحنا فريق حفر اسمه في السوق من خلال العمل مع البراندات و تطويرها . خبرتنا الطويلة هي ضمانك للسيطرة على السوق وتنفيذ الأفكار اللي بتسمّع في الشارع.
+            </div>
+        </section>
+
+        <div class="grid-container">
+            <div class="feature-card">
+                <h3>تعاله اقولك احنا مين</h3>
+                <p>خمس سنوات من الإبداع والخبرة الميدانية المتواصلة في قلب القاهرة والجيزة. لسنا مجرد مكان، نحن كيان متكامل يخدم علامتك التجارية.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>لي تخترنا ؟</h3>
+                <p>لأننا نملك آراء حقيقية من عملائنا تثبت جودة عملنا، ولأن تاريخنا مع البراندات الكبرى يجعلنا الخيار الأول والآمن لنمو بيزنس الخاص بك.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>الدعاية الميدانية</h3>
+                <ul>
+                    <li>دعاية وعروض بعربات الدودج (Dodge).</li>
+                    <li>فريق سكاترز (Skaters) محترف.</li>
+                    <li>توفير وتجهيز الأعلام الدعائية.</li>
+                    <li>تصوير فوتوغرافي ومونتاج فيديو الي يناسب براندك.</li>
+                    <li>تغطية شاملة لأي فعالية تخص الدعاية.</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h3>الحلول الذكية</h3>
+                <ul>
+                    <li>توفير الـ Digital Card NFC بالويب سايت الخاص بها.</li>
+                    <li>تصميم وبرمجة ويب سايت و بورتفوليو.</li>
+                    <li>خدمات التصميم الجرافيكي و المونتاج.</li>
+                    <li>تنفيذ أي فكرة دعائية تخص علامتك التجارية.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <span class="contact-label">اتصل بنا مباشرة</span>
+            <a href="tel:01150605708" class="phone-number">01150605708</a>
+        </div>
+
+        <footer>
+            &copy; 2020 TEAM ALPHA | ALL RIGHTS RESERVED
+        </footer>
     </div>
 
-    <footer>
-        &copy; 2020 TEAM ALPHA | ALL RIGHTS RESERVED
-    </footer>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('intro-overlay');
+            const flash = document.getElementById('flash-element');
+            const mainContent = document.getElementById('main-content');
+
+            // بعد ثانية و 900 جزء من الثانية (وقت انتهاء انتفاخ الشنطة) يحدث الانفجار
+            setTimeout(() => {
+                // تفعيل فلاش الانفجار
+                flash.classList.add('explode-active');
+                
+                // في منتصف الفلاش، نخفي شاشة الانترو ونظهر الموقع كأنه خرج من الانفجار
+                setTimeout(() => {
+                    overlay.classList.add('intro-hidden');
+                    mainContent.classList.add('visible');
+                }, 150); // توقيت الفلاش السريع
+
+            }, 1900); 
+        });
+    </script>
 
 </body>
 </html>
