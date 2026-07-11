@@ -7,6 +7,7 @@
     <style>
         :root {
             --neon-blue: #00d4ff;
+            --neon-green: #39ff14; /* درجة الأخضر المضيء من صورتك */
             --dark-bg: #050505;
             --card-accent: rgba(0, 212, 255, 0.05);
         }
@@ -17,159 +18,193 @@
             background-color: var(--dark-bg);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8; /* لراحة العين أثناء القراءة */
+            line-height: 1.8;
             overflow-x: hidden;
         }
 
-        /* --- شاشة الترحيب والانفجار (Intro & Explosion) --- */
+        /* --- شاشة الـ Intro والأنيميشن الجديد --- */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0a0a0a;
+            background-color: #080808;
             z-index: 9999;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
             transition: opacity 0.4s ease;
         }
 
-        /* الشخصية الكرتونية (CSS Art) */
-        .character-container {
+        /* حاوية الشخصية والشنطة */
+        .animation-zone {
             position: relative;
-            width: 150px;
-            height: 220px;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* تصميم الشخصية الكرتونية مستوحى من صورتك */
+        .alpha-character {
+            position: absolute;
+            width: 120px;
+            height: 180px;
+            bottom: 120px;
+            left: -150px; /* بتبدأ من برة الشاشة يمين (عشان الـ RTL) */
             display: flex;
             flex-direction: column;
             align-items: center;
-            animation: characterAppear 0.5s ease-out forwards;
+            /* أنيميشن: مشي لمنتصف الشاشة، ثم اهتزاز وسقوط */
+            animation: walkIn 1.5s linear forwards, tripAndFall 0.5s ease-in 1.5s forwards;
+        }
+
+        /* الهالة الخضراء المضيئة حول الشخصية (من صورتك) */
+        .char-glow-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 30px var(--neon-green), inset 0 0 15px var(--neon-green);
+            opacity: 0.8;
+            z-index: 1;
+            filter: blur(2px);
         }
 
         .char-head {
-            width: 60px;
-            height: 60px;
-            background: var(--neon-blue);
+            width: 50px;
+            height: 50px;
+            background: #222;
+            border: 2px solid var(--neon-green);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            z-index: 2;
             position: relative;
         }
-
-        /* نظارة كرتونية كول */
-        .char-head::after {
+        /* كابرو/شعر مجعد كرتوني */
+        .char-head::before {
             content: "";
             position: absolute;
-            top: 22px;
-            left: 5px;
-            width: 50px;
-            height: 15px;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 0 10px #fff;
+            top: -5px; width: 100%; height: 20px;
+            background: #111;
+            border-radius: 10px 10px 0 0;
         }
 
         .char-body {
-            width: 70px;
-            height: 90px;
-            background: #111;
-            border: 2px solid var(--neon-blue);
-            border-radius: 15px 15px 5px 5px;
-            margin-top: 10px;
-            position: relative;
+            width: 65px;
+            height: 85px;
+            background: #1a1a1a;
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            margin-top: 5px;
+            z-index: 2;
         }
 
-        /* الشنطة المفخخة بالأنميشن */
+        /* الجسد السفلي الانسيابي (شبه الجني اللي في الصورة) */
+        .char-tail {
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(to bottom, #1a1a1a, var(--neon-green));
+            border-radius: 0 0 50% 50%;
+            z-index: 2;
+        }
+
+        /* الشنطة */
         .bag {
             position: absolute;
-            width: 55px;
-            height: 45px;
-            background: #ff3366; 
-            border-radius: 8px;
-            bottom: -80px;
+            width: 50px;
+            height: 40px;
+            background: #111;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
+            border-radius: 6px;
+            bottom: 120px;
             left: 50%;
-            transform: translateX(-50%) scale(1);
+            transform: translateX(-50%) scale(0);
             opacity: 0;
-            box-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
-            /* سقوط ثم اهتزاز ثم انتفاخ سريع قبل الانفجار */
-            animation: dropBag 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.5s forwards, 
-                      shakeAndSwell 0.6s ease-in-out 1.3s forwards;
+            z-index: 3;
         }
-
-        /* يد الشنطة */
         .bag::before {
             content: "";
             position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 22px;
-            height: 12px;
-            border: 3px solid #ff3366;
-            border-bottom: none;
-            border-radius: 6px 6px 0 0;
+            top: -8px; left: 50%; transform: translateX(-50%);
+            width: 18px; height: 8px;
+            border: 2px solid var(--neon-green); border-bottom: none;
+            border-radius: 4px 4px 0 0;
         }
 
-        /* فلاش وتأثير الانفجار */
-        .explosion-flash {
+        /* تفعيل حركة الشنطة بعد سقوط الشخصية */
+        .bag-drop-active {
+            animation: bagDrop 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                      bagShakeAndSwell 0.8s ease-in-out 0.5s forwards;
+        }
+
+        /* فلاش الانفجار الأخضر النيون */
+        .green-flash {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, #fff 10%, var(--neon-blue) 40%, transparent 70%);
+            width: 5px; height: 5px;
+            background: radial-gradient(circle, #fff 20%, var(--neon-green) 50%, transparent 80%);
             border-radius: 50%;
             opacity: 0;
             pointer-events: none;
             z-index: 10000;
         }
-
-        .explode-active {
-            animation: flashBang 0.5s ease-out forwards;
+        .flash-active {
+            animation: neonExplosion 0.6s ease-out forwards;
         }
 
-        /* أنيميشن ظهور الشخصية */
-        @keyframes characterAppear {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        /* --- جداول الأنيميشن (Keyframes) --- */
+        /* 1. المشي للمنتصف */
+        @keyframes walkIn {
+            0% { left: -150px; transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-3deg); }
+            100% { left: calc(50% - 60px); transform: translateY(0) rotate(0deg); }
         }
 
-        /* أنيميشن سقوط الشنطة */
-        @keyframes dropBag {
-            0% { top: 40px; opacity: 0; }
-            30% { opacity: 1; }
-            100% { top: 180px; opacity: 1; }
+        /* 2. التعثر والسقوط في نص الشاشة */
+        @keyframes tripAndFall {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            50% { transform: translate(-20px, 50px) rotate(-45deg); opacity: 1; }
+            100% { transform: translate(-50px, 200px) rotate(-90deg); opacity: 0; }
         }
 
-        /* اهتزاز الشنطة وانتفاخها استعداداً للانفجار */
-        @keyframes shakeAndSwell {
-            0% { transform: translateX(-50%) rotate(0deg) scale(1); }
-            20% { transform: translateX(-55%) rotate(-8deg) scale(1.1); background: #ff1a53; }
-            40% { transform: translateX(-45%) rotate(8deg) scale(1.2); }
-            60% { transform: translateX(-53%) rotate(-5deg) scale(1.3); background: #ff0040; box-shadow: 0 0 35px #ff0040; }
-            80% { transform: translateX(-47%) rotate(5deg) scale(1.4); }
-            100% { transform: translateX(-50%) rotate(0deg) scale(1.6); background: #fff; box-shadow: 0 0 50px #fff; }
+        /* 3. سقوط الشنطة من يد الشخصية للأرض */
+        @keyframes bagDrop {
+            0% { opacity: 0; transform: translateX(-50%) scale(0.5); bottom: 220px; }
+            100% { opacity: 1; transform: translateX(-50%) scale(1); bottom: 40px; }
         }
 
-        /* أنيميشن فلاش الانفجار لتغطية الشاشة */
-        @keyframes flashBang {
-            0% { width: 10px; height: 10px; opacity: 1; transform: scale(1); }
-            50% { opacity: 1; }
-            100% { width: 300vmax; height: 300vmax; opacity: 0; transform: scale(1); }
+        /* 4. اهتزاز الشنطة وانتفاخها المشع */
+        @keyframes bagShakeAndSwell {
+            0%, 40% { transform: translateX(-50%) rotate(0deg) scale(1); }
+            20% { transform: translateX(-55%) rotate(-10deg) scale(1.1); box-shadow: 0 0 25px var(--neon-green); }
+            60% { transform: translateX(-45%) rotate(10deg) scale(1.3); background: var(--neon-green); }
+            80% { transform: translateX(-52%) rotate(-5deg) scale(1.5); }
+            100% { transform: translateX(-50%) rotate(0deg) scale(1.8); background: #fff; box-shadow: 0 0 50px #fff; }
         }
 
-        /* إخفاء شاشة الانترو بسلاسة بعد الانفجار */
+        /* 5. الانفجار الكبير */
+        @keyframes neonExplosion {
+            0% { width: 5px; height: 5px; opacity: 1; }
+            40% { opacity: 1; }
+            100% { width: 350vmax; height: 350vmax; opacity: 0; }
+        }
+
+        /* إخفاء الانترو وظهور الموقع */
         .intro-hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
-        /* محتوى الموقع الأساسي يخرج من الانفجار (Zoom & Fade In) */
         #main-content {
             opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0.85);
+            transition: opacity 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #main-content.visible {
@@ -177,7 +212,7 @@
             transform: scale(1);
         }
 
-        /* نقوش الخلفية (عناصر الدعاية) */
+        /* بقية الستاين الخاص بموقعك دون تغيير */
         body::before {
             content: "";
             position: fixed;
@@ -188,151 +223,42 @@
             background-size: 180px;
         }
 
-        .hero {
-            text-align: center;
-            padding: 100px 20px 50px;
-        }
-
+        .hero { text-align: center; padding: 100px 20px 50px; }
         .hero h1 {
-            font-size: clamp(3.5rem, 12vw, 6rem);
-            margin: 0;
-            font-weight: 900;
-            letter-spacing: -2px;
-            background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(3.5rem, 12vw, 6rem); margin: 0; font-weight: 900; letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .slogan {
-            font-size: 1.8rem;
-            color: var(--neon-blue);
-            font-weight: 700;
-            display: block;
-            margin-top: -10px;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .intro-text {
-            max-width: 850px;
-            margin: 40px auto;
-            font-size: 1.3rem;
-            color: #999;
-            padding: 0 20px;
-        }
-
-        /* تنسيق الخانات لجعلها مريحة للعين */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 40px;
-            max-width: 1400px;
-            margin: auto;
-        }
-
-        .feature-card {
-            background: linear-gradient(145deg, #0f0f0f, #050505);
-            padding: 40px;
-            border-left: 1px solid rgba(0, 212, 255, 0.2);
-            position: relative;
-            transition: 0.4s;
-        }
-
-        .feature-card::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 30px; height: 2px;
-            background: var(--neon-blue);
-        }
-
-        .feature-card:hover {
-            border-left-color: var(--neon-blue);
-            background: #0f0f0f;
-        }
-
-        .feature-card h3 {
-            color: var(--neon-blue);
-            font-size: 1.7rem;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-        }
-
-        .feature-card p {
-            font-size: 1.1rem;
-            color: #bbb;
-            margin: 0;
-        }
-
-        .feature-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .feature-card li {
-            margin-bottom: 15px;
-            padding-right: 25px;
-            position: relative;
-            color: #ccc;
-        }
-
-        .feature-card li::before {
-            content: "→"; 
-            position: absolute;
-            right: 0;
-            color: var(--neon-blue);
-            font-weight: bold;
-        }
-
-        /* تنسيق الرقم البسيط والراقي */
-        .contact-section {
-            text-align: center;
-            padding: 80px 20px;
-            margin-top: 50px;
-        }
-
-        .contact-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #555;
-            display: block;
-            margin-bottom: 15px;
-        }
-
-        .phone-number {
-            font-size: 2.5rem;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 200; 
-            font-family: 'Courier New', Courier, monospace;
-            transition: 0.3s;
-        }
-
-        .phone-number:hover {
-            color: var(--neon-blue);
-            letter-spacing: 2px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.75rem;
-            color: #222;
-            letter-spacing: 1px;
-        }
-
+        .slogan { font-size: 1.8rem; color: var(--neon-blue); font-weight: 700; display: block; margin-top: -10px; text-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+        .intro-text { max-width: 850px; margin: 40px auto; font-size: 1.3rem; color: #999; padding: 0 20px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 40px; max-width: 1400px; margin: auto; }
+        .feature-card { background: linear-gradient(145deg, #0f0f0f, #050505); padding: 40px; border-left: 1px solid rgba(0, 212, 255, 0.2); position: relative; transition: 0.4s; }
+        .feature-card::after { content: ""; position: absolute; top: 0; left: 0; width: 30px; height: 2px; background: var(--neon-blue); }
+        .feature-card:hover { border-left-color: var(--neon-blue); background: #0f0f0f; }
+        .feature-card h3 { color: var(--neon-blue); font-size: 1.7rem; margin-bottom: 25px; letter-spacing: 1px; }
+        .feature-card p { font-size: 1.1rem; color: #bbb; margin: 0; }
+        .feature-card ul { list-style: none; padding: 0; margin: 0; }
+        .feature-card li { margin-bottom: 15px; padding-right: 25px; position: relative; color: #ccc; }
+        .feature-card li::before { content: "→"; position: absolute; right: 0; color: var(--neon-blue); font-weight: bold; }
+        .contact-section { text-align: center; padding: 80px 20px; margin-top: 50px; }
+        .contact-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; color: #555; display: block; margin-bottom: 15px; }
+        .phone-number { font-size: 2.5rem; color: #fff; text-decoration: none; font-weight: 200; font-family: 'Courier New', Courier, monospace; transition: 0.3s; }
+        .phone-number:hover { color: var(--neon-blue); letter-spacing: 2px; }
+        footer { text-align: center; padding: 40px; font-size: 0.75rem; color: #222; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <div id="intro-overlay">
-        <div class="character-container">
-            <div class="char-head"></div>
-            <div class="char-body"></div>
-            <div class="bag"></div>
+        <div class="animation-zone">
+            <div class="alpha-character" id="alpha-char">
+                <div class="char-glow-body"></div>
+                <div class="char-head"></div>
+                <div class="char-body"></div>
+                <div class="char-tail"></div>
+            </div>
+            <div class="bag" id="alpha-bag"></div>
+            <div class="green-flash" id="flash-element"></div>
         </div>
-        <div class="explosion-flash" id="flash-element"></div>
     </div>
 
     <div id="main-content">
@@ -389,24 +315,29 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('intro-overlay');
+            const bag = document.getElementById('alpha-bag');
             const flash = document.getElementById('flash-element');
+            const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
 
-            // بعد ثانية و 900 جزء من الثانية (وقت انتهاء انتفاخ الشنطة) يحدث الانفجار
+            // 1. بعد ثانية ونصف (لما الشخصية توصل نص الشاشة وتقع)، الشنطة بتسقط وتتهز
             setTimeout(() => {
-                // تفعيل فلاش الانفجار
-                flash.classList.add('explode-active');
+                bag.classList.add('bag-drop-active');
+            }, 1500);
+
+            // 2. بعد انتهاء اهتزاز وانتفاخ الشنطة (حوالي 2.8 ثانية إجمالي)، يحدث الانفجار الأخضر
+            setTimeout(() => {
+                flash.classList.add('flash-active');
                 
-                // في منتصف الفلاش، نخفي شاشة الانترو ونظهر الموقع كأنه خرج من الانفجار
+                // خروج الموقع من وسط الفلاش الأخضر المضيء
                 setTimeout(() => {
                     overlay.classList.add('intro-hidden');
                     mainContent.classList.add('visible');
-                }, 150); // توقيت الفلاش السريع
-
-            }, 1900); 
+                }, 150); 
+            }, 2800);
         });
     </script>
 
 </body>
 </html>
+
