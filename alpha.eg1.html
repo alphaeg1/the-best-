@@ -7,9 +7,10 @@
     <style>
         :root {
             --neon-blue: #00d4ff;
-            --neon-green: #39ff14; /* درجة الأخضر المضيء من صورتك */
             --dark-bg: #050505;
-            --card-accent: rgba(0, 212, 255, 0.05);
+            --deep-blue-bg: #0a1128; /* الخلفية الأزرق الغامق */
+            --truck-white: #ffffff;
+            --truck-black: #1a1a1a;
         }
 
         body {
@@ -18,201 +19,102 @@
             background-color: var(--dark-bg);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
             overflow-x: hidden;
         }
 
-        /* --- شاشة الـ Intro والأنيميشن الجديد --- */
+        /* --- شاشة الـ Intro (Dodge Ram Animation) --- */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #080808;
+            background-color: var(--deep-blue-bg);
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
         }
 
-        /* حاوية الشخصية والشنطة */
-        .animation-zone {
+        /* حاوية العربية */
+        .truck-container {
+            position: absolute;
+            width: 250px;
+            height: 100px;
+            left: -300px; /* بتبدأ من برة */
+            animation: driveAcross 2s linear forwards;
+        }
+
+        /* رسم العربية دودج رام 2013 (CSS Art) */
+        .truck-body {
+            width: 220px;
+            height: 60px;
+            background: var(--truck-white);
+            border-radius: 10px 30px 10px 10px;
             position: relative;
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border: 4px solid var(--truck-black);
         }
 
-        /* تصميم الشخصية الكرتونية مستوحى من صورتك */
-        .alpha-character {
+        /* كتابة TA على العربية */
+        .truck-body::after {
+            content: "TA";
             position: absolute;
-            width: 120px;
-            height: 180px;
-            bottom: 120px;
-            left: -150px; /* بتبدأ من برة الشاشة يمين (عشان الـ RTL) */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* أنيميشن: مشي لمنتصف الشاشة، ثم اهتزاز وسقوط */
-            animation: walkIn 1.5s linear forwards, tripAndFall 0.5s ease-in 1.5s forwards;
+            top: 15px; left: 10px;
+            font-weight: bold; font-size: 20px; color: var(--truck-black);
         }
 
-        /* الهالة الخضراء المضيئة حول الشخصية (من صورتك) */
-        .char-glow-body {
+        /* الشنطة اللي بتقع */
+        .bag-drop {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            box-shadow: 0 0 30px var(--neon-green), inset 0 0 15px var(--neon-green);
-            opacity: 0.8;
-            z-index: 1;
-            filter: blur(2px);
-        }
-
-        .char-head {
-            width: 50px;
-            height: 50px;
-            background: #222;
-            border: 2px solid var(--neon-green);
-            border-radius: 50%;
-            z-index: 2;
-            position: relative;
-        }
-        /* كابرو/شعر مجعد كرتوني */
-        .char-head::before {
-            content: "";
-            position: absolute;
-            top: -5px; width: 100%; height: 20px;
-            background: #111;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .char-body {
-            width: 65px;
-            height: 85px;
-            background: #1a1a1a;
-            border: 2px solid var(--neon-green);
-            border-radius: 10px;
-            margin-top: 5px;
-            z-index: 2;
-        }
-
-        /* الجسد السفلي الانسيابي (شبه الجني اللي في الصورة) */
-        .char-tail {
-            width: 30px;
-            height: 50px;
-            background: linear-gradient(to bottom, #1a1a1a, var(--neon-green));
-            border-radius: 0 0 50% 50%;
-            z-index: 2;
-        }
-
-        /* الشنطة */
-        .bag {
-            position: absolute;
-            width: 50px;
-            height: 40px;
-            background: #111;
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 15px var(--neon-green);
-            border-radius: 6px;
-            bottom: 120px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
+            width: 30px; height: 25px;
+            background: var(--truck-black);
+            bottom: 60px; left: 100px;
             opacity: 0;
-            z-index: 3;
-        }
-        .bag::before {
-            content: "";
-            position: absolute;
-            top: -8px; left: 50%; transform: translateX(-50%);
-            width: 18px; height: 8px;
-            border: 2px solid var(--neon-green); border-bottom: none;
-            border-radius: 4px 4px 0 0;
+            animation: dropIt 0.5s ease-out 1.5s forwards, shakeBag 0.6s ease-in-out 2s forwards;
         }
 
-        /* تفعيل حركة الشنطة بعد سقوط الشخصية */
-        .bag-drop-active {
-            animation: bagDrop 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-                      bagShakeAndSwell 0.8s ease-in-out 0.5s forwards;
-        }
-
-        /* فلاش الانفجار الأخضر النيون */
-        .green-flash {
+        /* الانفجار */
+        .explosion {
             position: absolute;
-            width: 5px; height: 5px;
-            background: radial-gradient(circle, #fff 20%, var(--neon-green) 50%, transparent 80%);
+            width: 0; height: 0;
+            background: white;
             border-radius: 50%;
             opacity: 0;
-            pointer-events: none;
-            z-index: 10000;
-        }
-        .flash-active {
-            animation: neonExplosion 0.6s ease-out forwards;
         }
 
-        /* --- جداول الأنيميشن (Keyframes) --- */
-        /* 1. المشي للمنتصف */
-        @keyframes walkIn {
-            0% { left: -150px; transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(-3deg); }
-            100% { left: calc(50% - 60px); transform: translateY(0) rotate(0deg); }
+        @keyframes driveAcross {
+            0% { left: -300px; }
+            100% { left: calc(50% - 125px); }
         }
 
-        /* 2. التعثر والسقوط في نص الشاشة */
-        @keyframes tripAndFall {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-            50% { transform: translate(-20px, 50px) rotate(-45deg); opacity: 1; }
-            100% { transform: translate(-50px, 200px) rotate(-90deg); opacity: 0; }
+        @keyframes dropIt {
+            0% { opacity: 1; bottom: 60px; }
+            100% { opacity: 1; bottom: 0; }
         }
 
-        /* 3. سقوط الشنطة من يد الشخصية للأرض */
-        @keyframes bagDrop {
-            0% { opacity: 0; transform: translateX(-50%) scale(0.5); bottom: 220px; }
-            100% { opacity: 1; transform: translateX(-50%) scale(1); bottom: 40px; }
+        @keyframes shakeBag {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5) rotate(10deg); background: var(--neon-blue); }
+            100% { transform: scale(3); opacity: 0; }
         }
 
-        /* 4. اهتزاز الشنطة وانتفاخها المشع */
-        @keyframes bagShakeAndSwell {
-            0%, 40% { transform: translateX(-50%) rotate(0deg) scale(1); }
-            20% { transform: translateX(-55%) rotate(-10deg) scale(1.1); box-shadow: 0 0 25px var(--neon-green); }
-            60% { transform: translateX(-45%) rotate(10deg) scale(1.3); background: var(--neon-green); }
-            80% { transform: translateX(-52%) rotate(-5deg) scale(1.5); }
-            100% { transform: translateX(-50%) rotate(0deg) scale(1.8); background: #fff; box-shadow: 0 0 50px #fff; }
+        @keyframes blast {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 400vmax; height: 400vmax; opacity: 0; }
         }
 
-        /* 5. الانفجار الكبير */
-        @keyframes neonExplosion {
-            0% { width: 5px; height: 5px; opacity: 1; }
-            40% { opacity: 1; }
-            100% { width: 350vmax; height: 350vmax; opacity: 0; }
-        }
+        /* إخفاء الانترو */
+        .intro-hidden { opacity: 0; visibility: hidden; }
 
-        /* إخفاء الانترو وظهور الموقع */
-        .intro-hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
+        /* محتوى الموقع الأساسي */
         #main-content {
             opacity: 0;
-            transform: scale(0.85);
-            transition: opacity 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: opacity 1s ease;
         }
+        #main-content.visible { opacity: 1; }
 
-        #main-content.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* بقية الستاين الخاص بموقعك دون تغيير */
+        /* -- بيانات الموقع الأصلية (دون تغيير) -- */
         body::before {
             content: "";
             position: fixed;
@@ -224,10 +126,7 @@
         }
 
         .hero { text-align: center; padding: 100px 20px 50px; }
-        .hero h1 {
-            font-size: clamp(3.5rem, 12vw, 6rem); margin: 0; font-weight: 900; letter-spacing: -2px;
-            background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .hero h1 { font-size: clamp(3.5rem, 12vw, 6rem); margin: 0; font-weight: 900; letter-spacing: -2px; background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .slogan { font-size: 1.8rem; color: var(--neon-blue); font-weight: 700; display: block; margin-top: -10px; text-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
         .intro-text { max-width: 850px; margin: 40px auto; font-size: 1.3rem; color: #999; padding: 0 20px; }
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 40px; max-width: 1400px; margin: auto; }
@@ -248,19 +147,16 @@
 </head>
 <body>
 
+    <!-- الانترو -->
     <div id="intro-overlay">
-        <div class="animation-zone">
-            <div class="alpha-character" id="alpha-char">
-                <div class="char-glow-body"></div>
-                <div class="char-head"></div>
-                <div class="char-body"></div>
-                <div class="char-tail"></div>
-            </div>
-            <div class="bag" id="alpha-bag"></div>
-            <div class="green-flash" id="flash-element"></div>
+        <div class="truck-container">
+            <div class="truck-body"></div>
         </div>
+        <div class="bag-drop" id="bag"></div>
+        <div class="explosion" id="blast"></div>
     </div>
 
+    <!-- محتوى الموقع -->
     <div id="main-content">
         <section class="hero">
             <h1>TEAM ALPHA</h1>
@@ -315,29 +211,18 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const bag = document.getElementById('alpha-bag');
-            const flash = document.getElementById('flash-element');
+            const blast = document.getElementById('blast');
             const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
 
-            // 1. بعد ثانية ونصف (لما الشخصية توصل نص الشاشة وتقع)، الشنطة بتسقط وتتهز
             setTimeout(() => {
-                bag.classList.add('bag-drop-active');
-            }, 1500);
-
-            // 2. بعد انتهاء اهتزاز وانتفاخ الشنطة (حوالي 2.8 ثانية إجمالي)، يحدث الانفجار الأخضر
-            setTimeout(() => {
-                flash.classList.add('flash-active');
-                
-                // خروج الموقع من وسط الفلاش الأخضر المضيء
+                blast.style.animation = 'blast 0.5s ease-out forwards';
                 setTimeout(() => {
                     overlay.classList.add('intro-hidden');
                     mainContent.classList.add('visible');
-                }, 150); 
-            }, 2800);
+                }, 200);
+            }, 2600);
         });
     </script>
-
 </body>
 </html>
-
