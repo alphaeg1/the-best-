@@ -35,13 +35,13 @@
             box-shadow: 0px 10px 30px rgba(255, 0, 0, 0.05);
         }
 
-        /* مكان الصورة فوق اللوجو */
+        /* تعديل مكان الصورة ليصبح بيضاوياً ومتناسقاً */
         .header-image {
-            width: 100%;
-            height: 160px;
+            width: 200px;
+            height: 140px;
             background-color: #222;
-            border-radius: 16px;
-            margin-bottom: 20px;
+            border-radius: 50%; /* لجعلها بيضاوية */
+            margin: 0 auto 20px auto; /* لتوسيطها في المنتصف */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -55,7 +55,8 @@
         }
         .image-placeholder {
             color: #666;
-            font-size: 14px;
+            font-size: 13px;
+            padding: 10px;
         }
 
         /* اللوجو والشعار */
@@ -79,32 +80,33 @@
             font-style: italic;
         }
 
-        /* أزرار السوشيال ميديا شبه الصورة */
+        /* تعديل السوشيال ميديا لتصبح كلها بجانب بعضها في صف واحد */
         .social-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
             margin-bottom: 30px;
         }
         .social-btn {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 15px;
-            border-radius: 16px;
+            padding: 12px 5px;
+            border-radius: 12px;
             color: white;
             text-decoration: none;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
             transition: transform 0.2s;
         }
-        .social-btn:hover {
+        .social-btn :hover {
             transform: scale(1.03);
         }
         .social-btn i {
-            font-size: 28px;
-            margin-bottom: 8px;
+            font-size: 22px;
+            margin-bottom: 6px;
         }
         /* ألوان الأزرار المتطابقة مع الهوية */
         .instagram {
@@ -209,17 +211,17 @@
 
     <div class="container">
         
-        <!-- مكان الصورة فوق اللوجو (تقدر تستبدل الـ div بـ img لما تجهز صورتك) -->
+        <!-- مكان الصورة فوق اللوجو بالشكل البيضاوي الجديد -->
         <div class="header-image">
             <!-- <img src="your-banner-image.jpg" alt="صورة المطعم"> -->
-            <div class="image-placeholder"><i class="fa-regular fa-image"></i> مكان الصورة فوق اللوجو</div>
+            <div class="image-placeholder"><i class="fa-regular fa-image"></i> مكان الصورة</div>
         </div>
 
         <!-- اللوجو والشعار -->
         <div class="logo-title">DOUBLE ZOZ</div>
         <div class="brand-name">طعم مش هتلاقية في حتة تانية</div>
 
-        <!-- أزرار السوشيال ميديا (ضع روابط صفحاتك مكان الـ #) -->
+        <!-- أزرار السوشيال ميديا متراصة بجانب بعضها -->
         <div class="social-grid">
             <a href="#" class="social-btn instagram" target="_blank">
                 <i class="fa-brands fa-instagram"></i>
