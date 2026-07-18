@@ -27,7 +27,7 @@
 
         .container {
             text-align: center;
-            max-width: 550px; /* حجم متناسق لاحتواء الأزرار الأربعة بجانب بعضها */
+            max-width: 550px;
             width: 100%;
         }
 
@@ -39,22 +39,21 @@
             align-items: center;
         }
 
-        /* مكان الصورة في أعلى الصفحة باللون البرتقالي */
+        /* تم تكبير حجم الصورة هنا */
         .profile-img {
-            width: 100px;
-            height: 100px;
+            width: 140px; /* زيادة الحجم من 100px إلى 140px */
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 12px;
-            border: 3px solid #ff4500; 
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+            margin-bottom: 15px;
+            border: 4px solid #ff4500; 
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
         }
 
         .header h1 {
-            font-size: 2.3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             letter-spacing: 1px;
-            /* التدرج البرتقالي المتناسق مع شعارك */
             background: linear-gradient(45deg, #ff8c00, #ff4500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -64,12 +63,52 @@
         .header p {
             color: #aaa;
             font-size: 0.95rem;
+            margin-bottom: 20px;
         }
 
-        /* قسم أرقام التليفونات */
+        /* شبكة كروت السوشيال ميديا (الأربعة بجانب بعضهم) */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+            width: 100%;
+            margin-bottom: 25px; /* مسافة أسفل السوشيال ميديا */
+        }
+
+        .social-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90px; 
+            border-radius: 16px; 
+            text-decoration: none;
+            color: white;
+            font-size: 0.8rem; 
+            font-weight: 500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .social-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        .social-card i {
+            font-size: 1.6rem; 
+            margin-bottom: 5px;
+        }
+
+        /* ألوان كروت السوشيال ميديا */
+        .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .tiktok { background-color: #000000; border: 1px solid #2a2a2a; }
+        .whatsapp { background-color: #25D366; }
+        .facebook { background-color: #1877F2; }
+
+        /* قسم أرقام التليفونات واللوكيشن */
         .phones-section {
             background-color: #1e1e1e;
-            padding: 15px;
+            padding: 20px;
             border-radius: 15px;
             margin-bottom: 25px;
             border: 1px solid #2a2a2a;
@@ -77,7 +116,7 @@
 
         .phones-section h3 {
             margin-bottom: 12px;
-            color: #ff8c00; /* اللون البرتقالي للعنوان */
+            color: #ff8c00; 
             font-size: 1.05rem;
         }
 
@@ -97,101 +136,100 @@
         }
 
         .phone-btn:hover {
-            background-color: #ff4500; /* يتحول للبرتقالي عند التمرير */
+            background-color: #ff4500; 
         }
 
-        /* شبكة كروت السوشيال ميديا - الأربعة بجانب بعضهم */
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* تقسيم متساوي لـ 4 أعمدة بجانب بعضها */
-            gap: 10px; /* مسافات صغيرة ومناسبة للتصغير */
-            width: 100%;
-        }
-
-        .social-card {
+        /* زر اللوكيشن */
+        .location-btn {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 90px; /* تم تصغير الارتفاع لتصبح الكروت ناعمة وأنيقة */
-            border-radius: 16px; /* حواف دائرية متناسقة مع الحجم الصغير */
+            gap: 10px;
+            background-color: #2a2a2a;
+            color: #fff;
+            padding: 12px;
             text-decoration: none;
-            color: white;
-            font-size: 0.8rem; /* تصغير حجم الخط ليتناسب مع العرض المتاح */
-            font-weight: 500;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1rem;
+            border: 1px dashed #ff4500;
+            transition: 0.3s ease;
         }
 
-        .social-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        .location-btn:hover {
+            background-color: #ff4500;
+            border-style: solid;
         }
 
-        .social-card i {
-            font-size: 1.6rem; /* تصغير حجم الأيقونات */
-            margin-bottom: 5px;
-        }
-
-        /* ألوان الكروت وتدرجاتها الرسمية */
-        .instagram {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-        }
-
-        .tiktok {
-            background-color: #000000;
+        /* قسم بنك TA للتمويل/التقسيط */
+        .bank-section {
+            background-color: #1e1e1e;
+            padding: 15px;
+            border-radius: 15px;
             border: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s ease;
         }
 
-        .whatsapp {
-            background-color: #25D366;
+        .bank-section:hover {
+            border-color: #ff4500;
+            background-color: rgba(255, 69, 0, 0.05);
         }
 
-        .facebook {
-            background-color: #1877F2;
+        .bank-logo {
+            background: linear-gradient(45deg, #ff8c00, #ff4500);
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
         }
 
-        /* لضمان مظهر ممتاز على الشاشات الصغيرة جداً (الموبايل القديم مثلاً) */
+        .bank-text {
+            text-align: right;
+        }
+
+        .bank-text h4 {
+            color: #ff8c00;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .bank-text p {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+
+        /* التجاوب مع الموبايلات الصغيرة */
         @media (max-width: 400px) {
-            .social-grid {
-                gap: 5px;
-            }
-            .social-card {
-                height: 80px;
-                font-size: 0.75rem;
-            }
-            .social-card i {
-                font-size: 1.3rem;
-            }
+            .social-grid { gap: 5px; }
+            .social-card { height: 80px; font-size: 0.75rem; }
+            .social-card i { font-size: 1.3rem; }
         }
-
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- هيدر الموقع مع مكان الصورة المخصص بالبرتقالي -->
+        <!-- هيدر الموقع وصورتك الكبيرة -->
         <div class="header">
-            <!-- استبدل logo.png برابط صورتك الشخصية أو لوجو المحل -->
             <img src="IMG-20260718-WA22889.jpg" alt="Pro Plus Logo" class="profile-img">
-            
             <h1>PRO PLUS</h1>
             <p>عالم الهواتف الذكية وإكسسواراتها</p>
         </div>
 
-        <!-- قسم أرقام التليفونات -->
-        <div class="phones-section">
-            <h3>اتصل بنا مباشرة</h3>
-            <a href="tel:011111111" class="phone-btn">
-                <i class="fa-solid fa-phone"></i> 011111111
-            </a>
-            <a href="tel:0222222" class="phone-btn">
-                <i class="fa-solid fa-phone"></i> 0222222
-            </a>
-        </div>
-
-        <!-- شبكة أزرار السوشيال ميديا الأربعة بجانب بعضهم -->
+        <!-- أولاً: شبكة أزرار السوشيال ميديا الأربعة (فوق الأرقام) -->
         <div class="social-grid">
-            
             <!-- إنستغرام -->
             <a href="https://instagram.com/YOUR_USERNAME" target="_blank" class="social-card instagram">
                 <i class="fa-brands fa-instagram"></i>
@@ -215,8 +253,34 @@
                 <i class="fa-brands fa-facebook-f"></i>
                 <span>facebook</span>
             </a>
-
         </div>
+
+        <!-- ثانياً: قسم أرقام التليفونات واللوكيشن -->
+        <div class="phones-section">
+            <h3>تواصل معنا</h3>
+            <a href="tel:011111111" class="phone-btn">
+                <i class="fa-solid fa-phone"></i> 011111111
+            </a>
+            <a href="tel:0222222" class="phone-btn">
+                <i class="fa-solid fa-phone"></i> 0222222
+            </a>
+
+            <!-- زر اللوكيشن (ضع رابط جوجل ماب الخاص بمحلك في خانة href) -->
+            <a href="https://maps.google.com" target="_blank" class="location-btn">
+                <i class="fa-solid fa-location-dot" style="color: #ff4500;"></i>
+                <span>موقع المحل على الخريطة (Location)</span>
+            </a>
+        </div>
+
+        <!-- ثالثاً: مكان لوجو بنك TA والخدمات -->
+        <a href="https://YOUR_BANK_LINK_HERE" target="_blank" class="bank-section">
+            <div class="bank-logo">TA</div>
+            <div class="bank-text">
+                <h4>خدمات بنك TA للتقسيط</h4>
+                <p>اضغط هنا لمعرفة أنظمة التقسيط المتاحة لدينا</p>
+            </div>
+        </a>
+
     </div>
 
 </body>
