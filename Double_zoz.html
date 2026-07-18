@@ -35,12 +35,12 @@
             box-shadow: 0px 10px 30px rgba(255, 0, 0, 0.05);
         }
 
-        /* تعديل مكان الصورة ليصبح بيضاوياً ومتناسقاً وبدون إطار أحمر */
+        /* تعديل الإطار البيضاوي ليحتوي اللوجو بالكامل بدون قص ويزيد حجمه */
         .header-image {
-            width: 200px;
-            height: 140px;
-            background-color: #222;
-            border-radius: 50%; /* لجعلها بيضاوية */
+            width: 220px; /* تكبير العرض لإعطاء اللوجو مساحة أكبر */
+            height: 160px; /* تكبير الارتفاع */
+            background-color: transparent; /* جعل الخلفية شفافة لعدم تشويه اللوجو */
+            border-radius: 50%; /* بيضاوي كيرلي */
             margin: 0 auto 20px auto; /* لتوسيطها في المنتصف */
             display: flex;
             justify-content: center;
@@ -50,7 +50,7 @@
         .header-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* هذا السحر يمنع قص أي جزء من اللوجو ويظهره بالكامل */
         }
 
         /* اللوجو والشعار */
@@ -205,7 +205,7 @@
 
     <div class="container">
         
-        <!-- مكان الصورة بالشكل البيضاوي وبدون الإطار الأحمر ومضاف إليها اسم ملف صورتك -->
+        <!-- مكان الصورة بالشكل البيضاوي المطور بدون قَص للأطراف -->
         <div class="header-image">
             <img src="IMG-20260718-WA23889.jpg" alt="صورة المطعم">
         </div>
@@ -256,7 +256,7 @@
                 <i class="fa-solid fa-phone"></i>
                 <span>+201031907404</span>
             </a>
-            <!-- ضع رابط جوجل ماب للمطعم مكان الـ # -->
+            <!-- وضع رابط جوجل ماب للمطعم مكان الـ # -->
             <a href="#" class="contact-link" target="_blank">
                 <i class="fa-solid fa-location-dot"></i>
                 <span>موقعنا على الخريطة (اللوكيشن)</span>
