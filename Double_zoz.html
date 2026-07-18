@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOUBLE ZOZ - طعم مش هتلاقية في حتة تانية</title>
+    <!-- استدعاء أيقونات FontAwesome للسوشيال ميديا والاتصال -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0b0b; /* أسود داكن خلفية أساسية */
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #141414; /* درجة أسود مختلفة قليلاً للأناقة */
+            border: 1px solid #ff000033; /* إطار أحمر خفيف جداً */
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0px 10px 30px rgba(255, 0, 0, 0.05);
+        }
+
+        /* مكان الصورة فوق اللوجو */
+        .header-image {
+            width: 100%;
+            height: 160px;
+            background-color: #222;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 2px dashed #ff0000;
+        }
+        .header-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image-placeholder {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* اللوجو والشعار */
+        .logo-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ff0000; /* الأحمر الأساسي */
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .brand-name {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .slogan {
+            font-size: 14px;
+            color: #b3b3b3; /* أبيض خفيف/رمادي */
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* أزرار السوشيال ميديا شبه الصورة */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .social-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+        .social-btn:hover {
+            transform: scale(1.03);
+        }
+        .social-btn i {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        /* ألوان الأزرار المتطابقة مع الهوية */
+        .instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .tiktok {
+            background: #000000;
+            border: 1px solid #333;
+        }
+        .whatsapp {
+            background: #25D366;
+        }
+        .facebook {
+            background: #1877F2;
+        }
+
+        /* قسم الأقسام الشيك */
+        .section-title {
+            font-size: 18px;
+            color: #ff0000;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .section-title::before, .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ff000044;
+        }
+        
+        .menu-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .menu-item {
+            background: #1c1c1c;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            border-right: 4px solid #ff0000; /* خط أحمر جانبي شيك */
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        /* أرقام الاتصال واللوكيشن */
+        .contact-info {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .contact-link:hover {
+            color: #ff0000;
+        }
+        .contact-link i {
+            color: #ff0000;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* زر طلب موقع مشابه */
+        .cta-website {
+            display: block;
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 14px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .cta-website:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- مكان الصورة فوق اللوجو (تقدر تستبدل الـ div بـ img لما تجهز صورتك) -->
+        <div class="header-image">
+            <!-- <img src="your-banner-image.jpg" alt="صورة المطعم"> -->
+            <div class="image-placeholder"><i class="fa-regular fa-image"></i> مكان الصورة فوق اللوجو</div>
+        </div>
+
+        <!-- اللوجو والشعار -->
+        <div class="logo-title">TA</div>
+        <div class="brand-name">DOUBLE ZOZ</div>
+        <div class="slogan">طعم مش هتلاقية في حتة تانية</div>
+
+        <!-- أزرار السوشيال ميديا (ضع روابط صفحاتك مكان الـ #) -->
+        <div class="social-grid">
+            <a href="#" class="social-btn instagram" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+                <span>instagram</span>
+            </a>
+            <a href="#" class="social-btn tiktok" target="_blank">
+                <i class="fa-brands fa-tiktok"></i>
+                <span>tiktok</span>
+            </a>
+            <a href="https://wa.me/201109977077" class="social-btn whatsapp" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>whatsapp</span>
+            </a>
+            <a href="#" class="social-btn facebook" target="_blank">
+                <i class="fa-brands fa-facebook-f"></i>
+                <span>facebook</span>
+            </a>
+        </div>
+
+        <!-- أقسام المطعم -->
+        <div class="section-title">أقسام المطعم</div>
+        <div class="menu-sections">
+            <div class="menu-item">سندوتشات رول</div>
+            <div class="menu-item">سندوتشات فرنساوي</div>
+            <div class="menu-item">حواوشي فراخ</div>
+            <div class="menu-item">حواوشي ميكس جبن</div>
+            <div class="menu-item">حواوشي لحمة</div>
+            <div class="menu-item">حواوشي ميكسات</div>
+        </div>
+
+        <!-- الأرقام واللوكيشن -->
+        <div class="section-title">تواصل معنا</div>
+        <div class="contact-info">
+            <a href="tel:+201109977077" class="contact-link">
+                <i class="fa-solid fa-phone"></i>
+                <span>+201109977077</span>
+            </a>
+            <a href="tel:+201031907404" class="contact-link">
+                <i class="fa-solid fa-phone"></i>
+                <span>+201031907404</span>
+            </a>
+            <!-- ضع رابط جوجل ماب للمطعم مكان الـ # -->
+            <a href="#" class="contact-link" target="_blank">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>موقعنا على الخريطة (اللوكيشن)</span>
+            </a>
+        </div>
+
+        <!-- زر طلب موقع مشابه -->
+        <a href="#" class="cta-website">لو عايز ويب سايت زاي دي دوس هنا</a>
+
+    </div>
+
+</body>
+</html>
