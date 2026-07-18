@@ -27,56 +27,71 @@
 
         .container {
             text-align: center;
-            max-width: 600px;
+            max-width: 500px; /* تم تصغير العرض الأقصى ليتناسب مع الأزرار الأصغر */
             width: 100%;
         }
 
         /* ستيل اللوجو واسم المحل */
         .header {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* مكان الصورة المضاف في أعلى الصفحة */
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #00c6ff;
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
         }
 
         .header h1 {
-            font-size: 3rem;
+            font-size: 2.5rem; /* تصغير حجم العنوان قليلاً للتناسق */
             font-weight: bold;
             letter-spacing: 1px;
             background: linear-gradient(45deg, #00c6ff, #0072ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .header p {
             color: #888;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         /* قسم أرقام التليفونات */
         .phones-section {
             background-color: #1e1e1e;
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border: 1px solid #2a2a2a;
         }
 
         .phones-section h3 {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #00c6ff;
+            font-size: 1.1rem;
         }
 
         .phone-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             background-color: #2a2a2a;
             color: #fff;
-            padding: 12px 25px;
+            padding: 10px 20px;
             text-decoration: none;
             border-radius: 10px;
             margin: 5px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: 0.3s ease;
         }
 
@@ -84,11 +99,11 @@
             background-color: #0072ff;
         }
 
-        /* شبكة كروت السوشيال ميديا (شبه الصورة اللي أرفقتها) */
+        /* شبكة كروت السوشيال ميديا بعد تصغيرها */
         .social-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* تصغير عرض الكارت الأدنى */
+            gap: 15px; /* تقليص المسافات بين الكروت */
             width: 100%;
         }
 
@@ -97,23 +112,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 140px;
-            border-radius: 24px; /* حواف دائرية واضحة شبه الصورة */
+            height: 105px; /* تم تصغير الارتفاع من 140px إلى 105px */
+            border-radius: 18px; /* حواف دائرية متناسقة مع الحجم الجديد */
             text-decoration: none;
             color: white;
-            font-size: 1.1rem;
+            font-size: 0.9rem; /* تصغير حجم النص */
             font-weight: 500;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .social-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
         }
 
         .social-card i {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem; /* تم تصغير حجم الأيقونة من 2.5rem إلى 1.8rem */
+            margin-bottom: 6px;
         }
 
         /* ألوان الكروت وتدرجاتها بناءً على الهوية الرسمية */
@@ -139,8 +154,11 @@
 <body>
 
     <div class="container">
-        <!-- هيدر الموقع -->
+        <!-- هيدر الموقع مع مكان الصورة المخصص -->
         <div class="header">
+            <!-- استبدل logo.png برابط صورتك أو اسم ملف الصورة المرفق مع الكود -->
+            <img src="logo.png" alt="Pro Plus Logo" class="profile-img">
+            
             <h1>PRO PLUS</h1>
             <p>عالم الهواتف الذكية وإكسسواراتها</p>
         </div>
@@ -156,7 +174,7 @@
             </a>
         </div>
 
-        <!-- شبكة أزرار السوشيال ميديا شبه الصورة -->
+        <!-- شبكة أزرار السوشيال ميديا بعد التصغير -->
         <div class="social-grid">
             
             <!-- إنستغرام -->
