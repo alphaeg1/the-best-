@@ -10,16 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <!-- مكتبة الأيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            /* ميكس ألوان فاخر وقوي */
-            --bg-dark: #0f0c20;
-            --card-bg: rgba(25. 20, 50, 0.65);
-            --card-border: rgba(255, 255, 255, 0.12);
-            --primary-accent: #10b981; /* زمردي جذاب */
-            --purple-accent: #a855f7;  /* بنفسجي ساطع */
-            --text-main: #ffffff;
-            --text-sub: #cbd5e1;
+            /* بليتة أزرق غامق هادئ ومريح جداً للعين */
+            --bg-dark: #0b1320;                             /* أزرق ليلي غامق جداً وناعم */
+            --card-bg: rgba(19, 30, 49, 0.75);              /* كروت زجاجية داكنة بدرجة أزرق كحلي */
+            --card-border: rgba(56, 189, 248, 0.15);        /* حدود سماوية هادئة وخفيفة */
+            
+            --primary-accent: #38bdf8;                    /* أزرق سماوي هادئ للتفاصيل */
+            --secondary-accent: #60a5fa;                  /* أزرق فاتح مريح بالتفاعل */
+            --emerald-accent: #10b981;                    /* زمردي هادئ لحالة (مفتوح) */
+            
+            --text-main: #f1f5f9;                         /* أبيض ثلجي مريح للعين */
+            --text-sub: #94a3b8;                          /* أزرق رمادي هادئ للنصوص الثانوية */
             --font-family: 'Tajawal', 'Segoe UI', sans-serif;
         }
 
@@ -37,18 +41,19 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* خلفية ديناميكية متدرجة مع أضواء ناعمة */
+            /* خلفية متدرجة بأضواء زرقاء كحلية هادئة جداً */
             background-image: 
-                radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.25) 0%, transparent 45%),
-                radial-gradient(circle at 85% 75%, rgba(16, 185, 129, 0.2) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(15, 12, 32, 1) 0%, #070510 100%);
+                radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(30, 58, 138, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, #0b1320 0%, #060a12 100%);
             background-attachment: fixed;
         }
 
-        /* الهيدر المحسّن بخامة زجاجية */
+        /* الهيدر المحسّن */
         header {
-            background-color: rgba(15, 12, 32, 0.75);
-            backdrop-filter: blur(15px);
+            background-color: rgba(11, 19, 32, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--card-border);
             padding: 12px 8%;
             display: flex;
@@ -60,16 +65,16 @@
         }
 
         .logo-container {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--purple-accent);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
-            background-color: #1a1e26;
+            border: 2px solid var(--primary-accent);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+            background-color: #131e31;
         }
 
         .logo-container img {
@@ -82,39 +87,40 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.03);
             padding: 8px 18px;
             border-radius: 30px;
             border: 1px solid var(--card-border);
             font-size: 14px;
             font-weight: 700;
+            color: var(--text-sub);
         }
 
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background-color: #64748b;
         }
 
         .status-dot.open {
-            background-color: var(--primary-accent);
-            box-shadow: 0 0 12px var(--primary-accent);
-            animation: pulse 1.6s infinite;
+            background-color: var(--emerald-accent);
+            box-shadow: 0 0 10px var(--emerald-accent);
+            animation: pulse 2s infinite;
         }
 
         .status-dot.closed {
             background-color: #ef4444;
-            box-shadow: 0 0 12px #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* القسم الرئيسي والخطوط المميزة */
+        /* القسم الرئيسي */
         .hero {
             padding: 50px 5% 25px;
             text-align: center;
@@ -123,11 +129,11 @@
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            margin-bottom: 10px;
-            /* نص بتدرج لوني ملفت */
-            background: linear-gradient(135deg, #ffffff 30%, #a855f7 100%);
+            margin-bottom: 12px;
+            /* تدرج هادئ من الأبيض للسماوي الناعم */
+            background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
@@ -135,11 +141,11 @@
 
         .hero p {
             color: var(--text-sub);
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 500;
         }
 
-        /* الكروت الزجاجية Glassmorphism */
+        /* الكروت الزجاجية */
         .info-section {
             padding: 20px 5%;
             display: flex;
@@ -154,57 +160,57 @@
         .info-card {
             flex: 1;
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 28px 18px;
-            border-radius: 24px;
+            border-radius: 20px;
             border: 1px solid var(--card-border);
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .info-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--purple-accent);
-            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.2);
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.12);
         }
 
         .info-card i.card-icon {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 14px;
-            background: linear-gradient(135deg, var(--primary-accent), #34d399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-accent);
         }
 
         .info-card h3 {
             margin-bottom: 12px;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
         }
 
-        /* أزرار متدرجة تفاعلية */
+        /* الأزرار */
         .card-btn {
             display: inline-block;
             margin-top: 8px;
             padding: 10px 22px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-            color: #ffffff !important;
+            background: rgba(56, 189, 248, 0.08);
+            color: #e0f2fe !important;
             border-radius: 12px;
             font-weight: 700;
             text-decoration: none;
-            border: 1px solid var(--card-border);
+            border: 1px solid rgba(56, 189, 248, 0.25);
             transition: all 0.3s ease;
         }
 
         .card-btn:hover {
-            background: linear-gradient(135deg, var(--primary-accent) 0%, #059669 100%);
+            background: #0284c7;
+            color: #ffffff !important;
             border-color: transparent;
-            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
         }
 
-        /* أزرار السوشيال ميديا */
+        /* السوشيال ميديا */
         .social-section {
             text-align: center;
             margin: 35px 0 20px;
@@ -213,8 +219,8 @@
         .social-section h4 {
             color: var(--text-sub);
             margin-bottom: 18px;
-            font-size: 1.05rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
         .social-links {
@@ -224,8 +230,8 @@
         }
 
         .social-icon {
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -233,27 +239,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            font-size: 1.3rem;
+            color: var(--text-sub);
+            font-size: 1.2rem;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         }
 
         .social-icon:hover {
-            transform: translateY(-5px) scale(1.08);
+            transform: translateY(-4px);
             color: #ffffff;
             border-color: transparent;
         }
 
-        .social-icon.facebook:hover { background-color: #1877f2; box-shadow: 0 5px 25px rgba(24, 119, 242, 0.5); }
-        .social-icon.whatsapp:hover { background-color: #25d366; box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5); }
-        .social-icon.instagram:hover { background-color: #e4405f; box-shadow: 0 5px 25px rgba(228, 64, 95, 0.5); }
+        .social-icon.facebook:hover { background-color: #1877f2; box-shadow: 0 4px 20px rgba(24, 119, 242, 0.35); }
+        .social-icon.whatsapp:hover { background-color: #25d366; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35); }
+        .social-icon.instagram:hover { background-color: #e4405f; box-shadow: 0 4px 20px rgba(228, 64, 95, 0.35); }
 
-        /* الفوتر والزر الذهبي الساطع */
+        /* الفوتر */
         footer {
             margin-top: auto;
-            background: rgba(10, 8, 22, 0.8);
+            background: #060a12;
             text-align: center;
             padding: 28px 20px;
             border-top: 1px solid var(--card-border);
@@ -262,20 +268,20 @@
         .promo-link {
             display: inline-block;
             margin-top: 12px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
             color: #ffffff;
             border-radius: 30px;
             text-decoration: none;
-            font-weight: 800;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
             transition: all 0.3s ease;
         }
 
         .promo-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(168, 85, 247, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
             filter: brightness(1.1);
         }
 
@@ -284,7 +290,7 @@
                 flex-direction: column;
             }
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.1rem;
             }
         }
     </style>
@@ -319,13 +325,13 @@
         <div class="info-card">
             <i class="fa-solid fa-location-dot card-icon"></i>
             <h3>موقعنا (اللوكيشن)</h3>
-            <p><a href="https://maps.google.com" target="_blank" class="card-btn">عرض الخريطة</a></p>
+            <p><a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="card-btn">عرض الخريطة</a></p>
         </div>
 
         <div class="info-card">
             <i class="fa-solid fa-bag-shopping card-icon"></i>
             <h3>اطلب اوردر</h3>
-            <p><a href="https://wa.me/201000000000" target="_blank" class="card-btn">اطلب عبر الواتساب</a></p>
+            <p><a href="https://wa.me/201000000000" target="_blank" rel="noopener noreferrer" class="card-btn">اطلب عبر الواتساب</a></p>
         </div>
     </section>
 
@@ -333,13 +339,13 @@
     <div class="social-section">
         <h4>تابعنا على مواقع التواصل</h4>
         <div class="social-links">
-            <a href="https://facebook.com" target="_blank" class="social-icon facebook" title="فيسبوك">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon facebook" title="فيسبوك">
                 <i class="fa-brands fa-facebook-f"></i>
             </a>
-            <a href="https://wa.me/201000000000" target="_blank" class="social-icon whatsapp" title="واتساب">
+            <a href="https://wa.me/201000000000" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" title="واتساب">
                 <i class="fa-brands fa-whatsapp"></i>
             </a>
-            <a href="https://instagram.com" target="_blank" class="social-icon instagram" title="إنستغرام">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon instagram" title="إنستغرام">
                 <i class="fa-brands fa-instagram"></i>
             </a>
         </div>
@@ -348,7 +354,7 @@
     <!-- الفوتر -->
     <footer>
         <p style="color: var(--text-sub); font-size: 0.85rem;">جميع الحقوق محفوظة ©️ 2026</p>
-        <a href="https://example.com" class="promo-link" target="_blank">لو عايز ويب سايت زي دي دوس هنا</a>
+        <a href="https://example.com" class="promo-link" target="_blank" rel="noopener noreferrer">لو عايز ويب سايت زي دي دوس هنا</a>
     </footer>
 
     <!-- جافاسكريبت للتحقق من أوقات العمل -->
@@ -360,6 +366,8 @@
             const dot = document.getElementById('statusDot');
             const text = document.getElementById('statusText');
 
+            if (!dot || !text) return;
+
             if (currentHour >= 9 || currentHour < 1) {
                 dot.className = "status-dot open";
                 text.textContent = "مفتوح الآن";
@@ -369,8 +377,10 @@
             }
         }
 
-        checkCafeStatus();
-        setInterval(checkCafeStatus, 60000);
+        document.addEventListener('DOMContentLoaded', () => {
+            checkCafeStatus();
+            setInterval(checkCafeStatus, 60000);
+        });
     </script>
 
 </body>
