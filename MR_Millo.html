@@ -52,16 +52,19 @@
         .logo-container {
             width: 65px;
             height: 65px;
-            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-radius: 50%; /* إطار مدور */
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%; /* تجعل الإطار مدور بالكامل */
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: bold;
-            border: 2px dashed #cbd5e1;
-            text-align: center;
+            border: 2px solid var(--border-color);
+            background-color: #f1f5f9;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* شارة حالة الكافيه */
@@ -121,10 +124,10 @@
             font-size: 1.15rem;
         }
 
-        /* قسم الكروت جنب بعضها */
+        /* قسم الكروت (جنب بعض) */
         .info-section {
             padding: 20px 5%;
-            display: flex; /* لترتيب العناصر بأسلوب أفقياً بجانب بعضها */
+            display: flex; /* لترتيب الكروت أفقياً بجانب بعضها */
             flex-direction: row;
             justify-content: center;
             gap: 20px;
@@ -134,7 +137,7 @@
         }
 
         .info-card {
-            flex: 1; /* إعطاء مساحة متساوية لكل كارت */
+            flex: 1; /* توزيع المساحة بالتساوي بين الكروت الثلاثة */
             background-color: var(--card-bg);
             padding: 25px 15px;
             border-radius: 16px;
@@ -227,7 +230,7 @@
         .social-icon.whatsapp:hover { background-color: #25d366; }
         .social-icon.instagram:hover { background-color: #e4405f; }
 
-        /* الفوتر واللينك المطلوبة */
+        /* الفوتر واللينك المطلوب */
         footer {
             margin-top: auto;
             background-color: var(--card-bg);
@@ -255,7 +258,7 @@
             transform: translateY(-2px);
         }
 
-        /* التكيف مع الشاشات الصغيرة جداً (الهواتف المحمولة الضيقة) */
+        /* الاستجابة للهواتف الذكية الضيقة */
         @media (max-width: 640px) {
             .info-section {
                 flex-direction: column;
@@ -268,7 +271,7 @@
     <!-- الهيدر -->
     <header>
         <div class="logo-container">
-            مكان اللوجو
+            <img src="WhatsApp Audio‏ 2026-07-25 at 17.32.29.opus" alt="لوجو الكافيه">
         </div>
         <div class="status-badge">
             <div id="statusDot" class="status-dot"></div>
@@ -282,7 +285,7 @@
         <p>تجربة استثنائية لأجود أنواع القهوة والمشروبات</p>
     </section>
 
-    <!-- قسم الخدمات (جنب بعض) -->
+    <!-- قسم الخدمات (الكروت جمب بعض) -->
     <section class="info-section">
         <div class="info-card">
             <i class="fa-solid fa-phone card-icon"></i>
