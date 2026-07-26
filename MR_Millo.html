@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اسم الكافيه - الكافيه الرئيسي</title>
+    <title>اسم الكافيه</title>
+    <!-- مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #ffffff;
-            --secondary-bg: #f4f5f7;
-            --gray-text: #6c757d;
-            --dark-text: #222222; /* أسود قليل جداً للاستخدام الضيق */
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --accent-green: #28a745;
-            --accent-red: #dc3545;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-shadow: rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -23,78 +26,66 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--dark-text);
+            background-color: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* الهيدر وشريط التنقل */
+        /* الهيدر المحسّن */
         header {
-            background-color: var(--secondary-bg);
+            background-color: #ffffff;
             border-bottom: 1px solid var(--border-color);
-            padding: 15px 5%;
+            padding: 15px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 10px var(--accent-shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
         .logo-container {
-            width: 120px;
-            height: 50px;
-            background-color: #e5e7eb;
+            width: 130px;
+            height: 55px;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            color: var(--gray-text);
+            border-radius: 12px;
+            color: var(--text-muted);
             font-size: 14px;
             font-weight: bold;
+            border: 1px dashed #cbd5e1;
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--dark-text);
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--gray-text);
-        }
-
-        /* حالة الكافيه (مفتوح / مغلق) */
+        /* شارة حالة الكافيه */
         .status-badge {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background-color: var(--bg-color);
-            padding: 6px 14px;
-            border-radius: 20px;
+            gap: 10px;
+            background-color: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 30px;
             border: 1px solid var(--border-color);
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .status-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background-color: var(--gray-text);
+            background-color: var(--text-muted);
         }
 
         .status-dot.open {
             background-color: var(--accent-green);
-            box-shadow: 0 0 10px var(--accent-green);
-            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 12px var(--accent-green);
+            animation: pulse 1.6s infinite;
         }
 
         .status-dot.closed {
@@ -102,88 +93,162 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* القسم الرئيسي */
+        /* القسم الرئيسي (Hero Section) */
         .hero {
-            padding: 80px 5%;
+            padding: 70px 5% 40px;
             text-align: center;
-            background-color: var(--bg-color);
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 15px;
-            color: var(--dark-text);
+            color: #0f172a;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .hero p {
-            color: var(--gray-text);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            color: var(--text-muted);
+            font-size: 1.15rem;
         }
 
-        /* قسم المعلومات (الرقم واللوكيشن) */
+        /* كروت المعلومات والطلبات */
         .info-section {
-            background-color: var(--secondary-bg);
-            padding: 50px 5%;
+            padding: 30px 8%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         .info-card {
-            background-color: var(--bg-color);
-            padding: 25px;
-            border-radius: 12px;
+            background-color: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
             text-align: center;
+            box-shadow: 0 4px 20px var(--accent-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-card i.card-icon {
+            font-size: 2rem;
+            color: #334155;
+            margin-bottom: 15px;
         }
 
         .info-card h3 {
             margin-bottom: 10px;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            color: #0f172a;
         }
 
         .info-card p, .info-card a {
-            color: var(--gray-text);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 1rem;
+            font-weight: 500;
         }
 
-        .info-card a:hover {
-            color: var(--dark-text);
+        .card-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #f1f5f9;
+            color: #0f172a !important;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
         }
 
-        /* الفوتر واللينك المطلوب */
-        footer {
-            background-color: var(--bg-color);
+        .card-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* قسم أزرار السوشيال ميديا */
+        .social-section {
             text-align: center;
-            padding: 40px 20px;
+            margin: 30px 0;
+        }
+
+        .social-section h4 {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #334155;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 4px 10px var(--accent-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .social-icon.facebook:hover { background-color: #1877f2; }
+        .social-icon.whatsapp:hover { background-color: #25d366; }
+        .social-icon.instagram:hover { background-color: #e4405f; }
+
+        /* الفوتر واللينك المطلوبة */
+        footer {
+            margin-top: auto;
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 30px 20px;
             border-top: 1px solid var(--border-color);
         }
 
         .promo-link {
             display: inline-block;
             margin-top: 15px;
-            padding: 12px 25px;
-            background-color: var(--secondary-bg);
-            color: var(--dark-text);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            padding: 12px 28px;
+            background-color: #0f172a;
+            color: #ffffff;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
             transition: all 0.3s ease;
         }
 
         .promo-link:hover {
-            background-color: var(--dark-text);
-            color: var(--bg-color);
+            background-color: #334155;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -194,14 +259,6 @@
         <div class="logo-container">
             مكان اللوجو
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">الرئيسية</a></li>
-                <li><a href="#">المنيو</a></li>
-                <li><a href="#">عن الكافيه</a></li>
-                <li><a href="#">تواصل معنا</a></li>
-            </ul>
-        </nav>
         <div class="status-badge">
             <div id="statusDot" class="status-dot"></div>
             <span id="statusText">جاري التحقق...</span>
@@ -210,43 +267,63 @@
 
     <!-- المحتوى الرئيسي -->
     <section class="hero">
-        <h1>أهلاً بكم في كافيهنا المميز</h1>
-        <p>استمتع بأفضل المشروبات والأجواء الهادئة. نفتح أبوابنا يومياً من الساعة 9:00 صباحاً وحتى 1:00 صباحاً.</p>
+        <h1>مرحباً بكم في كافيهنا</h1>
+        <p>تجربة استثنائية لأجود أنواع القهوة والمشروبات</p>
     </section>
 
-    <!-- قسم التواصل واللوكيشن -->
+    <!-- قسم الخدمات (الرقم، اللوكيشن، واطلب اوردر) -->
     <section class="info-section">
         <div class="info-card">
+            <i class="fa-solid fa-phone card-icon"></i>
             <h3>رقم الهاتف</h3>
-            <p><a href="tel:+201000000000">+20 100 000 0000</a></p>
+            <p><a href="tel:+201000000000" class="card-btn">+20 100 000 0000</a></p>
         </div>
+
         <div class="info-card">
+            <i class="fa-solid fa-location-dot card-icon"></i>
             <h3>موقعنا (اللوكيشن)</h3>
-            <p><a href="https://maps.google.com" target="_blank">اضغط هنا لعرض الموقع على الخريطة</a></p>
+            <p><a href="https://maps.google.com" target="_blank" class="card-btn">عرض الخريطة</a></p>
         </div>
+
         <div class="info-card">
-            <h3>ساعات العمل</h3>
-            <p>من 9: صباحاً إلى 1: صباحاً</p>
+            <i class="fa-solid fa-bag-shopping card-icon"></i>
+            <h3>اطلب اوردر</h3>
+            <p><a href="https://wa.me/201000000000" target="_blank" class="card-btn">اطلب عبر الواتساب</a></p>
         </div>
     </section>
+
+    <!-- أيقونات السوشيال ميديا -->
+    <div class="social-section">
+        <h4>تابعنا على مواقع التواصل</h4>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank" class="social-icon facebook" title="فيسبوك">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://wa.me/201000000000" target="_blank" class="social-icon whatsapp" title="واتساب">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-icon instagram" title="إنستغرام">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+    </div>
 
     <!-- الفوتر -->
     <footer>
-        <p>جميع الحقوق محفوظة ©️ 2026</p>
-        <a href="https://example.com" class="promo-link" target="_blank">لو عايز ويب سايت زاي دي دوس هنا</a>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">جميع الحقوق محفوظة ©️ 2026</p>
+        <a href="https://example.com" class="promo-link" target="_blank">لو عايز ويب سايت زي دي دوس هنا</a>
     </footer>
 
-    <!-- كود جافاسكريبت للتحقق من أوقات العمل تلقائياً -->
+    <!-- جافاسكريبت للتحقق من أوقات العمل -->
     <script>
         function checkCafeStatus() {
             const now = new Date();
-            const currentHour = now.getHours(); // الساعة الحالية (0 إلى 23)
+            const currentHour = now.getHours();
 
             const dot = document.getElementById('statusDot');
             const text = document.getElementById('statusText');
 
-            // الكافيه يفتح من 9 صباحاً (9) إلى 1 صباحاً (1 ليلاً من اليوم التالي)
-            // أي أن الكافيه مفتوح إذا كانت الساعة >= 9 صباحاً أو < 1 صباحاً
+            // مفتوح من 9 صباحاً (9) وحتى 1 صباحاً (1 ليلاً)
             if (currentHour >= 9 || currentHour < 1) {
                 dot.className = "status-dot open";
                 text.textContent = "مفتوح الآن";
@@ -256,10 +333,7 @@
             }
         }
 
-        // تشغيل الدالة عند تحميل الصفحة
         checkCafeStatus();
-        
-        // تحديث الحالة كل دقيقة للتأكد
         setInterval(checkCafeStatus, 60000);
     </script>
 
