@@ -38,7 +38,7 @@
         header {
             background-color: #ffffff;
             border-bottom: 1px solid var(--border-color);
-            padding: 15px 8%;
+            padding: 12px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -48,18 +48,20 @@
             z-index: 1000;
         }
 
+        /* اللوجو المدور */
         .logo-container {
-            width: 130px;
-            height: 55px;
+            width: 65px;
+            height: 65px;
             background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 50%; /* تجعل الإطار مدور بالكامل */
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
-            border: 1px dashed #cbd5e1;
+            border: 2px dashed #cbd5e1;
+            text-align: center;
         }
 
         /* شارة حالة الكافيه */
@@ -98,9 +100,9 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* القسم الرئيسي (Hero Section) */
+        /* القسم الرئيسي */
         .hero {
-            padding: 70px 5% 40px;
+            padding: 60px 5% 30px;
             text-align: center;
             max-width: 800px;
             margin: 0 auto;
@@ -108,7 +110,7 @@
 
         .hero h1 {
             font-size: 2.8rem;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #0f172a;
             font-weight: 800;
             letter-spacing: -0.5px;
@@ -119,20 +121,22 @@
             font-size: 1.15rem;
         }
 
-        /* كروت المعلومات والطلبات */
+        /* قسم الكروت جنب بعضها */
         .info-section {
-            padding: 30px 8%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
+            padding: 20px 5%;
+            display: flex; /* لترتيب العناصر بأسلوب أفقياً بجانب بعضها */
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1100px;
             margin: 0 auto;
             width: 100%;
         }
 
         .info-card {
+            flex: 1; /* إعطاء مساحة متساوية لكل كارت */
             background-color: var(--card-bg);
-            padding: 30px 20px;
+            padding: 25px 15px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
             text-align: center;
@@ -146,28 +150,28 @@
         }
 
         .info-card i.card-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #334155;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .info-card h3 {
-            margin-bottom: 10px;
-            font-size: 1.25rem;
+            margin-bottom: 8px;
+            font-size: 1.15rem;
             color: #0f172a;
         }
 
         .info-card p, .info-card a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
         }
 
         .card-btn {
             display: inline-block;
-            margin-top: 10px;
-            padding: 8px 20px;
+            margin-top: 8px;
+            padding: 8px 16px;
             background-color: #f1f5f9;
             color: #0f172a !important;
             border-radius: 8px;
@@ -179,7 +183,7 @@
             background-color: #e2e8f0;
         }
 
-        /* قسم أزرار السوشيال ميديا */
+        /* أزرار السوشيال ميديا */
         .social-section {
             text-align: center;
             margin: 30px 0;
@@ -188,7 +192,7 @@
         .social-section h4 {
             color: var(--text-muted);
             margin-bottom: 15px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .social-links {
@@ -198,8 +202,8 @@
         }
 
         .social-icon {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -207,7 +211,7 @@
             align-items: center;
             justify-content: center;
             color: #334155;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             text-decoration: none;
             box-shadow: 0 4px 10px var(--accent-shadow);
             transition: all 0.3s ease;
@@ -228,20 +232,20 @@
             margin-top: auto;
             background-color: var(--card-bg);
             text-align: center;
-            padding: 30px 20px;
+            padding: 25px 20px;
             border-top: 1px solid var(--border-color);
         }
 
         .promo-link {
             display: inline-block;
-            margin-top: 15px;
-            padding: 12px 28px;
+            margin-top: 12px;
+            padding: 10px 24px;
             background-color: #0f172a;
             color: #ffffff;
             border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
             transition: all 0.3s ease;
         }
@@ -249,6 +253,13 @@
         .promo-link:hover {
             background-color: #334155;
             transform: translateY(-2px);
+        }
+
+        /* التكيف مع الشاشات الصغيرة جداً (الهواتف المحمولة الضيقة) */
+        @media (max-width: 640px) {
+            .info-section {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -271,7 +282,7 @@
         <p>تجربة استثنائية لأجود أنواع القهوة والمشروبات</p>
     </section>
 
-    <!-- قسم الخدمات (الرقم، اللوكيشن، واطلب اوردر) -->
+    <!-- قسم الخدمات (جنب بعض) -->
     <section class="info-section">
         <div class="info-card">
             <i class="fa-solid fa-phone card-icon"></i>
@@ -310,7 +321,7 @@
 
     <!-- الفوتر -->
     <footer>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">جميع الحقوق محفوظة ©️ 2026</p>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">جميع الحقوق محفوظة ©️ 2026</p>
         <a href="https://example.com" class="promo-link" target="_blank">لو عايز ويب سايت زي دي دوس هنا</a>
     </footer>
 
