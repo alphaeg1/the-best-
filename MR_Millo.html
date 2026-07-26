@@ -1,1 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اسم الكافيه - الكافيه الرئيسي</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --secondary-bg: #f4f5f7;
+            --gray-text: #6c757d;
+            --dark-text: #222222; /* أسود قليل جداً للاستخدام الضيق */
+            --border-color: #e2e8f0;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* الهيدر وشريط التنقل */
+        header {
+            background-color: var(--secondary-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 50px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: var(--gray-text);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--gray-text);
+        }
+
+        /* حالة الكافيه (مفتوح / مغلق) */
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--bg-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--gray-text);
+        }
+
+        .status-dot.open {
+            background-color: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-dot.closed {
+            background-color: var(--accent-red);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        /* القسم الرئيسي */
+        .hero {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: var(--bg-color);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+        }
+
+        .hero p {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* قسم المعلومات (الرقم واللوكيشن) */
+        .info-section {
+            background-color: var(--secondary-bg);
+            padding: 50px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-card {
+            background-color: var(--bg-color);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .info-card p, .info-card a {
+            color: var(--gray-text);
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .info-card a:hover {
+            color: var(--dark-text);
+        }
+
+        /* الفوتر واللينك المطلوب */
+        footer {
+            background-color: var(--bg-color);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .promo-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background-color: var(--secondary-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .promo-link:hover {
+            background-color: var(--dark-text);
+            color: var(--bg-color);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="logo-container">
+            مكان اللوجو
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#">المنيو</a></li>
+                <li><a href="#">عن الكافيه</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </nav>
+        <div class="status-badge">
+            <div id="statusDot" class="status-dot"></div>
+            <span id="statusText">جاري التحقق...</span>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <section class="hero">
+        <h1>أهلاً بكم في كافيهنا المميز</h1>
+        <p>استمتع بأفضل المشروبات والأجواء الهادئة. نفتح أبوابنا يومياً من الساعة 9:00 صباحاً وحتى 1:00 صباحاً.</p>
+    </section>
+
+    <!-- قسم التواصل واللوكيشن -->
+    <section class="info-section">
+        <div class="info-card">
+            <h3>رقم الهاتف</h3>
+            <p><a href="tel:+201000000000">+20 100 000 0000</a></p>
+        </div>
+        <div class="info-card">
+            <h3>موقعنا (اللوكيشن)</h3>
+            <p><a href="https://maps.google.com" target="_blank">اضغط هنا لعرض الموقع على الخريطة</a></p>
+        </div>
+        <div class="info-card">
+            <h3>ساعات العمل</h3>
+            <p>من 9: صباحاً إلى 1: صباحاً</p>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>جميع الحقوق محفوظة ©️ 2026</p>
+        <a href="https://example.com" class="promo-link" target="_blank">لو عايز ويب سايت زاي دي دوس هنا</a>
+    </footer>
+
+    <!-- كود جافاسكريبت للتحقق من أوقات العمل تلقائياً -->
+    <script>
+        function checkCafeStatus() {
+            const now = new Date();
+            const currentHour = now.getHours(); // الساعة الحالية (0 إلى 23)
+
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+
+            // الكافيه يفتح من 9 صباحاً (9) إلى 1 صباحاً (1 ليلاً من اليوم التالي)
+            // أي أن الكافيه مفتوح إذا كانت الساعة >= 9 صباحاً أو < 1 صباحاً
+            if (currentHour >= 9 || currentHour < 1) {
+                dot.className = "status-dot open";
+                text.textContent = "مفتوح الآن";
+            } else {
+                dot.className = "status-dot closed";
+                text.textContent = "مغلق الآن";
+            }
+        }
+
+        // تشغيل الدالة عند تحميل الصفحة
+        checkCafeStatus();
+        
+        // تحديث الحالة كل دقيقة للتأكد
+        setInterval(checkCafeStatus, 60000);
+    </script>
+
+</body>
+</html>
