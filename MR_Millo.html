@@ -21,15 +21,18 @@
       align-items: flex-start;
       min-height: 100vh;
       color: #333;
+      padding: 20px 0; /* إضافة مسافة فوق وتحت على الشاشات الكبيرة */
     }
 
     .card-container {
       width: 100%;
       max-width: 430px; /* حجم يتناسب مع شاشات الموبايل */
       background-color: #ffffff;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* زيادة الظل لشكل أفخم */
       position: relative;
-      padding-bottom: 30px;
+      border-radius: 25px; /* حواف دائرية للكارت نفسه */
+      overflow: hidden; /* لمنع المحتويات من الخروج عن الحواف الدائرية */
+      padding-bottom: 20px;
     }
 
     /* صورة الغلاف / خلفية المكان من فوق */
@@ -42,47 +45,48 @@
       position: relative;
     }
 
-    /* اللوجو في المربع الأسود */
+    /* التعديل 1: اللوجو في مربع أبيض بتصميم بروفيشنال */
     .logo-box {
       width: 110px;
       height: 110px;
-      background-color: #000000;
-      border-radius: 18px;
+      background-color: #ffffff; /* تم تغيير اللون للأسود إلى الأبيض */
+      border-radius: 22px; /* حواف أنعم قريباً */
       position: absolute;
       bottom: -40px;
-      left: 20px; /* موقعه على اليسار مثل الصورة */
+      left: 25px; /* تحريك بسيط لليمين */
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* ظل أنعم */
       overflow: hidden;
-      border: 3px solid #ffffff;
+      border: 4px solid #f8f9fa; /* بوردر فاتح جداً ليفصل اللوجو عن الخلفية */
+      z-index: 2;
     }
 
     .logo-box img {
-      width: 80%;
-      height: 80%;
+      width: 85%; /* تكبير بسيط للوجو داخل المربع */
+      height: 85%;
       object-fit: contain;
     }
 
     /* محتوى الملف الشخصي */
     .profile-content {
-      padding: 55px 20px 20px 20px;
+      padding: 60px 25px 20px 25px; /* زيادة الحشو */
     }
 
     .title {
-      color: #2b6cb0;
-      font-size: 26px;
+      color: #1a365d; /* لون أزرق أغمق وأفخم */
+      font-size: 28px;
       font-weight: 800;
       margin-bottom: 8px;
     }
 
     .tagline {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1a202c;
-      line-height: 1.4;
-      margin-bottom: 25px;
+      font-size: 19px;
+      font-weight: 600;
+      color: #4a5568; /* لون رمادي غامق مريح للعين */
+      line-height: 1.5;
+      margin-bottom: 30px;
     }
 
     .section-label {
@@ -90,15 +94,28 @@
       font-size: 18px;
       font-weight: 700;
       color: #2d3748;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
+      position: relative;
     }
+    
+    /* خطوط ديكور حول كلمة "تابعونا" */
+    .section-label::before, .section-label::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 20%;
+        height: 1px;
+        background-color: #e2e8f0;
+    }
+    .section-label::before { right: 10%; }
+    .section-label::after { left: 10%; }
 
     /* أزرار السوشيال ميديا */
     .social-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 15px;
+      margin-bottom: 25px;
     }
 
     .social-btn {
@@ -106,22 +123,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 15px 5px;
-      border-radius: 16px;
+      padding: 18px 5px;
+      border-radius: 20px; /* حواف دائرية أكثر */
       color: #ffffff;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 14px;
-      transition: transform 0.2s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
 
     .social-btn:hover {
-      transform: translateY(-3px);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
     }
 
     .social-btn i {
-      font-size: 28px;
-      margin-bottom: 6px;
+      font-size: 30px;
+      margin-bottom: 8px;
     }
 
     /* ألوان الأزرار المخصصة */
@@ -139,34 +158,39 @@
 
     /* كروت الاتصال والبيانات */
     .info-card {
-      background-color: #f7fafc;
-      border: 1px solid #edf2f7;
-      border-radius: 18px;
-      padding: 14px 18px;
+      background-color: #ffffff;
+      border: 1px solid #f0f0f0;
+      border-radius: 20px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       text-decoration: none;
       color: inherit;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      transition: background-color 0.2s ease;
+    }
+    
+    .info-card:hover {
+        background-color: #fbfbfb;
     }
 
     .info-icon {
-      width: 45px;
-      height: 45px;
+      width: 48px;
+      height: 48px;
       background-color: #edf2f7;
-      border-radius: 50%;
+      border-radius: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-left: 15px;
-      font-size: 18px;
-      color: #2d3748;
+      margin-left: 18px;
+      font-size: 20px;
+      color: #2b6cb0; /* لون الأيقونات أزرق */
     }
 
     .info-details {
       display: flex;
       flex-direction: column;
+      flex: 1;
     }
 
     .info-value {
@@ -178,10 +202,56 @@
     }
 
     .info-label {
-      font-size: 12px;
+      font-size: 13px;
       color: #718096;
-      margin-top: 2px;
+      margin-top: 3px;
     }
+
+    /* التعديل 2: تصميم المستطيل الفخم والاحترافي في النهاية */
+    .cta-website-banner {
+      margin: 30px 20px 10px 20px; /* مسافات حول المستطيل */
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* تدرج أزرق ملكي فخم */
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); /* ظل ملون يعطي فخامة */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block; /* ليكون الرابط على كامل المساحة */
+      text-decoration: none; /* إزالة الخط تحت الرابط */
+    }
+
+    .cta-website-banner:hover {
+      transform: scale(1.03); /* تكبير بسيط عند الوقوف عليه */
+      box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    .cta-text {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .cta-subtext {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .cta-subtext i {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+    
+    .cta-website-banner:hover .cta-subtext i {
+        transform: translateX(-5px); /* تحريك السهم عند الـ hover */
+    }
+
   </style>
 </head>
 <body>
@@ -190,7 +260,7 @@
     
     <!-- 1. صورة المكان (الخلفية من فوق) -->
     <div class="hero-banner">
-      <!-- 2. اللوجو في المربع الأسود -->
+      <!-- 2. اللوجو (تم تعديل الكلاس في الـ CSS ليصبح أبيض ورقي) -->
       <div class="logo-box">
         <img src="WhatsApp Image‏ 2026-07-26 at 21.11.02 (1).jpeg" alt="MR:MILLO Logo"> <!-- حط صورة اللوجو هنا -->
       </div>
@@ -249,6 +319,13 @@
       </a>
 
     </div>
+
+    <!-- التعديل 2: إضافة المستطيل الفخم في النهاية -->
+    <!-- غير الرابط href="https://www.google.com" برابط موقعك الحقيقي -->
+    <a href="https://www.google.com" target="_blank" class="cta-website-banner">
+        <span class="cta-text">لو عايز ويب سايت زي دي</span>
+        <span class="cta-subtext">دوس هنا واطلبها الآن <i class="fa-solid fa-arrow-left"></i></span>
+    </a>
 
   </div>
 
