@@ -1,387 +1,256 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اسم الكافيه</title>
-    <!-- خط تجوال من Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            /* بليتة أزرق غامق هادئ ومريح جداً للعين */
-            --bg-dark: #0b1320;                             /* أزرق ليلي غامق جداً وناعم */
-            --card-bg: rgba(19, 30, 49, 0.75);              /* كروت زجاجية داكنة بدرجة أزرق كحلي */
-            --card-border: rgba(56, 189, 248, 0.15);        /* حدود سماوية هادئة وخفيفة */
-            
-            --primary-accent: #38bdf8;                    /* أزرق سماوي هادئ للتفاصيل */
-            --secondary-accent: #60a5fa;                  /* أزرق فاتح مريح بالتفاعل */
-            --emerald-accent: #10b981;                    /* زمردي هادئ لحالة (مفتوح) */
-            
-            --text-main: #f1f5f9;                         /* أبيض ثلجي مريح للعين */
-            --text-sub: #94a3b8;                          /* أزرق رمادي هادئ للنصوص الثانوية */
-            --font-family: 'Tajawal', 'Segoe UI', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MR:MILLO - Cafe</title>
+  <!-- أيكونات Font Awesome للاتصال والبريد ومواقع التواصل -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: var(--font-family);
-        }
+    body {
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      color: #333;
+    }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            /* خلفية متدرجة بأضواء زرقاء كحلية هادئة جداً */
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 85% 75%, rgba(30, 58, 138, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, #0b1320 0%, #060a12 100%);
-            background-attachment: fixed;
-        }
+    .card-container {
+      width: 100%;
+      max-width: 430px; /* حجم يتناسب مع شاشات الموبايل */
+      background-color: #ffffff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      position: relative;
+      padding-bottom: 30px;
+    }
 
-        /* الهيدر المحسّن */
-        header {
-            background-color: rgba(11, 19, 32, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 12px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* صورة الغلاف / خلفية المكان من فوق */
+    .hero-banner {
+      width: 100%;
+      height: 220px;
+      background-image: url('place-cover.jpg'); /* حط رابط صورة المكان هنا */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
 
-        .logo-container {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--primary-accent);
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
-            background-color: #131e31;
-        }
+    /* اللوجو في المربع الأسود */
+    .logo-box {
+      width: 110px;
+      height: 110px;
+      background-color: #000000;
+      border-radius: 18px;
+      position: absolute;
+      bottom: -40px;
+      left: 20px; /* موقعه على اليسار مثل الصورة */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      border: 3px solid #ffffff;
+    }
 
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    .logo-box img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
 
-        .status-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: rgba(255, 255, 255, 0.03);
-            padding: 8px 18px;
-            border-radius: 30px;
-            border: 1px solid var(--card-border);
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-sub);
-        }
+    /* محتوى الملف الشخصي */
+    .profile-content {
+      padding: 55px 20px 20px 20px;
+    }
 
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #64748b;
-        }
+    .title {
+      color: #2b6cb0;
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
 
-        .status-dot.open {
-            background-color: var(--emerald-accent);
-            box-shadow: 0 0 10px var(--emerald-accent);
-            animation: pulse 2s infinite;
-        }
+    .tagline {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a202c;
+      line-height: 1.4;
+      margin-bottom: 25px;
+    }
 
-        .status-dot.closed {
-            background-color: #ef4444;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
-        }
+    .section-label {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 15px;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
+    /* أزرار السوشيال ميديا */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-        /* القسم الرئيسي */
-        .hero {
-            padding: 50px 5% 25px;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+    .social-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 5px;
+      border-radius: 16px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform 0.2s ease;
+    }
 
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            margin-bottom: 12px;
-            /* تدرج هادئ من الأبيض للسماوي الناعم */
-            background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
+    .social-btn:hover {
+      transform: translateY(-3px);
+    }
 
-        .hero p {
-            color: var(--text-sub);
-            font-size: 1.15rem;
-            font-weight: 500;
-        }
+    .social-btn i {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
 
-        /* الكروت الزجاجية */
-        .info-section {
-            padding: 20px 5%;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-            width: 100%;
-        }
+    /* ألوان الأزرار المخصصة */
+    .btn-instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
 
-        .info-card {
-            flex: 1;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 28px 18px;
-            border-radius: 20px;
-            border: 1px solid var(--card-border);
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    .btn-tiktok {
+      background-color: #000000;
+    }
 
-        .info-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.12);
-        }
+    .btn-whatsapp {
+      background-color: #25d366;
+    }
 
-        .info-card i.card-icon {
-            font-size: 2rem;
-            margin-bottom: 14px;
-            color: var(--primary-accent);
-        }
+    /* كروت الاتصال والبيانات */
+    .info-card {
+      background-color: #f7fafc;
+      border: 1px solid #edf2f7;
+      border-radius: 18px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
 
-        .info-card h3 {
-            margin-bottom: 12px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
+    .info-icon {
+      width: 45px;
+      height: 45px;
+      background-color: #edf2f7;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 15px;
+      font-size: 18px;
+      color: #2d3748;
+    }
 
-        /* الأزرار */
-        .card-btn {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 10px 22px;
-            background: rgba(56, 189, 248, 0.08);
-            color: #e0f2fe !important;
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            transition: all 0.3s ease;
-        }
+    .info-details {
+      display: flex;
+      flex-direction: column;
+    }
 
-        .card-btn:hover {
-            background: #0284c7;
-            color: #ffffff !important;
-            border-color: transparent;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
-        }
+    .info-value {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a202c;
+      direction: ltr;
+      text-align: right;
+    }
 
-        /* السوشيال ميديا */
-        .social-section {
-            text-align: center;
-            margin: 35px 0 20px;
-        }
-
-        .social-section h4 {
-            color: var(--text-sub);
-            margin-bottom: 18px;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-sub);
-            font-size: 1.2rem;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-4px);
-            color: #ffffff;
-            border-color: transparent;
-        }
-
-        .social-icon.facebook:hover { background-color: #1877f2; box-shadow: 0 4px 20px rgba(24, 119, 242, 0.35); }
-        .social-icon.whatsapp:hover { background-color: #25d366; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35); }
-        .social-icon.instagram:hover { background-color: #e4405f; box-shadow: 0 4px 20px rgba(228, 64, 95, 0.35); }
-
-        /* الفوتر */
-        footer {
-            margin-top: auto;
-            background: #060a12;
-            text-align: center;
-            padding: 28px 20px;
-            border-top: 1px solid var(--card-border);
-        }
-
-        .promo-link {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 12px 28px;
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-            color: #ffffff;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .promo-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
-            filter: brightness(1.1);
-        }
-
-        @media (max-width: 640px) {
-            .info-section {
-                flex-direction: column;
-            }
-            .hero h1 {
-                font-size: 2.1rem;
-            }
-        }
-    </style>
+    .info-label {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 2px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- الهيدر -->
-    <header>
-        <div class="logo-container">
-            <img src="WhatsApp Image‏ 2026-07-26 at 21.11.02 (1).jpeg" alt="لوجو الكافيه">
-        </div>
-        <div class="status-badge">
-            <div id="statusDot" class="status-dot"></div>
-            <span id="statusText">جاري التحقق...</span>
-        </div>
-    </header>
-
-    <!-- المحتوى الرئيسي -->
-    <section class="hero">
-        <h1>مرحباً بكم في كافيهنا</h1>
-        <p>تجربة استثنائية لأجود أنواع القهوة والمشروبات</p>
-    </section>
-
-    <!-- قسم الخدمات -->
-    <section class="info-section">
-        <div class="info-card">
-            <i class="fa-solid fa-phone card-icon"></i>
-            <h3>رقم الهاتف</h3>
-            <p><a href="tel:+201000000000" class="card-btn">+20 100 000 0000</a></p>
-        </div>
-
-        <div class="info-card">
-            <i class="fa-solid fa-location-dot card-icon"></i>
-            <h3>موقعنا (اللوكيشن)</h3>
-            <p><a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="card-btn">عرض الخريطة</a></p>
-        </div>
-
-        <div class="info-card">
-            <i class="fa-solid fa-bag-shopping card-icon"></i>
-            <h3>اطلب اوردر</h3>
-            <p><a href="https://wa.me/201000000000" target="_blank" rel="noopener noreferrer" class="card-btn">اطلب عبر الواتساب</a></p>
-        </div>
-    </section>
-
-    <!-- أيقونات السوشيال ميديا -->
-    <div class="social-section">
-        <h4>تابعنا على مواقع التواصل</h4>
-        <div class="social-links">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon facebook" title="فيسبوك">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="https://wa.me/201000000000" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" title="واتساب">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon instagram" title="إنستغرام">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-        </div>
+  <div class="card-container">
+    
+    <!-- 1. صورة المكان (الخلفية من فوق) -->
+    <div class="hero-banner">
+      <!-- 2. اللوجو في المربع الأسود -->
+      <div class="logo-box">
+        <img src="logo.png" alt="MR:MILLO Logo"> <!-- حط صورة اللوجو هنا -->
+      </div>
     </div>
 
-    <!-- الفوتر -->
-    <footer>
-        <p style="color: var(--text-sub); font-size: 0.85rem;">جميع الحقوق محفوظة ©️ 2026</p>
-        <a href="https://example.com" class="promo-link" target="_blank" rel="noopener noreferrer">لو عايز ويب سايت زي دي دوس هنا</a>
-    </footer>
+    <div class="profile-content">
+      <!-- اسم الكافيه -->
+      <h1 class="title">MR:MILLO</h1>
+      
+      <!-- الوصف / السلوجان -->
+      <p class="tagline">بنختلف عن غيرنا كتير و بنساعدك تكون مختلف</p>
 
-    <!-- جافاسكريبت للتحقق من أوقات العمل -->
-    <script>
-        function checkCafeStatus() {
-            const now = new Date();
-            const currentHour = now.getHours();
+      <div class="section-label">تابعونا على</div>
 
-            const dot = document.getElementById('statusDot');
-            const text = document.getElementById('statusText');
+      <!-- أزرار التواصل الاجتماعي -->
+      <div class="social-grid">
+        <!-- لينك انستجرام -->
+        <a href="https://instagram.com/fake_account" target="_blank" class="social-btn btn-instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <span>instagram</span>
+        </a>
 
-            if (!dot || !text) return;
+        <!-- لينك تيك توك -->
+        <a href="https://tiktok.com/@fake_account" target="_blank" class="social-btn btn-tiktok">
+          <i class="fa-brands fa-tiktok"></i>
+          <span>tiktok</span>
+        </a>
 
-            if (currentHour >= 9 || currentHour < 1) {
-                dot.className = "status-dot open";
-                text.textContent = "مفتوح الآن";
-            } else {
-                dot.className = "status-dot closed";
-                text.textContent = "مغلق الآن";
-            }
-        }
+        <!-- لينك واتساب -->
+        <a href="https://wa.me/201000000000" target="_blank" class="social-btn btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>whatsapp</span>
+        </a>
+      </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            checkCafeStatus();
-            setInterval(checkCafeStatus, 60000);
-        });
-    </script>
+      <!-- كارت رقم الهاتف (لينك اتصال مباشر) -->
+      <a href="tel:01000000000" class="info-card">
+        <div class="info-icon">
+          <i class="fa-solid fa-phone"></i>
+        </div>
+        <div class="info-details">
+          <span class="info-value">01000000000</span>
+          <span class="info-label">رقم الهاتف</span>
+        </div>
+      </a>
+
+      <!-- كارت البريد الإلكتروني (لينك إيميل مباشر) -->
+      <a href="mailto:mrmillo.cafe@example.com" class="info-card">
+        <div class="info-icon">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div class="info-details">
+          <span class="info-value">mrmillo.cafe@example.com</span>
+          <span class="info-label">البريد الإلكتروني</span>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
 
 </body>
 </html>
