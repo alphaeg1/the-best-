@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MR:MILLO - Cafe</title>
-  <!-- أيكونات Font Awesome للاتصال والبريد ومواقع التواصل -->
+  <!-- أيكونات Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -21,61 +21,117 @@
       align-items: flex-start;
       min-height: 100vh;
       color: #333;
-      padding: 20px 0; /* إضافة مسافة فوق وتحت على الشاشات الكبيرة */
+      padding: 20px 0;
     }
 
     .card-container {
       width: 100%;
-      max-width: 430px; /* حجم يتناسب مع شاشات الموبايل */
+      max-width: 430px;
       background-color: #ffffff;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* زيادة الظل لشكل أفخم */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       position: relative;
-      border-radius: 25px; /* حواف دائرية للكارت نفسه */
-      overflow: hidden; /* لمنع المحتويات من الخروج عن الحواف الدائرية */
+      border-radius: 25px;
+      overflow: hidden;
       padding-bottom: 20px;
     }
 
-    /* صورة الغلاف / خلفية المكان من فوق */
+    /* صورة الغلاف */
     .hero-banner {
       width: 100%;
       height: 220px;
-      background-image: url('place-cover.jpg'); /* حط رابط صورة المكان هنا */
+      background-image: url('place-cover.jpg');
       background-size: cover;
       background-position: center;
       position: relative;
     }
 
-    /* التعديل 1: اللوجو في مربع أبيض بتصميم بروفيشنال */
+    /* مؤشر حالة المكان (مفتوح / مغلق) في الأعلى */
+    .status-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 14px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 5;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* حالة الفتح - أخضر ينور */
+    .status-badge.open .status-dot {
+      background-color: #2ea44f;
+      box-shadow: 0 0 10px #2ea44f, 0 0 20px #2ea44f;
+      animation: pulse-green 1.5s infinite;
+    }
+
+    /* حالة الإغلاق - أحمر ينور */
+    .status-badge.closed .status-dot {
+      background-color: #e53e3e;
+      box-shadow: 0 0 10px #e53e3e, 0 0 20px #e53e3e;
+      animation: pulse-red 1.5s infinite;
+    }
+
+    .status-text {
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    @keyframes pulse-green {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 164, 79, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(46, 164, 79, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 164, 79, 0); }
+    }
+
+    @keyframes pulse-red {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(229, 62, 62, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(229, 62, 62, 0); }
+    }
+
+    /* اللوجو بالمربع الأبيض */
     .logo-box {
       width: 110px;
       height: 110px;
-      background-color: #ffffff; /* تم تغيير اللون للأسود إلى الأبيض */
-      border-radius: 22px; /* حواف أنعم قريباً */
+      background-color: #ffffff;
+      border-radius: 22px;
       position: absolute;
       bottom: -40px;
-      left: 25px; /* تحريك بسيط لليمين */
+      left: 25px;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* ظل أنعم */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
       overflow: hidden;
-      border: 4px solid #f8f9fa; /* بوردر فاتح جداً ليفصل اللوجو عن الخلفية */
+      border: 4px solid #f8f9fa;
       z-index: 2;
     }
 
     .logo-box img {
-      width: 85%; /* تكبير بسيط للوجو داخل المربع */
+      width: 85%;
       height: 85%;
       object-fit: contain;
     }
 
     /* محتوى الملف الشخصي */
     .profile-content {
-      padding: 60px 25px 20px 25px; /* زيادة الحشو */
+      padding: 60px 25px 20px 25px;
     }
 
     .title {
-      color: #1a365d; /* لون أزرق أغمق وأفخم */
+      color: #1a1a1a;
       font-size: 28px;
       font-weight: 800;
       margin-bottom: 8px;
@@ -84,7 +140,7 @@
     .tagline {
       font-size: 19px;
       font-weight: 600;
-      color: #4a5568; /* لون رمادي غامق مريح للعين */
+      color: #4a5568;
       line-height: 1.5;
       margin-bottom: 30px;
     }
@@ -98,14 +154,13 @@
       position: relative;
     }
     
-    /* خطوط ديكور حول كلمة "تابعونا" */
     .section-label::before, .section-label::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        width: 20%;
-        height: 1px;
-        background-color: #e2e8f0;
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 20%;
+      height: 1px;
+      background-color: #e2e8f0;
     }
     .section-label::before { right: 10%; }
     .section-label::after { left: 10%; }
@@ -124,7 +179,7 @@
       align-items: center;
       justify-content: center;
       padding: 18px 5px;
-      border-radius: 20px; /* حواف دائرية أكثر */
+      border-radius: 20px;
       color: #ffffff;
       text-decoration: none;
       font-weight: 700;
@@ -143,18 +198,9 @@
       margin-bottom: 8px;
     }
 
-    /* ألوان الأزرار المخصصة */
-    .btn-instagram {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-    }
-
-    .btn-tiktok {
-      background-color: #000000;
-    }
-
-    .btn-whatsapp {
-      background-color: #25d366;
-    }
+    .btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .btn-tiktok { background-color: #000000; }
+    .btn-whatsapp { background-color: #25d366; }
 
     /* كروت الاتصال والبيانات */
     .info-card {
@@ -170,9 +216,7 @@
       transition: background-color 0.2s ease;
     }
     
-    .info-card:hover {
-        background-color: #fbfbfb;
-    }
+    .info-card:hover { background-color: #fbfbfb; }
 
     .info-icon {
       width: 48px;
@@ -184,7 +228,7 @@
       align-items: center;
       margin-left: 18px;
       font-size: 20px;
-      color: #2b6cb0; /* لون الأيقونات أزرق */
+      color: #1a1a1a;
     }
 
     .info-details {
@@ -207,34 +251,77 @@
       margin-top: 3px;
     }
 
-    /* التعديل 2: تصميم المستطيل الفخم والاحترافي في النهاية */
+    /* ========================================================
+       تصميم المستطيل الفخم (ميكس ألوان أسود وأبيض ورمادي + TA متحركة)
+    ======================================================== */
     .cta-website-banner {
-      margin: 30px 20px 10px 20px; /* مسافات حول المستطيل */
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* تدرج أزرق ملكي فخم */
+      margin: 30px 20px 10px 20px;
+      background: linear-gradient(135deg, #0a0a0a 0%, #222222 50%, #121212 100%);
+      border: 1px solid #333333;
       border-radius: 20px;
-      padding: 20px;
+      padding: 22px 20px;
       text-align: center;
-      box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); /* ظل ملون يعطي فخامة */
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: block; /* ليكون الرابط على كامل المساحة */
-      text-decoration: none; /* إزالة الخط تحت الرابط */
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden; /* لحصر نص TA بالداخل */
+      display: block;
+      text-decoration: none;
+      transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
     .cta-website-banner:hover {
-      transform: scale(1.03); /* تكبير بسيط عند الوقوف عليه */
-      box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
+      transform: translateY(-3px);
+      border-color: #777777;
+    }
+
+    /* خلفية TA المتحركة بشكل عشوائي */
+    .bg-ta-text {
+      position: absolute;
+      font-size: 110px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.05); /* لون رمادي فاتح جداً شفاف */
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      font-family: Arial, sans-serif;
+      animation: randomFloat 12s infinite ease-in-out alternate;
+    }
+
+    @keyframes randomFloat {
+      0% {
+        transform: translate(-30%, -20%) rotate(-10deg) scale(0.9);
+      }
+      25% {
+        transform: translate(40%, 10%) rotate(15deg) scale(1.1);
+      }
+      50% {
+        transform: translate(-10%, 30%) rotate(-5deg) scale(1);
+      }
+      75% {
+        transform: translate(30%, -30%) rotate(10deg) scale(1.15);
+      }
+      100% {
+        transform: translate(-20%, 0%) rotate(-15deg) scale(0.85);
+      }
+    }
+
+    /* المحتوى النصي فوق خلفية TA */
+    .cta-content {
+      position: relative;
+      z-index: 2;
     }
 
     .cta-text {
       color: #ffffff;
       font-size: 18px;
       font-weight: 800;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: block;
+      letter-spacing: 0.5px;
     }
 
     .cta-subtext {
-      color: rgba(255, 255, 255, 0.9);
+      color: #cccccc;
       font-size: 14px;
       font-weight: 600;
       display: flex;
@@ -242,14 +329,15 @@
       justify-content: center;
       gap: 8px;
     }
-    
+
     .cta-subtext i {
-        font-size: 12px;
-        transition: transform 0.3s ease;
+      font-size: 12px;
+      transition: transform 0.3s ease;
+      color: #ffffff;
     }
-    
+
     .cta-website-banner:hover .cta-subtext i {
-        transform: translateX(-5px); /* تحريك السهم عند الـ hover */
+      transform: translateX(-6px);
     }
 
   </style>
@@ -258,11 +346,18 @@
 
   <div class="card-container">
     
-    <!-- 1. صورة المكان (الخلفية من فوق) -->
+    <!-- 1. صورة المكان مع مؤشر (مفتوح / مغلق) -->
     <div class="hero-banner">
-      <!-- 2. اللوجو (تم تعديل الكلاس في الـ CSS ليصبح أبيض ورقي) -->
+      
+      <!-- مؤشر حالة المكان الذكي -->
+      <div id="statusBadge" class="status-badge open">
+        <span class="status-dot"></span>
+        <span id="statusText" class="status-text">المكان مفتوح الآن</span>
+      </div>
+
+      <!-- 2. اللوجو بالمربع الأبيض -->
       <div class="logo-box">
-        <img src="WhatsApp Image‏ 2026-07-26 at 21.11.02 (1).jpeg" alt="MR:MILLO Logo"> <!-- حط صورة اللوجو هنا -->
+        <img src="WhatsApp Image‏ 2026-07-26 at 21.11.02 (1).jpeg" alt="MR:MILLO Logo">
       </div>
     </div>
 
@@ -277,26 +372,23 @@
 
       <!-- أزرار التواصل الاجتماعي -->
       <div class="social-grid">
-        <!-- لينك انستجرام -->
         <a href="https://instagram.com/fake_account" target="_blank" class="social-btn btn-instagram">
           <i class="fa-brands fa-instagram"></i>
           <span>instagram</span>
         </a>
 
-        <!-- لينك تيك توك -->
         <a href="https://tiktok.com/@fake_account" target="_blank" class="social-btn btn-tiktok">
           <i class="fa-brands fa-tiktok"></i>
           <span>tiktok</span>
         </a>
 
-        <!-- لينك واتساب -->
         <a href="https://wa.me/201000000000" target="_blank" class="social-btn btn-whatsapp">
           <i class="fa-brands fa-whatsapp"></i>
           <span>whatsapp</span>
         </a>
       </div>
 
-      <!-- كارت رقم الهاتف (لينك اتصال مباشر) -->
+      <!-- كارت رقم الهاتف -->
       <a href="tel:01000000000" class="info-card">
         <div class="info-icon">
           <i class="fa-solid fa-phone"></i>
@@ -307,7 +399,7 @@
         </div>
       </a>
 
-      <!-- كارت البريد الإلكتروني (لينك إيميل مباشر) -->
+      <!-- كارت البريد الإلكتروني -->
       <a href="mailto:mrmillo.cafe@example.com" class="info-card">
         <div class="info-icon">
           <i class="fa-solid fa-envelope"></i>
@@ -320,14 +412,45 @@
 
     </div>
 
-    <!-- التعديل 2: إضافة المستطيل الفخم في النهاية -->
-    <!-- غير الرابط href="https://www.google.com" برابط موقعك الحقيقي -->
+    <!-- المستطيل الفخم باللون الأسود والرمادي والأبيض + TA متحركة -->
     <a href="https://www.google.com" target="_blank" class="cta-website-banner">
-        <span class="cta-text">لو عايز ويب سايت زي دي</span>
-        <span class="cta-subtext">دوس هنا واطلبها الآن <i class="fa-solid fa-arrow-left"></i></span>
+        <!-- نص TA المتحرك في الخلفية -->
+        <div class="bg-ta-text">TA</div>
+        
+        <!-- المحتوى الأساسي -->
+        <div class="cta-content">
+          <span class="cta-text">لو عايز ويب سايت زي دي</span>
+          <span class="cta-subtext">دوس هنا واطلبها الآن <i class="fa-solid fa-arrow-left"></i></span>
+        </div>
     </a>
 
   </div>
+
+  <!-- سكربت للتحكم التلقائي بحالة المكان (مفتوح من 9 صباحاً لـ 1 صباحاً) -->
+  <script>
+    function updateStoreStatus() {
+      const now = new Date();
+      const currentHour = now.getHours(); // الساعات بصيغة 0 - 23
+
+      const badge = document.getElementById('statusBadge');
+      const text = document.getElementById('statusText');
+
+      // مفتوح من الساعة 9 صباحاً (9) وحتى الساعة 1 صباحاً (0)
+      // يعني يكون مفتوح إذا كان الوقت >= 9 OR الوقت < 1
+      const isOpen = currentHour >= 9 || currentHour < 1;
+
+      if (isOpen) {
+        badge.className = 'status-badge open';
+        text.textContent = 'المكان مفتوح الآن';
+      } else {
+        badge.className = 'status-badge closed';
+        text.textContent = 'المكان مغلق الآن';
+      }
+    }
+
+    // تشغيل الدالة فور تحميل الصفحة
+    updateStoreStatus();
+  </script>
 
 </body>
 </html>
