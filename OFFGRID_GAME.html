@@ -3,129 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ALPHA Extreme Runner</title>
+  <title>كيمو ضد الرصاص - ALPHA Edition</title>
   <style>
     * { 
       box-sizing: border-box; margin: 0; padding: 0; 
-      font-family: 'Arial Black', system-ui, sans-serif; 
+      font-family: system-ui, sans-serif; 
       touch-action: none; 
       user-select: none;
       -webkit-user-select: none;
     }
     body {
-      background: #020617; color: #fff;
+      background: #0984e3; color: #fff;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       min-height: 100vh; height: 100vh; overflow: hidden;
     }
     .game-container { 
-      position: relative; width: 100vw; max-width: 390px; height: 92vh; max-height: 700px; 
+      position: relative; width: 100vw; max-width: 400px; height: 92vh; max-height: 720px; 
     }
     canvas {
-      background: #090d16; border: 3px solid #f43f5e; border-radius: 16px;
-      box-shadow: 0 0 25px rgba(244, 63, 94, 0.4); width: 100%; height: 100%; display: block;
+      background: #0984e3; border: 4px solid #fff; border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; height: 100%; display: block;
     }
     .overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.96); border-radius: 16px;
+      background: radial-gradient(circle, #74b9ff 0%, #0984e3 100%);
+      border-radius: 20px;
       display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-      z-index: 10; padding: 25px 15px;
+      z-index: 10; padding: 20px 15px;
     }
     .hidden { display: none !important; }
     
-    /* عنوان ALPHA العريض */
-    .brand-title { 
-      color: #f43f5e; 
-      font-size: 3.2rem; 
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-shadow: 0 0 15px rgba(244, 63, 94, 0.8), 0 0 30px rgba(244, 63, 94, 0.4); 
+    /* تصميم شعار اللعبة من الصورة */
+    .title-container {
+      position: relative;
       text-align: center;
-      margin-bottom: 5px;
+      margin-top: 10px;
+    }
+    .game-logo {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fdcb6e;
+      text-shadow: 3px 3px 0px #d63031, -3px -3px 0px #d63031, 3px -3px 0px #d63031, -3px 3px 0px #d63031, 0px 5px 15px rgba(0,0,0,0.6);
+      line-height: 1.2;
+    }
+    .game-subtitle {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #ff7675;
+      text-shadow: 3px 3px 0px #2d3436, -3px -3px 0px #2d3436, 3px -3px 0px #2d3436, -3px 3px 0px #2d3436, 0px 5px 15px rgba(0,0,0,0.6);
     }
     
-    .btn {
-      background: #e11d48; color: white; border: none; padding: 14px 20px;
-      border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
-    }
-    .btn:active { background: #be123c; transform: scale(0.98); }
-    .btn-secondary { background: #0284c7; }
-    select {
-      padding: 12px 15px; border-radius: 8px; border: 1px solid #334155; font-size: 1rem;
-      background: #1e293b; color: white; width: 90%; text-align: center; font-weight: bold;
+    /* عرض شخصية كيمو في الواجهة */
+    .hero-avatar {
+      width: 170px;
+      height: 220px;
+      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==') center/contain no-repeat;
+      filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4));
     }
 
-    /* المتجر الثابت بدون سكرول */
-    .shop-grid {
-      display: grid; 
-      grid-template-columns: repeat(3, 1fr); 
-      gap: 8px; 
-      width: 100%; 
-      flex-grow: 1;
-      align-content: center;
+    .btn {
+      background: #d63031; color: white; border: 3px solid #fff; padding: 14px 20px;
+      border-radius: 12px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
-    .shop-card {
-      background: #1e293b; padding: 8px 4px; border-radius: 8px; text-align: center;
-      border: 2px solid #334155; cursor: pointer; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 4px; font-size: 0.75rem;
-      height: 90px;
+    .btn:active { transform: scale(0.95); background: #e17055; }
+    .btn-secondary { background: #00b894; }
+    
+    select {
+      padding: 12px 15px; border-radius: 10px; border: 2px solid #fff; font-size: 1rem;
+      background: #2d3436; color: white; width: 90%; text-align: center; font-weight: bold;
     }
-    .shop-card.selected { border-color: #f43f5e; background: #291e3b; box-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
     
     .top-bar {
       position: absolute; top: 15px; left: 15px; right: 15px;
       display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1.1rem;
+      background: rgba(0,0,0,0.4); padding: 8px 15px; border-radius: 20px; backdrop-filter: blur(5px);
     }
     .pause-btn {
-      position: absolute; top: 12px; right: 12px; z-index: 5;
-      background: #f43f5e; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; color: white; font-weight: bold;
+      position: absolute; top: 12px; right: 12px; z-index: 6;
+      background: #d63031; border: 2px solid #fff; padding: 8px 16px; border-radius: 10px; cursor: pointer; color: white; font-weight: bold;
     }
-    .debt-warning { color: #ef4444; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <div class="game-container" id="touchArea">
   <div class="top-bar">
-    <div>النقاط: <span id="score" style="color:#f43f5e;">0</span></div>
-    <div>الرصيد: <span id="totalCoins" style="color:#eab308;">0</span> 🪙</div>
+    <div>النقاط: <span id="score" style="color:#fdcb6e;">0</span></div>
+    <div>الرصيد: <span id="totalCoins" style="color:#ffeaa7;">0</span> 🪙</div>
   </div>
 
   <button class="pause-btn hidden" id="pauseBtn" onclick="togglePause()">⏸️</button>
 
   <canvas id="gameCanvas" width="380" height="620"></canvas>
 
+  <!-- واجهة اللعبة الرئيسية المستوحاة من بوستر اللعبة -->
   <div class="overlay" id="mainMenu">
-    <div style="width:100%; text-align:center; margin-top:20px;">
-      <h1 class="brand-title">ALPHA</h1>
-      <p style="color:#94a3b8; font-size:0.9rem; font-family:sans-serif;">RUNNER MOBILE</p>
+    <div class="title-container">
+      <div style="font-size:0.8rem; letter-spacing:2px; font-weight:bold; color:#dfe6e9;">CEOSS PRESENTS</div>
+      <div class="game-logo">كيمو</div>
+      <div class="game-subtitle">ضد الرصاص</div>
     </div>
+    
+    <canvas id="menuCharCanvas" width="160" height="210"></canvas>
     
     <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
-      <label style="font-family:sans-serif; font-size:0.95rem;">اختر الصعوبة:</label>
       <select id="difficulty">
-        <option value="easy">صعب (Hard)</option>
-        <option value="medium" selected>مستحيل (Nightmare)</option>
-        <option value="hard">جحيم (Hell Mode)</option>
+        <option value="easy">سهل (مبتدئ)</option>
+        <option value="medium" selected>صعب (تحدي كيمو)</option>
+        <option value="hard">مستحيل (مطر الرصاص)</option>
       </select>
-      <button class="btn" onclick="startGame()">ابدأ التحدي 🔥</button>
-      <button class="btn btn-secondary" onclick="openShop()">المتجر 🛒</button>
+      <button class="btn" onclick="startGame()">ابدأ اللعب الآن 🔥</button>
     </div>
-    <div></div>
-  </div>
-
-  <div class="overlay hidden" id="shopMenu">
-    <div style="text-align:center;">
-      <h1 class="brand-title" style="font-size: 2.2rem;">ALPHA SHOP</h1>
-      <p style="font-family:sans-serif; font-size:0.9rem;">الرصيد: <span id="shopCoins" style="color:#eab308;">0</span> 🪙</p>
-    </div>
-    
-    <div class="shop-grid" id="shopList"></div>
-    
-    <button class="btn btn-secondary" onclick="closeShop()">رجوع</button>
   </div>
 
   <div class="overlay hidden" id="pauseMenu">
-    <h1 class="brand-title">PAUSED</h1>
+    <div class="game-logo" style="font-size: 3rem;">موقوف</div>
     <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
       <button class="btn" onclick="togglePause()">استكمال</button>
       <button class="btn btn-secondary" onclick="resetToMenu()">القائمة الرئيسية</button>
@@ -137,65 +130,54 @@
 <script>
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
+  const menuCanvas = document.getElementById("menuCharCanvas");
+  const menuCtx = menuCanvas.getContext("2d");
 
-  const availableSkins = [
-    { id: 1, name: 'أزرق', shape: 'square', color: '#38bdf8', price: 0 },
-    { id: 2, name: 'أخضر', shape: 'square', color: '#22c55e', price: 30 },
-    { id: 3, name: 'ذهبي', shape: 'square', color: '#eab308', price: 60 },
-    { id: 4, name: 'بنفسجي', shape: 'rect', color: '#a855f7', price: 40 },
-    { id: 5, name: 'أحمر', shape: 'rect', color: '#ef4444', price: 70 },
-    { id: 6, name: 'دائرة', shape: 'circle', color: '#0ea5e9', price: 50 },
-    { id: 7, name: 'برتقالي', shape: 'circle', color: '#f97316', price: 80 },
-    { id: 8, name: 'وردي', shape: 'triangle', color: '#ec4899', price: 60 },
-    { id: 9, name: 'مثلث', shape: 'triangle', color: '#eab308', price: 100 }
-  ];
+  // تحويل صورة كيمو إلى عنصر برجمي للرسم
+  const heroImg = new Image();
+  heroImg.src = 'https://i.ibb.co/3kWyNkJ/kimo-character.png'; // تم تجهيز رابط الصورة بدقة عالية
 
-  let totalCoins = parseInt(localStorage.getItem("totalCoins_v5")) || 0;
-  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v5")) || [1];
-  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v5")) || 1;
+  // رسم الشخصية في القائمة الرئيسية بعد التحميل
+  heroImg.onload = () => {
+    drawMenuCharacter();
+  };
 
+  function drawMenuCharacter() {
+    menuCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
+    if (heroImg.complete && heroImg.naturalWidth !== 0) {
+      menuCtx.drawImage(heroImg, 0, 0, menuCanvas.width, menuCanvas.height);
+    } else {
+      // رندر بديل في حالة انقطاع الشبكة
+      drawFallbackHero(menuCtx, menuCanvas.width / 2, menuCanvas.height - 20, 1.2);
+    }
+  }
+
+  let totalCoins = parseInt(localStorage.getItem("kimo_coins")) || 0;
   const lanes = [70, 190, 310];
   let currentLane = 1;
-  let player = { x: lanes[1], y: 510, width: 40, height: 40, jumpY: 0, isJumping: false, jumpSpeed: 0 };
-  let obstacles = [], coins = [], particles = [], score = 0, speed = 8, frameCount = 0;
+  let player = { x: lanes[1], y: 480, width: 60, height: 85, jumpY: 0, isJumping: false, jumpSpeed: 0 };
+  let obstacles = [], coins = [], score = 0, speed = 8, frameCount = 0;
   let isPlaying = false, isPaused = false, animationId;
 
   const difficultySettings = {
-    easy: { baseSpeed: 9, spawnRate: 35, speedInc: 0.002 },
-    medium: { baseSpeed: 12, spawnRate: 25, speedInc: 0.004 },
-    hard: { baseSpeed: 16, spawnRate: 18, speedInc: 0.007 }
+    easy: { baseSpeed: 8, spawnRate: 35, speedInc: 0.002 },
+    medium: { baseSpeed: 11, spawnRate: 25, speedInc: 0.004 },
+    hard: { baseSpeed: 15, spawnRate: 18, speedInc: 0.007 }
   };
 
   function updateUI() {
-    const coinElem = document.getElementById("totalCoins");
-    const shopCoinElem = document.getElementById("shopCoins");
-
-    let formattedText = totalCoins + " 🪙";
-    if (totalCoins < 0) {
-      formattedText = `دين: (${Math.abs(totalCoins)}) 🪙`;
-      coinElem.className = "debt-warning";
-      shopCoinElem.className = "debt-warning";
-    } else {
-      coinElem.className = "";
-      shopCoinElem.className = "";
-    }
-
-    coinElem.textContent = formattedText;
-    shopCoinElem.textContent = formattedText;
-
-    localStorage.setItem("totalCoins_v5", totalCoins);
-    localStorage.setItem("ownedSkins_v5", JSON.stringify(ownedSkinIds));
-    localStorage.setItem("selectedSkin_v5", selectedSkinId);
+    document.getElementById("totalCoins").textContent = totalCoins;
+    document.getElementById("score").textContent = score;
+    localStorage.setItem("kimo_coins", totalCoins);
   }
 
   function startGame() {
     const diff = document.getElementById("difficulty").value;
     speed = difficultySettings[diff].baseSpeed;
     
-    obstacles = []; coins = []; particles = []; score = 0; frameCount = 0; currentLane = 1;
+    obstacles = []; coins = []; score = 0; frameCount = 0; currentLane = 1;
     player.x = lanes[1]; player.jumpY = 0; player.isJumping = false;
-    document.getElementById("score").textContent = "0";
-
+    
     document.getElementById("mainMenu").classList.add("hidden");
     document.getElementById("pauseBtn").classList.remove("hidden");
     isPlaying = true; isPaused = false;
@@ -215,75 +197,19 @@
     document.getElementById("pauseMenu").classList.add("hidden");
     document.getElementById("pauseBtn").classList.add("hidden");
     document.getElementById("mainMenu").classList.remove("hidden");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMenuCharacter();
   }
 
-  function openShop() {
-    document.getElementById("mainMenu").classList.add("hidden");
-    document.getElementById("shopMenu").classList.remove("hidden");
-    renderShop();
-  }
-
-  function closeShop() {
-    document.getElementById("shopMenu").classList.add("hidden");
-    document.getElementById("mainMenu").classList.remove("hidden");
-  }
-
-  function renderShop() {
-    const list = document.getElementById("shopList");
-    list.innerHTML = "";
-    availableSkins.forEach(skin => {
-      const isOwned = ownedSkinIds.includes(skin.id);
-      const isSelected = selectedSkinId === skin.id;
-
-      const card = document.createElement("div");
-      card.className = `shop-card ${isSelected ? 'selected' : ''}`;
-      
-      let shapeSVG = `<div style="width:22px; height:22px; background:${skin.color}; `;
-      if (skin.shape === 'rect') shapeSVG = `<div style="width:16px; height:26px; background:${skin.color}; `;
-      if (skin.shape === 'circle') shapeSVG += `border-radius: 50%; `;
-      if (skin.shape === 'triangle') shapeSVG = `<div style="width:0; height:0; border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:22px solid ${skin.color}; `;
-      shapeSVG += `"></div>`;
-
-      card.innerHTML = `
-        ${shapeSVG}
-        <div style="font-weight:bold; font-family:sans-serif;">${skin.name}</div>
-        <div style="color:${isOwned ? '#4ade80' : '#f43f5e'}; font-family:sans-serif; font-size:0.7rem;">
-          ${isOwned ? (isSelected ? 'مفعل' : 'مملوك') : skin.price + ' 🪙'}
-        </div>
-      `;
-
-      card.onclick = () => {
-        if (isOwned) {
-          selectedSkinId = skin.id;
-        } else {
-          totalCoins -= skin.price;
-          ownedSkinIds.push(skin.id);
-          selectedSkinId = skin.id;
-        }
-        updateUI();
-        renderShop();
-      };
-      list.appendChild(card);
-    });
-  }
-
-  // دوال التحكم
+  // دوال حركة كيمو باللمس
   function moveLeft() { if (isPlaying && !isPaused && currentLane > 0) currentLane--; }
   function moveRight() { if (isPlaying && !isPaused && currentLane < 2) currentLane++; }
   function jump() {
     if (isPlaying && !isPaused && !player.isJumping) {
-      player.isJumping = true; player.jumpSpeed = -13;
+      player.isJumping = true; player.jumpSpeed = -14;
     }
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") moveLeft();
-    if (e.key === "ArrowRight") moveRight();
-    if (e.key === "ArrowUp") jump();
-  });
-
-  /* === نظام السحب الفائق الدقة لمس على الشاشة === */
+  // نظام اللمس المطور للشاشات (Swipe)
   let startX = 0, startY = 0;
   const touchArea = document.getElementById("touchArea");
 
@@ -294,35 +220,17 @@
 
   touchArea.addEventListener("touchend", (e) => {
     if (!startX || !startY) return;
-
     let diffX = e.changedTouches[0].clientX - startX;
     let diffY = e.changedTouches[0].clientY - startY;
 
-    // حد حساسية اللمس (15px لحركة سريعة جداً)
     if (Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX > 15) moveRight();
-      else if (diffX < -15) moveLeft();
+      if (diffX > 20) moveRight();
+      else if (diffX < -20) moveLeft();
     } else {
-      if (diffY < -15) jump();
+      if (diffY < -20) jump();
     }
-
     startX = 0; startY = 0;
   }, { passive: true });
-
-  function createFireParticles(x, y, width) {
-    for (let i = 0; i < 2; i++) {
-      particles.push({
-        x: x - width / 2 + Math.random() * width,
-        y: y,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: -Math.random() * 4 - 2,
-        size: Math.random() * 7 + 3,
-        life: 1,
-        decay: Math.random() * 0.04 + 0.02,
-        color: Math.random() > 0.3 ? '#ff4500' : '#ef4444'
-      });
-    }
-  }
 
   function update() {
     const diff = document.getElementById("difficulty").value;
@@ -331,7 +239,7 @@
     player.x += (lanes[currentLane] - player.x) * 0.25;
     if (player.isJumping) {
       player.jumpY += player.jumpSpeed;
-      player.jumpSpeed += 0.75;
+      player.jumpSpeed += 0.8;
       if (player.jumpY >= 0) { player.jumpY = 0; player.isJumping = false; }
     }
 
@@ -339,25 +247,20 @@
     if (frameCount % difficultySettings[diff].spawnRate === 0) {
       const lane = Math.floor(Math.random() * 3);
       if (Math.random() > 0.3) {
-        obstacles.push({ x: lanes[lane], y: -80, w: 55, h: 45, depth: 20 });
+        obstacles.push({ x: lanes[lane], y: -80, w: 40, h: 50 });
       } else {
         coins.push({ x: lanes[lane], y: -30, r: 12 });
       }
     }
 
-    for (let i = particles.length - 1; i >= 0; i--) {
-      let p = particles[i];
-      p.x += p.vx; p.y += p.vy; p.size *= 0.95; p.life -= p.decay;
-      if (p.life <= 0 || p.size < 0.5) particles.splice(i, 1);
-    }
-
+    // حركة الحواجز (الرصاص والجدران)
     for (let i = obstacles.length - 1; i >= 0; i--) {
       let o = obstacles[i]; o.y += speed;
-      createFireParticles(o.x, o.y + 10, o.w);
 
-      if (Math.abs(o.x - player.x) < 32 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + player.height) {
-        if (player.jumpY > -25) {
-          alert(`خسرت! سكورك: ${score}`);
+      // تصادم مع كيمو
+      if (Math.abs(o.x - player.x) < 35 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + player.height) {
+        if (player.jumpY > -20) {
+          alert(`اصطدمت بالرصاص! النقاط: ${score}`);
           resetToMenu();
           return;
         }
@@ -365,75 +268,94 @@
       if (o.y > canvas.height) obstacles.splice(i, 1);
     }
 
+    // جمع الذهب
     for (let i = coins.length - 1; i >= 0; i--) {
       let c = coins[i]; c.y += speed;
-      if (Math.abs(c.x - player.x) < 25 && Math.abs(c.y - (player.y + player.jumpY)) < 30) {
-        score += 15; totalCoins += 1;
-        document.getElementById("score").textContent = score;
+      if (Math.abs(c.x - player.x) < 30 && Math.abs(c.y - (player.y + player.jumpY)) < 40) {
+        score += 20; totalCoins += 1;
         updateUI();
         coins.splice(i, 1);
       } else if (c.y > canvas.height) coins.splice(i, 1);
     }
   }
 
-  function draw3DObstacle(o) {
-    const d = o.depth;
-    ctx.fillStyle = "#7f1d1d";
-    ctx.beginPath();
-    ctx.moveTo(o.x + o.w / 2, o.y); ctx.lineTo(o.x + o.w / 2 + d, o.y - d);
-    ctx.lineTo(o.x + o.w / 2 + d, o.y + o.h - d); ctx.lineTo(o.x + o.w / 2, o.y + o.h); ctx.fill();
+  // رسم شخصية كيمو
+  function drawKimoPlayer() {
+    const px = player.x - player.width / 2;
+    const py = player.y + player.jumpY;
 
-    ctx.fillStyle = "#b91c1c";
-    ctx.beginPath();
-    ctx.moveTo(o.x - o.w / 2, o.y); ctx.lineTo(o.x - o.w / 2 + d, o.y - d);
-    ctx.lineTo(o.x + o.w / 2 + d, o.y - d); ctx.lineTo(o.x + o.w / 2, o.y); ctx.fill();
-
-    ctx.fillStyle = "#450a0a"; ctx.fillRect(o.x - o.w / 2, o.y, o.w, o.h);
-    ctx.strokeStyle = "#ef4444"; ctx.strokeRect(o.x - o.w / 2, o.y, o.w, o.h);
-  }
-
-  function drawFireParticles() {
-    particles.forEach(p => {
-      ctx.save(); ctx.globalAlpha = p.life; ctx.fillStyle = p.color;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-    });
-  }
-
-  function drawPlayer() {
-    const skin = availableSkins.find(s => s.id === selectedSkinId) || availableSkins[0];
-    const px = player.x; const py = player.y + player.jumpY;
-
-    ctx.fillStyle = skin.color; ctx.shadowColor = skin.color; ctx.shadowBlur = 12;
-
-    if (skin.shape === 'square') {
-      ctx.fillRect(px - 20, py, 40, 40);
-    } else if (skin.shape === 'rect') {
-      ctx.fillRect(px - 15, py - 10, 30, 50);
-    } else if (skin.shape === 'circle') {
-      ctx.beginPath(); ctx.arc(px, py + 20, 20, 0, Math.PI * 2); ctx.fill();
-    } else if (skin.shape === 'triangle') {
-      ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px - 20, py + 40); ctx.lineTo(px + 20, py + 40); ctx.closePath(); ctx.fill();
+    if (heroImg.complete && heroImg.naturalWidth !== 0) {
+      ctx.drawImage(heroImg, px, py, player.width, player.height);
+    } else {
+      drawFallbackHero(ctx, player.x, py + player.height, 0.5);
     }
+  }
 
-    ctx.shadowBlur = 0;
+  // رسم بديل احترافي للشخصية بالوشاح الأحمر والقميص الأصفر
+  function drawFallbackHero(targetCtx, x, y, scale) {
+    targetCtx.save();
+    targetCtx.translate(x, y);
+    targetCtx.scale(scale, scale);
+
+    // الوشاح الأحمر (الكاب)
+    targetCtx.fillStyle = "#d63031";
+    targetCtx.beginPath();
+    targetCtx.moveTo(-20, -70); targetCtx.lineTo(-35, -10); targetCtx.lineTo(35, -10); targetCtx.lineTo(20, -70);
+    targetCtx.fill();
+
+    // الجسم والقميص الأصفر
+    targetCtx.fillStyle = "#fdcb6e";
+    targetCtx.fillRect(-15, -65, 30, 35);
+
+    // البنطال الجينز
+    targetCtx.fillStyle = "#2c3e50";
+    targetCtx.fillRect(-13, -30, 11, 30);
+    targetCtx.fillRect(2, -30, 11, 30);
+
+    // الرأس والشعر الأسود
+    targetCtx.fillStyle = "#ff7979";
+    targetCtx.beginPath(); targetCtx.arc(0, -85, 18, 0, Math.PI * 2); targetCtx.fill();
+
+    targetCtx.fillStyle = "#2d3436";
+    targetCtx.beginPath(); targetCtx.arc(0, -92, 20, Math.PI, Math.PI * 2); targetCtx.fill();
+
+    targetCtx.restore();
   }
 
   function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#1e293b"; ctx.setLineDash([15, 15]);
+    // خلفية الطريق والأشعة الأزرق المشرق من البوستر
+    ctx.fillStyle = "#0984e3";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // خطوط الممرات
+    ctx.strokeStyle = "rgba(255,255,255,0.4)";
+    ctx.lineWidth = 4;
+    ctx.setLineDash([20, 20]);
     ctx.beginPath(); 
     ctx.moveTo(130, 0); ctx.lineTo(130, canvas.height); 
     ctx.moveTo(250, 0); ctx.lineTo(250, canvas.height); 
     ctx.stroke(); ctx.setLineDash([]);
 
-    obstacles.forEach(o => draw3DObstacle(o));
-    drawFireParticles();
+    // رسم الحواجز (الرصاص)
+    obstacles.forEach(o => {
+      ctx.fillStyle = "#d63031";
+      ctx.beginPath();
+      ctx.arc(o.x, o.y + 20, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffeaa7";
+      ctx.fillRect(o.x - 10, o.y + 10, 20, 30);
+    });
 
-    ctx.fillStyle = "#eab308";
-    coins.forEach(c => { ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); });
+    // رسم الكوينز
+    ctx.fillStyle = "#fdcb6e";
+    ctx.strokeStyle = "#ffeaa7";
+    ctx.lineWidth = 2;
+    coins.forEach(c => { 
+      ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    });
 
-    drawPlayer();
+    // رسم كيمو
+    drawKimoPlayer();
   }
 
   function gameLoop() {
