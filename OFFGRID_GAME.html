@@ -3,52 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Extreme Subway Runner Mobile</title>
+  <title>ALPHA Extreme Runner</title>
   <style>
     * { 
       box-sizing: border-box; margin: 0; padding: 0; 
-      font-family: system-ui, sans-serif; 
-      touch-action: none; /* منع سحب الصفحة أثناء اللعب */
+      font-family: 'Arial Black', system-ui, sans-serif; 
+      touch-action: none; 
       user-select: none;
+      -webkit-user-select: none;
     }
     body {
       background: #020617; color: #fff;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 100vh; overflow: hidden;
+      min-height: 100vh; height: 100vh; overflow: hidden;
     }
-    .game-container { position: relative; width: 100vw; max-width: 400px; height: 90vh; max-height: 680px; }
+    .game-container { 
+      position: relative; width: 100vw; max-width: 390px; height: 92vh; max-height: 700px; 
+    }
     canvas {
       background: #090d16; border: 3px solid #f43f5e; border-radius: 16px;
       box-shadow: 0 0 25px rgba(244, 63, 94, 0.4); width: 100%; height: 100%; display: block;
     }
     .overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.95); border-radius: 16px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 15px; z-index: 10; padding: 20px;
+      background: rgba(15, 23, 42, 0.96); border-radius: 16px;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      z-index: 10; padding: 25px 15px;
     }
     .hidden { display: none !important; }
-    h1 { color: #f43f5e; font-size: 1.8rem; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); text-align: center; }
+    
+    /* عنوان ALPHA العريض */
+    .brand-title { 
+      color: #f43f5e; 
+      font-size: 3.2rem; 
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-shadow: 0 0 15px rgba(244, 63, 94, 0.8), 0 0 30px rgba(244, 63, 94, 0.4); 
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    
     .btn {
       background: #e11d48; color: white; border: none; padding: 14px 20px;
-      border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 85%; font-weight: bold;
+      border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
     }
     .btn:active { background: #be123c; transform: scale(0.98); }
     .btn-secondary { background: #0284c7; }
     select {
       padding: 12px 15px; border-radius: 8px; border: 1px solid #334155; font-size: 1rem;
-      background: #1e293b; color: white; width: 85%; text-align: center;
+      background: #1e293b; color: white; width: 90%; text-align: center; font-weight: bold;
     }
+
+    /* المتجر الثابت بدون سكرول */
     .shop-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-      max-height: 350px; overflow-y: auto; width: 100%; padding: 5px;
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 8px; 
+      width: 100%; 
+      flex-grow: 1;
+      align-content: center;
     }
     .shop-card {
-      background: #1e293b; padding: 10px; border-radius: 8px; text-align: center;
-      border: 2px solid transparent; cursor: pointer; display: flex; flex-direction: column;
-      align-items: center; gap: 5px; font-size: 0.85rem;
+      background: #1e293b; padding: 8px 4px; border-radius: 8px; text-align: center;
+      border: 2px solid #334155; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 4px; font-size: 0.75rem;
+      height: 90px;
     }
-    .shop-card.selected { border-color: #f43f5e; background: #291e3b; }
+    .shop-card.selected { border-color: #f43f5e; background: #291e3b; box-shadow: 0 0 10px rgba(244, 63, 94, 0.4); }
+    
     .top-bar {
       position: absolute; top: 15px; left: 15px; right: 15px;
       display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1.1rem;
@@ -73,28 +95,42 @@
   <canvas id="gameCanvas" width="380" height="620"></canvas>
 
   <div class="overlay" id="mainMenu">
-    <h1>Extreme Runner 🔥</h1>
-    <label>اختر مستوى الصعوبة:</label>
-    <select id="difficulty">
-      <option value="easy">صعب (Hard)</option>
-      <option value="medium" selected>مستحيل (Nightmare)</option>
-      <option value="hard">جحيم (Hell Mode)</option>
-    </select>
-    <button class="btn" onclick="startGame()">ابدأ التحدي 🔥</button>
-    <button class="btn btn-secondary" onclick="openShop()">المتجر 🛒</button>
+    <div style="width:100%; text-align:center; margin-top:20px;">
+      <h1 class="brand-title">ALPHA</h1>
+      <p style="color:#94a3b8; font-size:0.9rem; font-family:sans-serif;">RUNNER MOBILE</p>
+    </div>
+    
+    <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
+      <label style="font-family:sans-serif; font-size:0.95rem;">اختر الصعوبة:</label>
+      <select id="difficulty">
+        <option value="easy">صعب (Hard)</option>
+        <option value="medium" selected>مستحيل (Nightmare)</option>
+        <option value="hard">جحيم (Hell Mode)</option>
+      </select>
+      <button class="btn" onclick="startGame()">ابدأ التحدي 🔥</button>
+      <button class="btn btn-secondary" onclick="openShop()">المتجر 🛒</button>
+    </div>
+    <div></div>
   </div>
 
   <div class="overlay hidden" id="shopMenu">
-    <h1>متجر الأشكال 🛒</h1>
-    <p>رصيدك الحالي: <span id="shopCoins" style="color:#eab308;">0</span> 🪙</p>
+    <div style="text-align:center;">
+      <h1 class="brand-title" style="font-size: 2.2rem;">ALPHA SHOP</h1>
+      <p style="font-family:sans-serif; font-size:0.9rem;">الرصيد: <span id="shopCoins" style="color:#eab308;">0</span> 🪙</p>
+    </div>
+    
     <div class="shop-grid" id="shopList"></div>
+    
     <button class="btn btn-secondary" onclick="closeShop()">رجوع</button>
   </div>
 
   <div class="overlay hidden" id="pauseMenu">
-    <h1>موقوف مؤقتاً ⏸️</h1>
-    <button class="btn" onclick="togglePause()">استكمال</button>
-    <button class="btn btn-secondary" onclick="resetToMenu()">القائمة الرئيسية</button>
+    <h1 class="brand-title">PAUSED</h1>
+    <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
+      <button class="btn" onclick="togglePause()">استكمال</button>
+      <button class="btn btn-secondary" onclick="resetToMenu()">القائمة الرئيسية</button>
+    </div>
+    <div></div>
   </div>
 </div>
 
@@ -103,20 +139,20 @@
   const ctx = canvas.getContext("2d");
 
   const availableSkins = [
-    { id: 1, name: 'مربع أزرق', shape: 'square', color: '#38bdf8', price: 0 },
-    { id: 2, name: 'مربع أخضر', shape: 'square', color: '#22c55e', price: 30 },
-    { id: 3, name: 'مربع ذهبي', shape: 'square', color: '#eab308', price: 60 },
-    { id: 4, name: 'مستطيل بنفسجي', shape: 'rect', color: '#a855f7', price: 40 },
-    { id: 5, name: 'مستطيل أحمر', shape: 'rect', color: '#ef4444', price: 70 },
-    { id: 6, name: 'دائرة زرقاء', shape: 'circle', color: '#0ea5e9', price: 50 },
-    { id: 7, name: 'دائرة برتقالي', shape: 'circle', color: '#f97316', price: 80 },
-    { id: 8, name: 'مثلث وردي', shape: 'triangle', color: '#ec4899', price: 60 },
-    { id: 9, name: 'مثلث ذهبي', shape: 'triangle', color: '#eab308', price: 100 }
+    { id: 1, name: 'أزرق', shape: 'square', color: '#38bdf8', price: 0 },
+    { id: 2, name: 'أخضر', shape: 'square', color: '#22c55e', price: 30 },
+    { id: 3, name: 'ذهبي', shape: 'square', color: '#eab308', price: 60 },
+    { id: 4, name: 'بنفسجي', shape: 'rect', color: '#a855f7', price: 40 },
+    { id: 5, name: 'أحمر', shape: 'rect', color: '#ef4444', price: 70 },
+    { id: 6, name: 'دائرة', shape: 'circle', color: '#0ea5e9', price: 50 },
+    { id: 7, name: 'برتقالي', shape: 'circle', color: '#f97316', price: 80 },
+    { id: 8, name: 'وردي', shape: 'triangle', color: '#ec4899', price: 60 },
+    { id: 9, name: 'مثلث', shape: 'triangle', color: '#eab308', price: 100 }
   ];
 
-  let totalCoins = parseInt(localStorage.getItem("totalCoins_v4")) || 0;
-  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v4")) || [1];
-  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v4")) || 1;
+  let totalCoins = parseInt(localStorage.getItem("totalCoins_v5")) || 0;
+  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v5")) || [1];
+  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v5")) || 1;
 
   const lanes = [70, 190, 310];
   let currentLane = 1;
@@ -136,7 +172,7 @@
 
     let formattedText = totalCoins + " 🪙";
     if (totalCoins < 0) {
-      formattedText = `دين عليك: (${Math.abs(totalCoins)}) 🪙`;
+      formattedText = `دين: (${Math.abs(totalCoins)}) 🪙`;
       coinElem.className = "debt-warning";
       shopCoinElem.className = "debt-warning";
     } else {
@@ -147,9 +183,9 @@
     coinElem.textContent = formattedText;
     shopCoinElem.textContent = formattedText;
 
-    localStorage.setItem("totalCoins_v4", totalCoins);
-    localStorage.setItem("ownedSkins_v4", JSON.stringify(ownedSkinIds));
-    localStorage.setItem("selectedSkin_v4", selectedSkinId);
+    localStorage.setItem("totalCoins_v5", totalCoins);
+    localStorage.setItem("ownedSkins_v5", JSON.stringify(ownedSkinIds));
+    localStorage.setItem("selectedSkin_v5", selectedSkinId);
   }
 
   function startGame() {
@@ -203,17 +239,17 @@
       const card = document.createElement("div");
       card.className = `shop-card ${isSelected ? 'selected' : ''}`;
       
-      let shapeSVG = `<div style="width:30px; height:30px; background:${skin.color}; `;
-      if (skin.shape === 'rect') shapeSVG = `<div style="width:20px; height:35px; background:${skin.color}; `;
+      let shapeSVG = `<div style="width:22px; height:22px; background:${skin.color}; `;
+      if (skin.shape === 'rect') shapeSVG = `<div style="width:16px; height:26px; background:${skin.color}; `;
       if (skin.shape === 'circle') shapeSVG += `border-radius: 50%; `;
-      if (skin.shape === 'triangle') shapeSVG = `<div style="width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-bottom:30px solid ${skin.color}; `;
+      if (skin.shape === 'triangle') shapeSVG = `<div style="width:0; height:0; border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:22px solid ${skin.color}; `;
       shapeSVG += `"></div>`;
 
       card.innerHTML = `
         ${shapeSVG}
-        <div style="font-weight:bold;">${skin.name}</div>
-        <div style="color:${isOwned ? '#4ade80' : '#f43f5e'}">
-          ${isOwned ? (isSelected ? 'مفعل' : 'اختيار') : 'شراء بالدَّين: ' + skin.price + ' 🪙'}
+        <div style="font-weight:bold; font-family:sans-serif;">${skin.name}</div>
+        <div style="color:${isOwned ? '#4ade80' : '#f43f5e'}; font-family:sans-serif; font-size:0.7rem;">
+          ${isOwned ? (isSelected ? 'مفعل' : 'مملوك') : skin.price + ' 🪙'}
         </div>
       `;
 
@@ -232,7 +268,7 @@
     });
   }
 
-  // دوال التحكم بالحركة
+  // دوال التحكم
   function moveLeft() { if (isPlaying && !isPaused && currentLane > 0) currentLane--; }
   function moveRight() { if (isPlaying && !isPaused && currentLane < 2) currentLane++; }
   function jump() {
@@ -241,16 +277,14 @@
     }
   }
 
-  // دعم أسهم الكمبيوتر للمعاينة
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") moveLeft();
     if (e.key === "ArrowRight") moveRight();
     if (e.key === "ArrowUp") jump();
   });
 
-  /* === نظام السحب باللمس الحساس (Pure Touch Swipe) === */
-  let startX = 0;
-  let startY = 0;
+  /* === نظام السحب الفائق الدقة لمس على الشاشة === */
+  let startX = 0, startY = 0;
   const touchArea = document.getElementById("touchArea");
 
   touchArea.addEventListener("touchstart", (e) => {
@@ -261,35 +295,31 @@
   touchArea.addEventListener("touchend", (e) => {
     if (!startX || !startY) return;
 
-    let endX = e.changedTouches[0].clientX;
-    let endY = e.changedTouches[0].clientY;
+    let diffX = e.changedTouches[0].clientX - startX;
+    let diffY = e.changedTouches[0].clientY - startY;
 
-    let diffX = endX - startX;
-    let diffY = endY - startY;
-
-    // التأكد من أن الحركة ليست مجرد لمسة خفيفة (حد أدنى 25 بكسل)
+    // حد حساسية اللمس (15px لحركة سريعة جداً)
     if (Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX > 25) moveRight();       // سحب يمين
-      else if (diffX < -25) moveLeft();  // سحب شمال
+      if (diffX > 15) moveRight();
+      else if (diffX < -15) moveLeft();
     } else {
-      if (diffY < -25) jump();           // سحب لأعلى
+      if (diffY < -15) jump();
     }
 
-    startX = 0;
-    startY = 0;
+    startX = 0; startY = 0;
   }, { passive: true });
 
   function createFireParticles(x, y, width) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       particles.push({
         x: x - width / 2 + Math.random() * width,
         y: y,
         vx: (Math.random() - 0.5) * 1.5,
         vy: -Math.random() * 4 - 2,
-        size: Math.random() * 8 + 4,
+        size: Math.random() * 7 + 3,
         life: 1,
-        decay: Math.random() * 0.03 + 0.02,
-        color: Math.random() > 0.3 ? '#ff4500' : (Math.random() > 0.5 ? '#ffcc00' : '#ef4444')
+        decay: Math.random() * 0.04 + 0.02,
+        color: Math.random() > 0.3 ? '#ff4500' : '#ef4444'
       });
     }
   }
@@ -327,7 +357,7 @@
 
       if (Math.abs(o.x - player.x) < 32 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + player.height) {
         if (player.jumpY > -25) {
-          alert(`خسرت في الحريقة! سكورك: ${score}`);
+          alert(`خسرت! سكورك: ${score}`);
           resetToMenu();
           return;
         }
