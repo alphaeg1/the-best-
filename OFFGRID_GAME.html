@@ -2,36 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Extreme Subway Runner Mobile Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Extreme Subway Runner Mobile</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; touch-action: manipulation; }
+    * { 
+      box-sizing: border-box; margin: 0; padding: 0; 
+      font-family: system-ui, sans-serif; 
+      touch-action: none; /* منع سحب الصفحة أثناء اللعب */
+      user-select: none;
+    }
     body {
       background: #020617; color: #fff;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       min-height: 100vh; overflow: hidden;
     }
-    .game-container { position: relative; width: 100vw; max-width: 380px; height: 85vh; max-height: 620px; }
+    .game-container { position: relative; width: 100vw; max-width: 400px; height: 90vh; max-height: 680px; }
     canvas {
-      background: #090d16; border: 3px solid #f43f5e; border-radius: 12px;
+      background: #090d16; border: 3px solid #f43f5e; border-radius: 16px;
       box-shadow: 0 0 25px rgba(244, 63, 94, 0.4); width: 100%; height: 100%; display: block;
     }
     .overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.95); border-radius: 12px;
+      background: rgba(15, 23, 42, 0.95); border-radius: 16px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 12px; z-index: 10; padding: 20px;
+      gap: 15px; z-index: 10; padding: 20px;
     }
     .hidden { display: none !important; }
-    h1 { color: #f43f5e; font-size: 1.6rem; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); text-align: center; }
+    h1 { color: #f43f5e; font-size: 1.8rem; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); text-align: center; }
     .btn {
-      background: #e11d48; color: white; border: none; padding: 12px 20px;
-      border-radius: 8px; font-size: 1rem; cursor: pointer; transition: 0.2s; width: 85%; font-weight: bold;
+      background: #e11d48; color: white; border: none; padding: 14px 20px;
+      border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 85%; font-weight: bold;
     }
     .btn:active { background: #be123c; transform: scale(0.98); }
     .btn-secondary { background: #0284c7; }
     select {
-      padding: 10px 15px; border-radius: 6px; border: 1px solid #334155; font-size: 1rem;
+      padding: 12px 15px; border-radius: 8px; border: 1px solid #334155; font-size: 1rem;
       background: #1e293b; color: white; width: 85%; text-align: center;
     }
     .shop-grid {
@@ -45,24 +50,14 @@
     }
     .shop-card.selected { border-color: #f43f5e; background: #291e3b; }
     .top-bar {
-      position: absolute; top: 12px; left: 15px; right: 15px;
-      display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1rem;
+      position: absolute; top: 15px; left: 15px; right: 15px;
+      display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1.1rem;
     }
     .pause-btn {
-      position: absolute; top: 10px; right: 10px; z-index: 5;
-      background: #f43f5e; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: white; font-weight: bold;
+      position: absolute; top: 12px; right: 12px; z-index: 5;
+      background: #f43f5e; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; color: white; font-weight: bold;
     }
     .debt-warning { color: #ef4444; font-weight: bold; }
-
-    /* أزرار تحكم باللمس إضافية أسفل الشاشة */
-    .mobile-controls {
-      display: flex; justify-content: space-between; width: 100vw; max-width: 380px; margin-top: 10px; gap: 5px;
-    }
-    .m-btn {
-      flex: 1; background: #1e293b; border: 2px solid #38bdf8; color: white;
-      padding: 12px 0; border-radius: 8px; font-size: 1.2rem; font-weight: bold; text-align: center;
-    }
-    .m-btn:active { background: #0284c7; }
   </style>
 </head>
 <body>
@@ -79,7 +74,7 @@
 
   <div class="overlay" id="mainMenu">
     <h1>Extreme Runner 🔥</h1>
-    <label>مستوى الصعوبة المميت:</label>
+    <label>اختر مستوى الصعوبة:</label>
     <select id="difficulty">
       <option value="easy">صعب (Hard)</option>
       <option value="medium" selected>مستحيل (Nightmare)</option>
@@ -101,13 +96,6 @@
     <button class="btn" onclick="togglePause()">استكمال</button>
     <button class="btn btn-secondary" onclick="resetToMenu()">القائمة الرئيسية</button>
   </div>
-</div>
-
-<!-- أزرار اللمس للموبايل -->
-<div class="mobile-controls">
-  <div class="m-btn" onclick="moveLeft()">◀️</div>
-  <div class="m-btn" onclick="jump()">▲ قفز</div>
-  <div class="m-btn" onclick="moveRight()">▶️</div>
 </div>
 
 <script>
@@ -244,7 +232,7 @@
     });
   }
 
-  // دوانم الحركة (تحكم باللمس أو الأزرار)
+  // دوال التحكم بالحركة
   function moveLeft() { if (isPlaying && !isPaused && currentLane > 0) currentLane--; }
   function moveRight() { if (isPlaying && !isPaused && currentLane < 2) currentLane++; }
   function jump() {
@@ -253,40 +241,43 @@
     }
   }
 
-  // تحكم الأسهم في الكيبورد للكمبيوتر
+  // دعم أسهم الكمبيوتر للمعاينة
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") moveLeft();
     if (e.key === "ArrowRight") moveRight();
     if (e.key === "ArrowUp") jump();
   });
 
-  // كود السحب (Touch Swipe Controls) للشاشات اللمسية
-  let touchStartX = 0;
-  let touchStartY = 0;
+  /* === نظام السحب باللمس الحساس (Pure Touch Swipe) === */
+  let startX = 0;
+  let startY = 0;
   const touchArea = document.getElementById("touchArea");
 
   touchArea.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  }, false);
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
 
   touchArea.addEventListener("touchend", (e) => {
-    let touchEndX = e.changedTouches[0].screenX;
-    let touchEndY = e.changedTouches[0].screenY;
-    handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-  }, false);
+    if (!startX || !startY) return;
 
-  function handleSwipe(startX, startY, endX, endY) {
+    let endX = e.changedTouches[0].clientX;
+    let endY = e.changedTouches[0].clientY;
+
     let diffX = endX - startX;
     let diffY = endY - startY;
 
+    // التأكد من أن الحركة ليست مجرد لمسة خفيفة (حد أدنى 25 بكسل)
     if (Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX > 40) moveRight();
-      else if (diffX < -40) moveLeft();
+      if (diffX > 25) moveRight();       // سحب يمين
+      else if (diffX < -25) moveLeft();  // سحب شمال
     } else {
-      if (diffY < -40) jump();
+      if (diffY < -25) jump();           // سحب لأعلى
     }
-  }
+
+    startX = 0;
+    startY = 0;
+  }, { passive: true });
 
   function createFireParticles(x, y, width) {
     for (let i = 0; i < 3; i++) {
