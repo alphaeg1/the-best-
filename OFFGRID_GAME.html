@@ -29,50 +29,50 @@
       background: radial-gradient(circle, #74b9ff 0%, #0984e3 100%);
       border-radius: 20px;
       display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-      z-index: 10; padding: 25px 15px;
+      z-index: 10; padding: 20px 15px;
     }
     .hidden { display: none !important; }
     
-    .title-container {
-      position: relative;
-      text-align: center;
-      margin-top: 10px;
-    }
+    .title-container { text-align: center; margin-top: 5px; }
     .game-logo {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: #fdcb6e;
-      text-shadow: 3px 3px 0px #d63031, -3px -3px 0px #d63031, 3px -3px 0px #d63031, -3px 3px 0px #d63031, 0px 5px 15px rgba(0,0,0,0.6);
-      line-height: 1.1;
+      font-size: 2.2rem; font-weight: 900; color: #fdcb6e;
+      text-shadow: 3px 3px 0px #d63031, -3px -3px 0px #d63031, 3px -3px 0px #d63031, -3px 3px 0px #d63031;
     }
     .game-subtitle {
-      font-size: 2.8rem;
-      font-weight: 900;
-      color: #ff7675;
-      text-shadow: 3px 3px 0px #2d3436, -3px -3px 0px #2d3436, 3px -3px 0px #2d3436, -3px 3px 0px #2d3436, 0px 5px 15px rgba(0,0,0,0.6);
+      font-size: 2.5rem; font-weight: 900; color: #ff7675;
+      text-shadow: 3px 3px 0px #2d3436, -3px -3px 0px #2d3436;
     }
 
     .btn {
-      background: #d63031; color: white; border: 3px solid #fff; padding: 14px 20px;
-      border-radius: 12px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      background: #d63031; color: white; border: 3px solid #fff; padding: 12px 20px;
+      border-radius: 12px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center;
     }
-    .btn:active { transform: scale(0.95); background: #e17055; }
+    .btn:active { transform: scale(0.95); }
     .btn-secondary { background: #00b894; }
-    
-    select {
-      padding: 12px 15px; border-radius: 10px; border: 2px solid #fff; font-size: 1rem;
-      background: #2d3436; color: white; width: 90%; text-align: center; font-weight: bold;
+    .btn-shop { background: #fdcb6e; color: #2d3436; border-color: #ffeaa7; }
+
+    /* متجر الشخصيات */
+    .shop-container {
+      width: 100%; height: 60%; background: rgba(0,0,0,0.3); border-radius: 15px;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-around; padding: 10px;
+    }
+    .skin-card {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);
+    }
+    .skin-btn {
+      padding: 6px 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer;
     }
     
     .top-bar {
-      position: absolute; top: 15px; left: 15px; right: 15px;
-      display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1.1rem;
+      position: absolute; top: 12px; left: 15px; right: 15px;
+      display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1rem;
       background: rgba(0,0,0,0.4); padding: 8px 15px; border-radius: 20px; backdrop-filter: blur(5px);
     }
     .pause-btn {
-      position: absolute; top: 12px; right: 12px; z-index: 6;
-      background: #d63031; border: 2px solid #fff; padding: 8px 16px; border-radius: 10px; cursor: pointer; color: white; font-weight: bold;
+      position: absolute; top: 10px; right: 10px; z-index: 6;
+      background: #d63031; border: 2px solid #fff; padding: 6px 12px; border-radius: 10px; cursor: pointer; color: white; font-weight: bold;
     }
   </style>
 </head>
@@ -88,27 +88,32 @@
 
   <canvas id="gameCanvas" width="380" height="620"></canvas>
 
+  <!-- القائمة الرئيسية -->
   <div class="overlay" id="mainMenu">
     <div class="title-container">
-      <div style="font-size:0.85rem; letter-spacing:2px; font-weight:bold; color:#dfe6e9;">CEOSS PRESENTS</div>
-      <div class="game-logo">كيمو</div>
+      <div style="font-size:0.8rem; letter-spacing:2px; font-weight:bold; color:#dfe6e9;">CEOSS PRESENTS</div>
+      <div class="game-logo">ALPHA</div>
       <div class="game-subtitle">ضد الرصاص</div>
     </div>
     
     <canvas id="menuCharCanvas" width="160" height="200"></canvas>
     
-    <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
-      <select id="difficulty">
-        <option value="easy">سهل (مبتدئ)</option>
-        <option value="medium" selected>صعب (تحدي كيمو)</option>
-        <option value="hard">مستحيل (مطر الرصاص)</option>
-      </select>
-      <button class="btn" onclick="startGame()">ابدأ اللعب الآن 🔥</button>
+    <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+      <button class="btn" onclick="startGame()">ابدأ الجري 🔥</button>
+      <button class="btn btn-shop" onclick="openShop()">متجر الشخصيات 🛒</button>
     </div>
   </div>
 
+  <!-- متجر كيمو -->
+  <div class="overlay hidden" id="shopMenu">
+    <div class="game-logo" style="font-size: 1.8rem;">متجر ALPHA 👕</div>
+    <div class="shop-container" id="shopItems"></div>
+    <button class="btn btn-secondary" onclick="closeShop()">الرجوع للقائمة 🔙</button>
+  </div>
+
+  <!-- قائمة الإيقاف المؤقت -->
   <div class="overlay hidden" id="pauseMenu">
-    <div class="game-logo" style="font-size: 3rem;">موقوف</div>
+    <div class="game-logo" style="font-size: 2.5rem;">موقوف</div>
     <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
       <button class="btn" onclick="togglePause()">استكمال</button>
       <button class="btn btn-secondary" onclick="resetToMenu()">القائمة الرئيسية</button>
@@ -123,108 +128,67 @@
   const menuCanvas = document.getElementById("menuCharCanvas");
   const menuCtx = menuCanvas.getContext("2d");
 
+  // بيانات الشخصيات المتوفرة في المتجر
+  const skins = [
+    { id: 'classic', name: 'ALPHA البطل', price: 0, cape: '#d63031', shirt: '#fdcb6e', pants: '#2c3e50', hair: '#2d3436' },
+    { id: 'gold', name: 'ALPHA الذهبي', price: 50, cape: '#e1b12c', shirt: '#fbc531', pants: '#44bd32', hair: '#f5cd79' },
+    { id: 'ninja', name: 'ALPHA النينجا', price: 100, cape: '#2d3436', shirt: '#636e72', pants: '#2d3436', hair: '#000000' },
+    { id: 'cyber', name: 'ALPHA السايبر', price: 150, cape: '#00cec9', shirt: '#6c5ce7', pants: '#fd79a8', hair: '#00cec9' },
+    { id: 'emerald', name: 'ALPHA الزمردي', price: 200, cape: '#00b894', shirt: '#55efc4', pants: '#0984e3', hair: '#55efc4' }
+  ];
+
   let totalCoins = parseInt(localStorage.getItem("kimo_coins")) || 0;
+  let unlockedSkins = JSON.parse(localStorage.getItem("kimo_skins")) || ['classic'];
+  let currentSkinId = localStorage.getItem("kimo_active_skin") || 'classic';
+
   const lanes = [70, 190, 310];
   let currentLane = 1;
   let player = { x: lanes[1], y: 480, jumpY: 0, isJumping: false, jumpSpeed: 0 };
-  let obstacles = [], coins = [], score = 0, speed = 8, frameCount = 0;
+  let obstacles = [], coins = [], score = 0, speed = 9, frameCount = 0;
   let isPlaying = false, isPaused = false, animationId;
   let runCycle = 0;
 
-  const difficultySettings = {
-    easy: { baseSpeed: 8, spawnRate: 35, speedInc: 0.002 },
-    medium: { baseSpeed: 11, spawnRate: 25, speedInc: 0.004 },
-    hard: { baseSpeed: 15, spawnRate: 18, speedInc: 0.007 }
-  };
+  function getActiveSkin() {
+    return skins.find(s => s.id === currentSkinId) || skins[0];
+  }
 
   function updateUI() {
     document.getElementById("totalCoins").textContent = totalCoins;
     document.getElementById("score").textContent = score;
     localStorage.setItem("kimo_coins", totalCoins);
+    localStorage.setItem("kimo_skins", JSON.stringify(unlockedSkins));
+    localStorage.setItem("kimo_active_skin", currentSkinId);
   }
 
-  // رسم شخصية "كيمو" التفاعلية والمتحركة
-  function drawKimoCharacter(targetCtx, x, y, scale = 1, animFrame = 0, isJumping = false) {
+  // 1. رسم واجهة كيمو (من الأمام - كادر كامل)
+  function drawFrontKimo(targetCtx, x, y, scale = 1, skin) {
     targetCtx.save();
     targetCtx.translate(x, y);
     targetCtx.scale(scale, scale);
 
-    const legAngle = isJumping ? 0.6 : Math.sin(animFrame * 0.25) * 0.7;
-    const armAngle = isJumping ? 0.8 : -Math.sin(animFrame * 0.25) * 0.7;
-    const capeWave = Math.sin(animFrame * 0.3) * 8;
-
-    // 1. الوشاح الأحمر (الكاب) ببرمجة الحركة والتموج
-    targetCtx.fillStyle = "#d63031";
+    // الوشاح
+    targetCtx.fillStyle = skin.cape;
     targetCtx.beginPath();
-    targetCtx.moveTo(-12, -65);
-    targetCtx.quadraticCurveTo(-28 - capeWave, -30, -20 - capeWave, 5);
-    targetCtx.quadraticCurveTo(0, -10, 20 + capeWave, 5);
-    targetCtx.quadraticCurveTo(28 + capeWave, -30, 12, -65);
+    targetCtx.moveTo(-15, -65); targetCtx.lineTo(-30, 0); targetCtx.lineTo(30, 0); targetCtx.lineTo(15, -65);
     targetCtx.fill();
 
-    // 2. رجلين كيمو (تتحرك مع الجري)
-    targetCtx.strokeStyle = "#2c3e50"; // بنطال جينز
-    targetCtx.lineWidth = 10;
-    targetCtx.lineCap = "round";
+    // السروال
+    targetCtx.fillStyle = skin.pants;
+    targetCtx.fillRect(-12, -25, 10, 30);
+    targetCtx.fillRect(2, -25, 10, 30);
 
-    // الرجل الشمال
-    targetCtx.beginPath();
-    targetCtx.moveTo(-6, -25);
-    targetCtx.lineTo(-6 + Math.sin(legAngle) * 20, 10 + Math.cos(legAngle) * 10);
-    targetCtx.stroke();
+    // القميص
+    targetCtx.fillStyle = skin.shirt;
+    targetCtx.fillRect(-14, -65, 28, 42);
 
-    // الرجل اليمين
-    targetCtx.beginPath();
-    targetCtx.moveTo(6, -25);
-    targetCtx.lineTo(6 - Math.sin(legAngle) * 20, 10 - Math.cos(legAngle) * 10);
-    targetCtx.stroke();
-
-    // أحذية كيمو البنية
-    targetCtx.fillStyle = "#e17055";
-    targetCtx.fillRect(-10 + Math.sin(legAngle) * 20, 8 + Math.cos(legAngle) * 10, 12, 7);
-    targetCtx.fillRect(2 - Math.sin(legAngle) * 20, 8 - Math.cos(legAngle) * 10, 12, 7);
-
-    // 3. جسم كيمو والقميص الأصفر
-    targetCtx.fillStyle = "#fdcb6e";
-    targetCtx.beginPath();
-    targetCtx.roundRect(-14, -65, 28, 42, 6);
-    targetCtx.fill();
-
-    // 4. الذراعين
-    targetCtx.strokeStyle = "#ff7979"; // لون البشرة
-    targetCtx.lineWidth = 7;
-
-    // الذراع الشمال
-    targetCtx.beginPath();
-    targetCtx.moveTo(-12, -55);
-    targetCtx.lineTo(-12 - Math.sin(armAngle) * 15, -35 + Math.cos(armAngle) * 10);
-    targetCtx.stroke();
-
-    // الذراع اليمين
-    targetCtx.beginPath();
-    targetCtx.moveTo(12, -55);
-    targetCtx.lineTo(12 + Math.sin(armAngle) * 15, -35 - Math.cos(armAngle) * 10);
-    targetCtx.stroke();
-
-    // 5. الرأس والوجه
+    // الرأس والشعر والوجه
     targetCtx.fillStyle = "#ff7979";
-    targetCtx.beginPath();
-    targetCtx.arc(0, -78, 16, 0, Math.PI * 2);
-    targetCtx.fill();
+    targetCtx.beginPath(); targetCtx.arc(0, -78, 16, 0, Math.PI * 2); targetCtx.fill();
 
-    // الشعر الأسود
-    targetCtx.fillStyle = "#2d3436";
-    targetCtx.beginPath();
-    targetCtx.arc(0, -82, 17, Math.PI, Math.PI * 2);
-    targetCtx.fill();
-    
-    // خصلات الشعر الأمامية
-    targetCtx.beginPath();
-    targetCtx.moveTo(-15, -82); targetCtx.lineTo(-5, -72); targetCtx.lineTo(0, -82);
-    targetCtx.lineTo(8, -70); targetCtx.lineTo(15, -82);
-    targetCtx.fill();
+    targetCtx.fillStyle = skin.hair;
+    targetCtx.beginPath(); targetCtx.arc(0, -82, 17, Math.PI, Math.PI * 2); targetCtx.fill();
 
-    // العيون الحادة
+    // العيون
     targetCtx.fillStyle = "#2d3436";
     targetCtx.beginPath();
     targetCtx.arc(-5, -78, 2.5, 0, Math.PI * 2);
@@ -234,18 +198,111 @@
     targetCtx.restore();
   }
 
-  function drawMenuHero() {
+  // 2. رسم كيمو داخل الجيم (جري 3D منظوري من الخلف)
+  function drawRunningKimo3D(targetCtx, x, y, animFrame, isJumping, skin) {
+    targetCtx.save();
+    targetCtx.translate(x, y);
+
+    const legOffset = isJumping ? 0 : Math.sin(animFrame * 0.3) * 12;
+    const capeWave = Math.sin(animFrame * 0.4) * 10;
+
+    // ظل كيمو على الأرض
+    targetCtx.fillStyle = "rgba(0,0,0,0.25)";
+    targetCtx.beginPath();
+    targetCtx.ellipse(0, 10, 22, 8, 0, 0, Math.PI * 2);
+    targetCtx.fill();
+
+    // 1. الأرجل أثناء الجري (من الخلف)
+    targetCtx.fillStyle = skin.pants;
+    targetCtx.fillRect(-12, -20 + legOffset, 9, 25);
+    targetCtx.fillRect(3, -20 - legOffset, 9, 25);
+
+    // 2. قميص الظهر
+    targetCtx.fillStyle = skin.shirt;
+    targetCtx.fillRect(-15, -55, 30, 38);
+
+    // 3. تموج الوشاح الأحمر للخلف أثناء الركض (Effect 3D)
+    targetCtx.fillStyle = skin.cape;
+    targetCtx.beginPath();
+    targetCtx.moveTo(-15, -55);
+    targetCtx.quadraticCurveTo(-25 - capeWave, -20, -18 - capeWave, 15);
+    targetCtx.quadraticCurveTo(0, 5, 18 + capeWave, 15);
+    targetCtx.quadraticCurveTo(25 + capeWave, -20, 15, -55);
+    targetCtx.fill();
+
+    // 4. خلفية الرأس والشعر من الخلف
+    targetCtx.fillStyle = skin.hair;
+    targetCtx.beginPath();
+    targetCtx.arc(0, -66, 15, 0, Math.PI * 2);
+    targetCtx.fill();
+
+    targetCtx.restore();
+  }
+
+  function renderMenuHero() {
     menuCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
-    drawKimoCharacter(menuCtx, menuCanvas.width / 2, 160, 1.4, runCycle);
-    runCycle++;
-    if (!isPlaying) requestAnimationFrame(drawMenuHero);
+    drawFrontKimo(menuCtx, menuCanvas.width / 2, 160, 1.3, getActiveSkin());
+    if (!isPlaying) requestAnimationFrame(renderMenuHero);
+  }
+
+  function openShop() {
+    document.getElementById("mainMenu").classList.add("hidden");
+    document.getElementById("shopMenu").classList.remove("hidden");
+    renderShopItems();
+  }
+
+  function closeShop() {
+    document.getElementById("shopMenu").classList.add("hidden");
+    document.getElementById("mainMenu").classList.remove("hidden");
+    renderMenuHero();
+  }
+
+  function renderShopItems() {
+    const container = document.getElementById("shopItems");
+    container.innerHTML = '';
+
+    skins.forEach(skin => {
+      const isUnlocked = unlockedSkins.includes(skin.id);
+      const isActive = currentSkinId === skin.id;
+
+      let btnHTML = '';
+      if (isActive) {
+        btnHTML = `<button class="skin-btn" style="background:#00b894; color:#fff;" disabled>مفعل الآن</button>`;
+      } else if (isUnlocked) {
+        btnHTML = `<button class="skin-btn" style="background:#fdcb6e;" onclick="selectSkin('${skin.id}')">اختيار</button>`;
+      } else {
+        btnHTML = `<button class="skin-btn" style="background:#d63031; color:#fff;" onclick="buySkin('${skin.id}', ${skin.price})">شراء 🪙${skin.price}</button>`;
+      }
+
+      container.innerHTML += `
+        <div class="skin-card">
+          <div style="font-weight:bold; font-size:1.05rem;">${skin.name}</div>
+          ${btnHTML}
+        </div>
+      `;
+    });
+  }
+
+  function buySkin(id, price) {
+    if (totalCoins >= price) {
+      totalCoins -= price;
+      unlockedSkins.push(id);
+      currentSkinId = id;
+      updateUI();
+      renderShopItems();
+    } else {
+      alert("رصيد العملات غير كافي! اجمع كوينز أكتر أثناء الجري.");
+    }
+  }
+
+  function selectSkin(id) {
+    currentSkinId = id;
+    updateUI();
+    renderShopItems();
   }
 
   function startGame() {
-    const diff = document.getElementById("difficulty").value;
-    speed = difficultySettings[diff].baseSpeed;
-    
-    obstacles = []; coins = []; score = 0; frameCount = 0; currentLane = 1;
+    speed = 9; obstacles = []; coins = []; score = 0; frameCount = 0; currentLane = 1;
     player.x = lanes[1]; player.jumpY = 0; player.isJumping = false;
     
     document.getElementById("mainMenu").classList.add("hidden");
@@ -267,7 +324,7 @@
     document.getElementById("pauseMenu").classList.add("hidden");
     document.getElementById("pauseBtn").classList.add("hidden");
     document.getElementById("mainMenu").classList.remove("hidden");
-    drawMenuHero();
+    renderMenuHero();
   }
 
   function moveLeft() { if (isPlaying && !isPaused && currentLane > 0) currentLane--; }
@@ -278,20 +335,17 @@
     }
   }
 
-  // دعم التحكم بأسهم الكيبورد
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") moveLeft();
     if (e.key === "ArrowRight") moveRight();
     if (e.key === "ArrowUp") jump();
   });
 
-  // نظام اللمس باللمس والسحب الفوري (Swipe)
   let startX = 0, startY = 0;
   const touchArea = document.getElementById("touchArea");
 
   touchArea.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
+    startX = e.touches[0].clientX; startY = e.touches[0].clientY;
   }, { passive: true });
 
   touchArea.addEventListener("touchend", (e) => {
@@ -309,8 +363,7 @@
   }, { passive: true });
 
   function update() {
-    const diff = document.getElementById("difficulty").value;
-    speed += difficultySettings[diff].speedInc;
+    speed += 0.003;
     runCycle++;
 
     player.x += (lanes[currentLane] - player.x) * 0.25;
@@ -321,9 +374,9 @@
     }
 
     frameCount++;
-    if (frameCount % difficultySettings[diff].spawnRate === 0) {
+    if (frameCount % 25 === 0) {
       const lane = Math.floor(Math.random() * 3);
-      if (Math.random() > 0.3) {
+      if (Math.random() > 0.35) {
         obstacles.push({ x: lanes[lane], y: -80, w: 45, h: 50 });
       } else {
         coins.push({ x: lanes[lane], y: -30, r: 12 });
@@ -332,10 +385,9 @@
 
     for (let i = obstacles.length - 1; i >= 0; i--) {
       let o = obstacles[i]; o.y += speed;
-
-      if (Math.abs(o.x - player.x) < 35 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + 60) {
-        if (player.jumpY > -20) {
-          alert(`اصطدمت بالرصاص! النقاط: ${score}`);
+      if (Math.abs(o.x - player.x) < 35 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + 50) {
+        if (player.jumpY > -15) {
+          alert(`اصطدمت بالرصاص! مجموع النقاط: ${score}`);
           resetToMenu();
           return;
         }
@@ -354,27 +406,27 @@
   }
 
   function draw() {
+    // 3D Perspective Road (طريق منظوري ممتد للأفق)
     ctx.fillStyle = "#0984e3";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.strokeStyle = "rgba(255,255,255,0.4)";
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3;
     ctx.setLineDash([20, 20]);
     ctx.beginPath(); 
     ctx.moveTo(130, 0); ctx.lineTo(130, canvas.height); 
     ctx.moveTo(250, 0); ctx.lineTo(250, canvas.height); 
     ctx.stroke(); ctx.setLineDash([]);
 
-    // رسم الرصاص والحواجز
+    // رسم الحواجز
     obstacles.forEach(o => {
       ctx.fillStyle = "#d63031";
-      ctx.beginPath();
-      ctx.arc(o.x, o.y + 20, 18, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(o.x, o.y + 20, 18, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#ffeaa7";
       ctx.fillRect(o.x - 10, o.y + 10, 20, 30);
     });
 
-    // رسم الكوينز الذهبية
+    // رسم الكوينز
     ctx.fillStyle = "#fdcb6e";
     ctx.strokeStyle = "#ffeaa7";
     ctx.lineWidth = 2;
@@ -382,8 +434,8 @@
       ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     });
 
-    // رسم شخصية كيمو الحية والمتحركة
-    drawKimoCharacter(ctx, player.x, player.y + player.jumpY, 0.95, runCycle, player.isJumping);
+    // رسم كيمو بالنمط المنظوري (3D Back View Runner)
+    drawRunningKimo3D(ctx, player.x, player.y + player.jumpY, runCycle, player.isJumping, getActiveSkin());
   }
 
   function gameLoop() {
@@ -394,7 +446,7 @@
   }
 
   updateUI();
-  drawMenuHero();
+  renderMenuHero();
 </script>
 </body>
 </html>
