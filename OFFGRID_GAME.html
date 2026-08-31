@@ -2,19 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Extreme Subway Runner 3D - Fire Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Extreme Subway Runner Mobile Edition</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; touch-action: manipulation; }
     body {
       background: #020617; color: #fff;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       min-height: 100vh; overflow: hidden;
     }
-    .game-container { position: relative; width: 380px; height: 620px; }
+    .game-container { position: relative; width: 100vw; max-width: 380px; height: 85vh; max-height: 620px; }
     canvas {
-      background: #090d16; border: 4px solid #f43f5e; border-radius: 12px;
-      box-shadow: 0 0 30px rgba(244, 63, 94, 0.4); width: 100%; height: 100%;
+      background: #090d16; border: 3px solid #f43f5e; border-radius: 12px;
+      box-shadow: 0 0 25px rgba(244, 63, 94, 0.4); width: 100%; height: 100%; display: block;
     }
     .overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -23,22 +23,20 @@
       gap: 12px; z-index: 10; padding: 20px;
     }
     .hidden { display: none !important; }
-    h1 { color: #f43f5e; font-size: 1.8rem; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); }
+    h1 { color: #f43f5e; font-size: 1.6rem; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); text-align: center; }
     .btn {
-      background: #e11d48; color: white; border: none; padding: 10px 20px;
-      border-radius: 8px; font-size: 1rem; cursor: pointer; transition: 0.2s; width: 85%;
-      font-weight: bold;
+      background: #e11d48; color: white; border: none; padding: 12px 20px;
+      border-radius: 8px; font-size: 1rem; cursor: pointer; transition: 0.2s; width: 85%; font-weight: bold;
     }
-    .btn:hover { background: #be123c; }
+    .btn:active { background: #be123c; transform: scale(0.98); }
     .btn-secondary { background: #0284c7; }
-    .btn-secondary:hover { background: #0369a1; }
     select {
-      padding: 8px 15px; border-radius: 6px; border: 1px solid #334155; font-size: 1rem;
+      padding: 10px 15px; border-radius: 6px; border: 1px solid #334155; font-size: 1rem;
       background: #1e293b; color: white; width: 85%; text-align: center;
     }
     .shop-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-      max-height: 380px; overflow-y: auto; width: 100%; padding: 5px;
+      max-height: 350px; overflow-y: auto; width: 100%; padding: 5px;
     }
     .shop-card {
       background: #1e293b; padding: 10px; border-radius: 8px; text-align: center;
@@ -48,18 +46,28 @@
     .shop-card.selected { border-color: #f43f5e; background: #291e3b; }
     .top-bar {
       position: absolute; top: 12px; left: 15px; right: 15px;
-      display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1.1rem;
+      display: flex; justify-content: space-between; font-weight: bold; z-index: 5; font-size: 1rem;
     }
     .pause-btn {
       position: absolute; top: 10px; right: 10px; z-index: 5;
-      background: #f43f5e; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: white;
+      background: #f43f5e; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: white; font-weight: bold;
     }
     .debt-warning { color: #ef4444; font-weight: bold; }
+
+    /* أزرار تحكم باللمس إضافية أسفل الشاشة */
+    .mobile-controls {
+      display: flex; justify-content: space-between; width: 100vw; max-width: 380px; margin-top: 10px; gap: 5px;
+    }
+    .m-btn {
+      flex: 1; background: #1e293b; border: 2px solid #38bdf8; color: white;
+      padding: 12px 0; border-radius: 8px; font-size: 1.2rem; font-weight: bold; text-align: center;
+    }
+    .m-btn:active { background: #0284c7; }
   </style>
 </head>
 <body>
 
-<div class="game-container">
+<div class="game-container" id="touchArea">
   <div class="top-bar">
     <div>النقاط: <span id="score" style="color:#f43f5e;">0</span></div>
     <div>الرصيد: <span id="totalCoins" style="color:#eab308;">0</span> 🪙</div>
@@ -69,7 +77,6 @@
 
   <canvas id="gameCanvas" width="380" height="620"></canvas>
 
-  <!-- القائمة الرئيسية -->
   <div class="overlay" id="mainMenu">
     <h1>Extreme Runner 🔥</h1>
     <label>مستوى الصعوبة المميت:</label>
@@ -82,7 +89,6 @@
     <button class="btn btn-secondary" onclick="openShop()">المتجر 🛒</button>
   </div>
 
-  <!-- قائمة المتجر -->
   <div class="overlay hidden" id="shopMenu">
     <h1>متجر الأشكال 🛒</h1>
     <p>رصيدك الحالي: <span id="shopCoins" style="color:#eab308;">0</span> 🪙</p>
@@ -90,12 +96,18 @@
     <button class="btn btn-secondary" onclick="closeShop()">رجوع</button>
   </div>
 
-  <!-- قائمة الإيقاف المؤقت -->
   <div class="overlay hidden" id="pauseMenu">
     <h1>موقوف مؤقتاً ⏸️</h1>
     <button class="btn" onclick="togglePause()">استكمال</button>
     <button class="btn btn-secondary" onclick="resetToMenu()">القائمة الرئيسية</button>
   </div>
+</div>
+
+<!-- أزرار اللمس للموبايل -->
+<div class="mobile-controls">
+  <div class="m-btn" onclick="moveLeft()">◀️</div>
+  <div class="m-btn" onclick="jump()">▲ قفز</div>
+  <div class="m-btn" onclick="moveRight()">▶️</div>
 </div>
 
 <script>
@@ -114,9 +126,9 @@
     { id: 9, name: 'مثلث ذهبي', shape: 'triangle', color: '#eab308', price: 100 }
   ];
 
-  let totalCoins = parseInt(localStorage.getItem("totalCoins_v3")) || 0;
-  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v3")) || [1];
-  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v3")) || 1;
+  let totalCoins = parseInt(localStorage.getItem("totalCoins_v4")) || 0;
+  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v4")) || [1];
+  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v4")) || 1;
 
   const lanes = [70, 190, 310];
   let currentLane = 1;
@@ -147,9 +159,9 @@
     coinElem.textContent = formattedText;
     shopCoinElem.textContent = formattedText;
 
-    localStorage.setItem("totalCoins_v3", totalCoins);
-    localStorage.setItem("ownedSkins_v3", JSON.stringify(ownedSkinIds));
-    localStorage.setItem("selectedSkin_v3", selectedSkinId);
+    localStorage.setItem("totalCoins_v4", totalCoins);
+    localStorage.setItem("ownedSkins_v4", JSON.stringify(ownedSkinIds));
+    localStorage.setItem("selectedSkin_v4", selectedSkinId);
   }
 
   function startGame() {
@@ -221,7 +233,6 @@
         if (isOwned) {
           selectedSkinId = skin.id;
         } else {
-          // الشراء بالدين حتى لو الرصيد أقل من صفر
           totalCoins -= skin.price;
           ownedSkinIds.push(skin.id);
           selectedSkinId = skin.id;
@@ -233,16 +244,50 @@
     });
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (!isPlaying || isPaused) return;
-    if (e.key === "ArrowLeft" && currentLane > 0) currentLane--;
-    if (e.key === "ArrowRight" && currentLane < 2) currentLane++;
-    if (e.key === "ArrowUp" && !player.isJumping) {
+  // دوانم الحركة (تحكم باللمس أو الأزرار)
+  function moveLeft() { if (isPlaying && !isPaused && currentLane > 0) currentLane--; }
+  function moveRight() { if (isPlaying && !isPaused && currentLane < 2) currentLane++; }
+  function jump() {
+    if (isPlaying && !isPaused && !player.isJumping) {
       player.isJumping = true; player.jumpSpeed = -13;
     }
+  }
+
+  // تحكم الأسهم في الكيبورد للكمبيوتر
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") moveLeft();
+    if (e.key === "ArrowRight") moveRight();
+    if (e.key === "ArrowUp") jump();
   });
 
-  // توليد جزيئات نار لواقعية الحريقة
+  // كود السحب (Touch Swipe Controls) للشاشات اللمسية
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const touchArea = document.getElementById("touchArea");
+
+  touchArea.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  }, false);
+
+  touchArea.addEventListener("touchend", (e) => {
+    let touchEndX = e.changedTouches[0].screenX;
+    let touchEndY = e.changedTouches[0].screenY;
+    handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+  }, false);
+
+  function handleSwipe(startX, startY, endX, endY) {
+    let diffX = endX - startX;
+    let diffY = endY - startY;
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX > 40) moveRight();
+      else if (diffX < -40) moveLeft();
+    } else {
+      if (diffY < -40) jump();
+    }
+  }
+
   function createFireParticles(x, y, width) {
     for (let i = 0; i < 3; i++) {
       particles.push({
@@ -279,21 +324,14 @@
       }
     }
 
-    // تحديث حركة النار المتصاعدة
     for (let i = particles.length - 1; i >= 0; i--) {
       let p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.size *= 0.95;
-      p.life -= p.decay;
+      p.x += p.vx; p.y += p.vy; p.size *= 0.95; p.life -= p.decay;
       if (p.life <= 0 || p.size < 0.5) particles.splice(i, 1);
     }
 
-    // تحديث العوائق
     for (let i = obstacles.length - 1; i >= 0; i--) {
       let o = obstacles[i]; o.y += speed;
-      
-      // إنتاج شرار ونار مستمر من العائق
       createFireParticles(o.x, o.y + 10, o.w);
 
       if (Math.abs(o.x - player.x) < 32 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + player.height) {
@@ -306,12 +344,10 @@
       if (o.y > canvas.height) obstacles.splice(i, 1);
     }
 
-    // تحديث العملات ورصيد الدَّين
     for (let i = coins.length - 1; i >= 0; i--) {
       let c = coins[i]; c.y += speed;
       if (Math.abs(c.x - player.x) < 25 && Math.abs(c.y - (player.y + player.jumpY)) < 30) {
-        score += 15; 
-        totalCoins += 1; // تسديد الدَّين أو زيادة الرصيد
+        score += 15; totalCoins += 1;
         document.getElementById("score").textContent = score;
         updateUI();
         coins.splice(i, 1);
@@ -321,67 +357,42 @@
 
   function draw3DObstacle(o) {
     const d = o.depth;
-    // الجانب
     ctx.fillStyle = "#7f1d1d";
     ctx.beginPath();
-    ctx.moveTo(o.x + o.w / 2, o.y);
-    ctx.lineTo(o.x + o.w / 2 + d, o.y - d);
-    ctx.lineTo(o.x + o.w / 2 + d, o.y + o.h - d);
-    ctx.lineTo(o.x + o.w / 2, o.y + o.h);
-    ctx.fill();
+    ctx.moveTo(o.x + o.w / 2, o.y); ctx.lineTo(o.x + o.w / 2 + d, o.y - d);
+    ctx.lineTo(o.x + o.w / 2 + d, o.y + o.h - d); ctx.lineTo(o.x + o.w / 2, o.y + o.h); ctx.fill();
 
-    // الأعلى
     ctx.fillStyle = "#b91c1c";
     ctx.beginPath();
-    ctx.moveTo(o.x - o.w / 2, o.y);
-    ctx.lineTo(o.x - o.w / 2 + d, o.y - d);
-    ctx.lineTo(o.x + o.w / 2 + d, o.y - d);
-    ctx.lineTo(o.x + o.w / 2, o.y);
-    ctx.fill();
+    ctx.moveTo(o.x - o.w / 2, o.y); ctx.lineTo(o.x - o.w / 2 + d, o.y - d);
+    ctx.lineTo(o.x + o.w / 2 + d, o.y - d); ctx.lineTo(o.x + o.w / 2, o.y); ctx.fill();
 
-    // الوجه الأمامي (محروق)
-    ctx.fillStyle = "#450a0a";
-    ctx.fillRect(o.x - o.w / 2, o.y, o.w, o.h);
-    ctx.strokeStyle = "#ef4444";
-    ctx.strokeRect(o.x - o.w / 2, o.y, o.w, o.h);
+    ctx.fillStyle = "#450a0a"; ctx.fillRect(o.x - o.w / 2, o.y, o.w, o.h);
+    ctx.strokeStyle = "#ef4444"; ctx.strokeRect(o.x - o.w / 2, o.y, o.w, o.h);
   }
 
   function drawFireParticles() {
     particles.forEach(p => {
-      ctx.save();
-      ctx.globalAlpha = p.life;
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.save(); ctx.globalAlpha = p.life; ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     });
   }
 
   function drawPlayer() {
     const skin = availableSkins.find(s => s.id === selectedSkinId) || availableSkins[0];
-    const px = player.x;
-    const py = player.y + player.jumpY;
+    const px = player.x; const py = player.y + player.jumpY;
 
-    ctx.fillStyle = skin.color;
-    ctx.shadowColor = skin.color;
-    ctx.shadowBlur = 12;
+    ctx.fillStyle = skin.color; ctx.shadowColor = skin.color; ctx.shadowBlur = 12;
 
     if (skin.shape === 'square') {
       ctx.fillRect(px - 20, py, 40, 40);
     } else if (skin.shape === 'rect') {
       ctx.fillRect(px - 15, py - 10, 30, 50);
     } else if (skin.shape === 'circle') {
-      ctx.beginPath();
-      ctx.arc(px, py + 20, 20, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(px, py + 20, 20, 0, Math.PI * 2); ctx.fill();
     } else if (skin.shape === 'triangle') {
-      ctx.beginPath();
-      ctx.moveTo(px, py);
-      ctx.lineTo(px - 20, py + 40);
-      ctx.lineTo(px + 20, py + 40);
-      ctx.closePath();
-      ctx.fill();
+      ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px - 20, py + 40); ctx.lineTo(px + 20, py + 40); ctx.closePath(); ctx.fill();
     }
 
     ctx.shadowBlur = 0;
@@ -389,23 +400,17 @@
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // خطوط الطريق
     ctx.strokeStyle = "#1e293b"; ctx.setLineDash([15, 15]);
     ctx.beginPath(); 
     ctx.moveTo(130, 0); ctx.lineTo(130, canvas.height); 
     ctx.moveTo(250, 0); ctx.lineTo(250, canvas.height); 
     ctx.stroke(); ctx.setLineDash([]);
 
-    // رسم العوائق ثم نار الجزيئات فوقها
     obstacles.forEach(o => draw3DObstacle(o));
     drawFireParticles();
 
-    // العملات
     ctx.fillStyle = "#eab308";
-    coins.forEach(c => {
-      ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill();
-    });
+    coins.forEach(c => { ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); });
 
     drawPlayer();
   }
