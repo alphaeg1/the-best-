@@ -29,36 +29,27 @@
       background: radial-gradient(circle, #74b9ff 0%, #0984e3 100%);
       border-radius: 20px;
       display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-      z-index: 10; padding: 20px 15px;
+      z-index: 10; padding: 25px 15px;
     }
     .hidden { display: none !important; }
     
-    /* تصميم شعار اللعبة من الصورة */
     .title-container {
       position: relative;
       text-align: center;
       margin-top: 10px;
     }
     .game-logo {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       font-weight: 900;
       color: #fdcb6e;
       text-shadow: 3px 3px 0px #d63031, -3px -3px 0px #d63031, 3px -3px 0px #d63031, -3px 3px 0px #d63031, 0px 5px 15px rgba(0,0,0,0.6);
-      line-height: 1.2;
+      line-height: 1.1;
     }
     .game-subtitle {
-      font-size: 2.6rem;
+      font-size: 2.8rem;
       font-weight: 900;
       color: #ff7675;
       text-shadow: 3px 3px 0px #2d3436, -3px -3px 0px #2d3436, 3px -3px 0px #2d3436, -3px 3px 0px #2d3436, 0px 5px 15px rgba(0,0,0,0.6);
-    }
-    
-    /* عرض شخصية كيمو في الواجهة */
-    .hero-avatar {
-      width: 170px;
-      height: 220px;
-      background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==') center/contain no-repeat;
-      filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.4));
     }
 
     .btn {
@@ -97,15 +88,14 @@
 
   <canvas id="gameCanvas" width="380" height="620"></canvas>
 
-  <!-- واجهة اللعبة الرئيسية المستوحاة من بوستر اللعبة -->
   <div class="overlay" id="mainMenu">
     <div class="title-container">
-      <div style="font-size:0.8rem; letter-spacing:2px; font-weight:bold; color:#dfe6e9;">CEOSS PRESENTS</div>
+      <div style="font-size:0.85rem; letter-spacing:2px; font-weight:bold; color:#dfe6e9;">CEOSS PRESENTS</div>
       <div class="game-logo">كيمو</div>
       <div class="game-subtitle">ضد الرصاص</div>
     </div>
     
-    <canvas id="menuCharCanvas" width="160" height="210"></canvas>
+    <canvas id="menuCharCanvas" width="160" height="200"></canvas>
     
     <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
       <select id="difficulty">
@@ -133,31 +123,13 @@
   const menuCanvas = document.getElementById("menuCharCanvas");
   const menuCtx = menuCanvas.getContext("2d");
 
-  // تحويل صورة كيمو إلى عنصر برجمي للرسم
-  const heroImg = new Image();
-  heroImg.src = 'https://i.ibb.co/3kWyNkJ/kimo-character.png'; // تم تجهيز رابط الصورة بدقة عالية
-
-  // رسم الشخصية في القائمة الرئيسية بعد التحميل
-  heroImg.onload = () => {
-    drawMenuCharacter();
-  };
-
-  function drawMenuCharacter() {
-    menuCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
-    if (heroImg.complete && heroImg.naturalWidth !== 0) {
-      menuCtx.drawImage(heroImg, 0, 0, menuCanvas.width, menuCanvas.height);
-    } else {
-      // رندر بديل في حالة انقطاع الشبكة
-      drawFallbackHero(menuCtx, menuCanvas.width / 2, menuCanvas.height - 20, 1.2);
-    }
-  }
-
   let totalCoins = parseInt(localStorage.getItem("kimo_coins")) || 0;
   const lanes = [70, 190, 310];
   let currentLane = 1;
-  let player = { x: lanes[1], y: 480, width: 60, height: 85, jumpY: 0, isJumping: false, jumpSpeed: 0 };
+  let player = { x: lanes[1], y: 480, jumpY: 0, isJumping: false, jumpSpeed: 0 };
   let obstacles = [], coins = [], score = 0, speed = 8, frameCount = 0;
   let isPlaying = false, isPaused = false, animationId;
+  let runCycle = 0;
 
   const difficultySettings = {
     easy: { baseSpeed: 8, spawnRate: 35, speedInc: 0.002 },
@@ -169,6 +141,104 @@
     document.getElementById("totalCoins").textContent = totalCoins;
     document.getElementById("score").textContent = score;
     localStorage.setItem("kimo_coins", totalCoins);
+  }
+
+  // رسم شخصية "كيمو" التفاعلية والمتحركة
+  function drawKimoCharacter(targetCtx, x, y, scale = 1, animFrame = 0, isJumping = false) {
+    targetCtx.save();
+    targetCtx.translate(x, y);
+    targetCtx.scale(scale, scale);
+
+    const legAngle = isJumping ? 0.6 : Math.sin(animFrame * 0.25) * 0.7;
+    const armAngle = isJumping ? 0.8 : -Math.sin(animFrame * 0.25) * 0.7;
+    const capeWave = Math.sin(animFrame * 0.3) * 8;
+
+    // 1. الوشاح الأحمر (الكاب) ببرمجة الحركة والتموج
+    targetCtx.fillStyle = "#d63031";
+    targetCtx.beginPath();
+    targetCtx.moveTo(-12, -65);
+    targetCtx.quadraticCurveTo(-28 - capeWave, -30, -20 - capeWave, 5);
+    targetCtx.quadraticCurveTo(0, -10, 20 + capeWave, 5);
+    targetCtx.quadraticCurveTo(28 + capeWave, -30, 12, -65);
+    targetCtx.fill();
+
+    // 2. رجلين كيمو (تتحرك مع الجري)
+    targetCtx.strokeStyle = "#2c3e50"; // بنطال جينز
+    targetCtx.lineWidth = 10;
+    targetCtx.lineCap = "round";
+
+    // الرجل الشمال
+    targetCtx.beginPath();
+    targetCtx.moveTo(-6, -25);
+    targetCtx.lineTo(-6 + Math.sin(legAngle) * 20, 10 + Math.cos(legAngle) * 10);
+    targetCtx.stroke();
+
+    // الرجل اليمين
+    targetCtx.beginPath();
+    targetCtx.moveTo(6, -25);
+    targetCtx.lineTo(6 - Math.sin(legAngle) * 20, 10 - Math.cos(legAngle) * 10);
+    targetCtx.stroke();
+
+    // أحذية كيمو البنية
+    targetCtx.fillStyle = "#e17055";
+    targetCtx.fillRect(-10 + Math.sin(legAngle) * 20, 8 + Math.cos(legAngle) * 10, 12, 7);
+    targetCtx.fillRect(2 - Math.sin(legAngle) * 20, 8 - Math.cos(legAngle) * 10, 12, 7);
+
+    // 3. جسم كيمو والقميص الأصفر
+    targetCtx.fillStyle = "#fdcb6e";
+    targetCtx.beginPath();
+    targetCtx.roundRect(-14, -65, 28, 42, 6);
+    targetCtx.fill();
+
+    // 4. الذراعين
+    targetCtx.strokeStyle = "#ff7979"; // لون البشرة
+    targetCtx.lineWidth = 7;
+
+    // الذراع الشمال
+    targetCtx.beginPath();
+    targetCtx.moveTo(-12, -55);
+    targetCtx.lineTo(-12 - Math.sin(armAngle) * 15, -35 + Math.cos(armAngle) * 10);
+    targetCtx.stroke();
+
+    // الذراع اليمين
+    targetCtx.beginPath();
+    targetCtx.moveTo(12, -55);
+    targetCtx.lineTo(12 + Math.sin(armAngle) * 15, -35 - Math.cos(armAngle) * 10);
+    targetCtx.stroke();
+
+    // 5. الرأس والوجه
+    targetCtx.fillStyle = "#ff7979";
+    targetCtx.beginPath();
+    targetCtx.arc(0, -78, 16, 0, Math.PI * 2);
+    targetCtx.fill();
+
+    // الشعر الأسود
+    targetCtx.fillStyle = "#2d3436";
+    targetCtx.beginPath();
+    targetCtx.arc(0, -82, 17, Math.PI, Math.PI * 2);
+    targetCtx.fill();
+    
+    // خصلات الشعر الأمامية
+    targetCtx.beginPath();
+    targetCtx.moveTo(-15, -82); targetCtx.lineTo(-5, -72); targetCtx.lineTo(0, -82);
+    targetCtx.lineTo(8, -70); targetCtx.lineTo(15, -82);
+    targetCtx.fill();
+
+    // العيون الحادة
+    targetCtx.fillStyle = "#2d3436";
+    targetCtx.beginPath();
+    targetCtx.arc(-5, -78, 2.5, 0, Math.PI * 2);
+    targetCtx.arc(5, -78, 2.5, 0, Math.PI * 2);
+    targetCtx.fill();
+
+    targetCtx.restore();
+  }
+
+  function drawMenuHero() {
+    menuCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
+    drawKimoCharacter(menuCtx, menuCanvas.width / 2, 160, 1.4, runCycle);
+    runCycle++;
+    if (!isPlaying) requestAnimationFrame(drawMenuHero);
   }
 
   function startGame() {
@@ -197,19 +267,25 @@
     document.getElementById("pauseMenu").classList.add("hidden");
     document.getElementById("pauseBtn").classList.add("hidden");
     document.getElementById("mainMenu").classList.remove("hidden");
-    drawMenuCharacter();
+    drawMenuHero();
   }
 
-  // دوال حركة كيمو باللمس
   function moveLeft() { if (isPlaying && !isPaused && currentLane > 0) currentLane--; }
   function moveRight() { if (isPlaying && !isPaused && currentLane < 2) currentLane++; }
   function jump() {
     if (isPlaying && !isPaused && !player.isJumping) {
-      player.isJumping = true; player.jumpSpeed = -14;
+      player.isJumping = true; player.jumpSpeed = -15;
     }
   }
 
-  // نظام اللمس المطور للشاشات (Swipe)
+  // دعم التحكم بأسهم الكيبورد
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") moveLeft();
+    if (e.key === "ArrowRight") moveRight();
+    if (e.key === "ArrowUp") jump();
+  });
+
+  // نظام اللمس باللمس والسحب الفوري (Swipe)
   let startX = 0, startY = 0;
   const touchArea = document.getElementById("touchArea");
 
@@ -224,10 +300,10 @@
     let diffY = e.changedTouches[0].clientY - startY;
 
     if (Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX > 20) moveRight();
-      else if (diffX < -20) moveLeft();
+      if (diffX > 15) moveRight();
+      else if (diffX < -15) moveLeft();
     } else {
-      if (diffY < -20) jump();
+      if (diffY < -15) jump();
     }
     startX = 0; startY = 0;
   }, { passive: true });
@@ -235,11 +311,12 @@
   function update() {
     const diff = document.getElementById("difficulty").value;
     speed += difficultySettings[diff].speedInc;
+    runCycle++;
 
     player.x += (lanes[currentLane] - player.x) * 0.25;
     if (player.isJumping) {
       player.jumpY += player.jumpSpeed;
-      player.jumpSpeed += 0.8;
+      player.jumpSpeed += 0.85;
       if (player.jumpY >= 0) { player.jumpY = 0; player.isJumping = false; }
     }
 
@@ -247,18 +324,16 @@
     if (frameCount % difficultySettings[diff].spawnRate === 0) {
       const lane = Math.floor(Math.random() * 3);
       if (Math.random() > 0.3) {
-        obstacles.push({ x: lanes[lane], y: -80, w: 40, h: 50 });
+        obstacles.push({ x: lanes[lane], y: -80, w: 45, h: 50 });
       } else {
         coins.push({ x: lanes[lane], y: -30, r: 12 });
       }
     }
 
-    // حركة الحواجز (الرصاص والجدران)
     for (let i = obstacles.length - 1; i >= 0; i--) {
       let o = obstacles[i]; o.y += speed;
 
-      // تصادم مع كيمو
-      if (Math.abs(o.x - player.x) < 35 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + player.height) {
+      if (Math.abs(o.x - player.x) < 35 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + 60) {
         if (player.jumpY > -20) {
           alert(`اصطدمت بالرصاص! النقاط: ${score}`);
           resetToMenu();
@@ -268,7 +343,6 @@
       if (o.y > canvas.height) obstacles.splice(i, 1);
     }
 
-    // جمع الذهب
     for (let i = coins.length - 1; i >= 0; i--) {
       let c = coins[i]; c.y += speed;
       if (Math.abs(c.x - player.x) < 30 && Math.abs(c.y - (player.y + player.jumpY)) < 40) {
@@ -279,55 +353,10 @@
     }
   }
 
-  // رسم شخصية كيمو
-  function drawKimoPlayer() {
-    const px = player.x - player.width / 2;
-    const py = player.y + player.jumpY;
-
-    if (heroImg.complete && heroImg.naturalWidth !== 0) {
-      ctx.drawImage(heroImg, px, py, player.width, player.height);
-    } else {
-      drawFallbackHero(ctx, player.x, py + player.height, 0.5);
-    }
-  }
-
-  // رسم بديل احترافي للشخصية بالوشاح الأحمر والقميص الأصفر
-  function drawFallbackHero(targetCtx, x, y, scale) {
-    targetCtx.save();
-    targetCtx.translate(x, y);
-    targetCtx.scale(scale, scale);
-
-    // الوشاح الأحمر (الكاب)
-    targetCtx.fillStyle = "#d63031";
-    targetCtx.beginPath();
-    targetCtx.moveTo(-20, -70); targetCtx.lineTo(-35, -10); targetCtx.lineTo(35, -10); targetCtx.lineTo(20, -70);
-    targetCtx.fill();
-
-    // الجسم والقميص الأصفر
-    targetCtx.fillStyle = "#fdcb6e";
-    targetCtx.fillRect(-15, -65, 30, 35);
-
-    // البنطال الجينز
-    targetCtx.fillStyle = "#2c3e50";
-    targetCtx.fillRect(-13, -30, 11, 30);
-    targetCtx.fillRect(2, -30, 11, 30);
-
-    // الرأس والشعر الأسود
-    targetCtx.fillStyle = "#ff7979";
-    targetCtx.beginPath(); targetCtx.arc(0, -85, 18, 0, Math.PI * 2); targetCtx.fill();
-
-    targetCtx.fillStyle = "#2d3436";
-    targetCtx.beginPath(); targetCtx.arc(0, -92, 20, Math.PI, Math.PI * 2); targetCtx.fill();
-
-    targetCtx.restore();
-  }
-
   function draw() {
-    // خلفية الطريق والأشعة الأزرق المشرق من البوستر
     ctx.fillStyle = "#0984e3";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // خطوط الممرات
     ctx.strokeStyle = "rgba(255,255,255,0.4)";
     ctx.lineWidth = 4;
     ctx.setLineDash([20, 20]);
@@ -336,17 +365,16 @@
     ctx.moveTo(250, 0); ctx.lineTo(250, canvas.height); 
     ctx.stroke(); ctx.setLineDash([]);
 
-    // رسم الحواجز (الرصاص)
+    // رسم الرصاص والحواجز
     obstacles.forEach(o => {
       ctx.fillStyle = "#d63031";
       ctx.beginPath();
-      ctx.arc(o.x, o.y + 20, 18, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.arc(o.x, o.y + 20, 18, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#ffeaa7";
       ctx.fillRect(o.x - 10, o.y + 10, 20, 30);
     });
 
-    // رسم الكوينز
+    // رسم الكوينز الذهبية
     ctx.fillStyle = "#fdcb6e";
     ctx.strokeStyle = "#ffeaa7";
     ctx.lineWidth = 2;
@@ -354,8 +382,8 @@
       ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     });
 
-    // رسم كيمو
-    drawKimoPlayer();
+    // رسم شخصية كيمو الحية والمتحركة
+    drawKimoCharacter(ctx, player.x, player.y + player.jumpY, 0.95, runCycle, player.isJumping);
   }
 
   function gameLoop() {
@@ -366,6 +394,7 @@
   }
 
   updateUI();
+  drawMenuHero();
 </script>
 </body>
 </html>
