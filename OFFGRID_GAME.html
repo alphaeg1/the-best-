@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Extreme Subway Runner 3D</title>
+  <title>Extreme Subway Runner 3D - Fire Edition</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
     body {
@@ -13,8 +13,8 @@
     }
     .game-container { position: relative; width: 380px; height: 620px; }
     canvas {
-      background: #0f172a; border: 4px solid #f43f5e; border-radius: 12px;
-      box-shadow: 0 0 30px rgba(244, 63, 94, 0.3); width: 100%; height: 100%;
+      background: #090d16; border: 4px solid #f43f5e; border-radius: 12px;
+      box-shadow: 0 0 30px rgba(244, 63, 94, 0.4); width: 100%; height: 100%;
     }
     .overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -54,6 +54,7 @@
       position: absolute; top: 10px; right: 10px; z-index: 5;
       background: #f43f5e; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: white;
     }
+    .debt-warning { color: #ef4444; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -61,7 +62,7 @@
 <div class="game-container">
   <div class="top-bar">
     <div>النقاط: <span id="score" style="color:#f43f5e;">0</span></div>
-    <div>العملات: <span id="totalCoins" style="color:#eab308;">0</span> 🪙</div>
+    <div>الرصيد: <span id="totalCoins" style="color:#eab308;">0</span> 🪙</div>
   </div>
 
   <button class="pause-btn hidden" id="pauseBtn" onclick="togglePause()">⏸️</button>
@@ -75,7 +76,6 @@
     <select id="difficulty">
       <option value="easy">صعب (Hard)</option>
       <option value="medium" selected>مستحيل (Nightmare)</option>
-
       <option value="hard">جحيم (Hell Mode)</option>
     </select>
     <button class="btn" onclick="startGame()">ابدأ التحدي 🔥</button>
@@ -85,7 +85,7 @@
   <!-- قائمة المتجر -->
   <div class="overlay hidden" id="shopMenu">
     <h1>متجر الأشكال 🛒</h1>
-    <p>معك: <span id="shopCoins" style="color:#eab308;">0</span> 🪙</p>
+    <p>رصيدك الحالي: <span id="shopCoins" style="color:#eab308;">0</span> 🪙</p>
     <div class="shop-grid" id="shopList"></div>
     <button class="btn btn-secondary" onclick="closeShop()">رجوع</button>
   </div>
@@ -102,7 +102,6 @@
   const canvas = document.getElementById("gameCanvas");
   const ctx = canvas.getContext("2d");
 
-  // بيانات الشخصيات المتوفرة بالمتجر (أشكال وألوان مختلفة)
   const availableSkins = [
     { id: 1, name: 'مربع أزرق', shape: 'square', color: '#38bdf8', price: 0 },
     { id: 2, name: 'مربع أخضر', shape: 'square', color: '#22c55e', price: 30 },
@@ -115,17 +114,16 @@
     { id: 9, name: 'مثلث ذهبي', shape: 'triangle', color: '#eab308', price: 100 }
   ];
 
-  let totalCoins = parseInt(localStorage.getItem("totalCoins_v2")) || 0;
-  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v2")) || [1];
-  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v2")) || 1;
+  let totalCoins = parseInt(localStorage.getItem("totalCoins_v3")) || 0;
+  let ownedSkinIds = JSON.parse(localStorage.getItem("ownedSkins_v3")) || [1];
+  let selectedSkinId = parseInt(localStorage.getItem("selectedSkin_v3")) || 1;
 
   const lanes = [70, 190, 310];
   let currentLane = 1;
   let player = { x: lanes[1], y: 510, width: 40, height: 40, jumpY: 0, isJumping: false, jumpSpeed: 0 };
-  let obstacles = [], coins = [], score = 0, speed = 8, frameCount = 0;
+  let obstacles = [], coins = [], particles = [], score = 0, speed = 8, frameCount = 0;
   let isPlaying = false, isPaused = false, animationId;
 
-  // إعدادات الصعوبة العالية جداً
   const difficultySettings = {
     easy: { baseSpeed: 9, spawnRate: 35, speedInc: 0.002 },
     medium: { baseSpeed: 12, spawnRate: 25, speedInc: 0.004 },
@@ -133,18 +131,32 @@
   };
 
   function updateUI() {
-    document.getElementById("totalCoins").textContent = totalCoins;
-    document.getElementById("shopCoins").textContent = totalCoins;
-    localStorage.setItem("totalCoins_v2", totalCoins);
-    localStorage.setItem("ownedSkins_v2", JSON.stringify(ownedSkinIds));
-    localStorage.setItem("selectedSkin_v2", selectedSkinId);
+    const coinElem = document.getElementById("totalCoins");
+    const shopCoinElem = document.getElementById("shopCoins");
+
+    let formattedText = totalCoins + " 🪙";
+    if (totalCoins < 0) {
+      formattedText = `دين عليك: (${Math.abs(totalCoins)}) 🪙`;
+      coinElem.className = "debt-warning";
+      shopCoinElem.className = "debt-warning";
+    } else {
+      coinElem.className = "";
+      shopCoinElem.className = "";
+    }
+
+    coinElem.textContent = formattedText;
+    shopCoinElem.textContent = formattedText;
+
+    localStorage.setItem("totalCoins_v3", totalCoins);
+    localStorage.setItem("ownedSkins_v3", JSON.stringify(ownedSkinIds));
+    localStorage.setItem("selectedSkin_v3", selectedSkinId);
   }
 
   function startGame() {
     const diff = document.getElementById("difficulty").value;
     speed = difficultySettings[diff].baseSpeed;
     
-    obstacles = []; coins = []; score = 0; frameCount = 0; currentLane = 1;
+    obstacles = []; coins = []; particles = []; score = 0; frameCount = 0; currentLane = 1;
     player.x = lanes[1]; player.jumpY = 0; player.isJumping = false;
     document.getElementById("score").textContent = "0";
 
@@ -191,7 +203,6 @@
       const card = document.createElement("div");
       card.className = `shop-card ${isSelected ? 'selected' : ''}`;
       
-      // إعداد المعاينة البصرية للشكل
       let shapeSVG = `<div style="width:30px; height:30px; background:${skin.color}; `;
       if (skin.shape === 'rect') shapeSVG = `<div style="width:20px; height:35px; background:${skin.color}; `;
       if (skin.shape === 'circle') shapeSVG += `border-radius: 50%; `;
@@ -201,15 +212,16 @@
       card.innerHTML = `
         ${shapeSVG}
         <div style="font-weight:bold;">${skin.name}</div>
-        <div style="color:${isOwned ? '#4ade80' : '#eab308'}">
-          ${isOwned ? (isSelected ? 'مفعل' : 'اختيار') : skin.price + ' 🪙'}
+        <div style="color:${isOwned ? '#4ade80' : '#f43f5e'}">
+          ${isOwned ? (isSelected ? 'مفعل' : 'اختيار') : 'شراء بالدَّين: ' + skin.price + ' 🪙'}
         </div>
       `;
 
       card.onclick = () => {
         if (isOwned) {
           selectedSkinId = skin.id;
-        } else if (totalCoins >= skin.price) {
+        } else {
+          // الشراء بالدين حتى لو الرصيد أقل من صفر
           totalCoins -= skin.price;
           ownedSkinIds.push(skin.id);
           selectedSkinId = skin.id;
@@ -221,7 +233,6 @@
     });
   }
 
-  // تحكم بالكيبورد
   document.addEventListener("keydown", (e) => {
     if (!isPlaying || isPaused) return;
     if (e.key === "ArrowLeft" && currentLane > 0) currentLane--;
@@ -231,14 +242,30 @@
     }
   });
 
+  // توليد جزيئات نار لواقعية الحريقة
+  function createFireParticles(x, y, width) {
+    for (let i = 0; i < 3; i++) {
+      particles.push({
+        x: x - width / 2 + Math.random() * width,
+        y: y,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: -Math.random() * 4 - 2,
+        size: Math.random() * 8 + 4,
+        life: 1,
+        decay: Math.random() * 0.03 + 0.02,
+        color: Math.random() > 0.3 ? '#ff4500' : (Math.random() > 0.5 ? '#ffcc00' : '#ef4444')
+      });
+    }
+  }
+
   function update() {
     const diff = document.getElementById("difficulty").value;
-    speed += difficultySettings[diff].speedInc; // تسارع سريع
+    speed += difficultySettings[diff].speedInc;
 
     player.x += (lanes[currentLane] - player.x) * 0.25;
     if (player.isJumping) {
       player.jumpY += player.jumpSpeed;
-      player.jumpSpeed += 0.75; // جاذبية أعلى لقفز أسرع وأصعب
+      player.jumpSpeed += 0.75;
       if (player.jumpY >= 0) { player.jumpY = 0; player.isJumping = false; }
     }
 
@@ -252,14 +279,26 @@
       }
     }
 
-    // تحديث العوائق والتصادم
+    // تحديث حركة النار المتصاعدة
+    for (let i = particles.length - 1; i >= 0; i--) {
+      let p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.size *= 0.95;
+      p.life -= p.decay;
+      if (p.life <= 0 || p.size < 0.5) particles.splice(i, 1);
+    }
+
+    // تحديث العوائق
     for (let i = obstacles.length - 1; i >= 0; i--) {
       let o = obstacles[i]; o.y += speed;
+      
+      // إنتاج شرار ونار مستمر من العائق
+      createFireParticles(o.x, o.y + 10, o.w);
 
-      // تصادم بدقيق جداً
       if (Math.abs(o.x - player.x) < 32 && o.y + o.h > player.y + player.jumpY && o.y < player.y + player.jumpY + player.height) {
         if (player.jumpY > -25) {
-          alert(`خسرت! سكورك: ${score}`);
+          alert(`خسرت في الحريقة! سكورك: ${score}`);
           resetToMenu();
           return;
         }
@@ -267,11 +306,12 @@
       if (o.y > canvas.height) obstacles.splice(i, 1);
     }
 
-    // تحديث العملات
+    // تحديث العملات ورصيد الدَّين
     for (let i = coins.length - 1; i >= 0; i--) {
       let c = coins[i]; c.y += speed;
       if (Math.abs(c.x - player.x) < 25 && Math.abs(c.y - (player.y + player.jumpY)) < 30) {
-        score += 15; totalCoins += 1;
+        score += 15; 
+        totalCoins += 1; // تسديد الدَّين أو زيادة الرصيد
         document.getElementById("score").textContent = score;
         updateUI();
         coins.splice(i, 1);
@@ -279,31 +319,10 @@
     }
   }
 
-  // رسم العائق 3D والنار
-  function draw3DObstacleWithFire(o) {
-    const fireHeight = Math.random() * 20 + 15;
-
-    // 1. ألسنة النار من أعلى المربع
-    ctx.fillStyle = "#ff4500";
-    ctx.beginPath();
-    ctx.moveTo(o.x - o.w / 2, o.y);
-    ctx.lineTo(o.x - o.w / 4, o.y - fireHeight);
-    ctx.lineTo(o.x, o.y - 5);
-    ctx.lineTo(o.x + o.w / 4, o.y - fireHeight * 1.2);
-    ctx.lineTo(o.x + o.w / 2, o.y);
-    ctx.fill();
-
-    ctx.fillStyle = "#ffcc00"; // قلب النار أصفر
-    ctx.beginPath();
-    ctx.moveTo(o.x - o.w / 3, o.y);
-    ctx.lineTo(o.x, o.y - fireHeight * 0.7);
-    ctx.lineTo(o.x + o.w / 3, o.y);
-    ctx.fill();
-
-    // 2. المربع الـ 3D (الوجه الأمامي والجانبي والعلوي)
+  function draw3DObstacle(o) {
     const d = o.depth;
-    // الوجه الجانبي
-    ctx.fillStyle = "#991b1b";
+    // الجانب
+    ctx.fillStyle = "#7f1d1d";
     ctx.beginPath();
     ctx.moveTo(o.x + o.w / 2, o.y);
     ctx.lineTo(o.x + o.w / 2 + d, o.y - d);
@@ -311,8 +330,8 @@
     ctx.lineTo(o.x + o.w / 2, o.y + o.h);
     ctx.fill();
 
-    // الوجه العلوي
-    ctx.fillStyle = "#f87171";
+    // الأعلى
+    ctx.fillStyle = "#b91c1c";
     ctx.beginPath();
     ctx.moveTo(o.x - o.w / 2, o.y);
     ctx.lineTo(o.x - o.w / 2 + d, o.y - d);
@@ -320,14 +339,25 @@
     ctx.lineTo(o.x + o.w / 2, o.y);
     ctx.fill();
 
-    // الوجه الأمامي الرئيسي
-    ctx.fillStyle = "#dc2626";
+    // الوجه الأمامي (محروق)
+    ctx.fillStyle = "#450a0a";
     ctx.fillRect(o.x - o.w / 2, o.y, o.w, o.h);
-    ctx.strokeStyle = "#450a0a";
+    ctx.strokeStyle = "#ef4444";
     ctx.strokeRect(o.x - o.w / 2, o.y, o.w, o.h);
   }
 
-  // رسم اللاعب حسب الشكل واللون المختار من المتجر
+  function drawFireParticles() {
+    particles.forEach(p => {
+      ctx.save();
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
   function drawPlayer() {
     const skin = availableSkins.find(s => s.id === selectedSkinId) || availableSkins[0];
     const px = player.x;
@@ -335,7 +365,7 @@
 
     ctx.fillStyle = skin.color;
     ctx.shadowColor = skin.color;
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 12;
 
     if (skin.shape === 'square') {
       ctx.fillRect(px - 20, py, 40, 40);
@@ -354,29 +384,29 @@
       ctx.fill();
     }
 
-    ctx.shadowBlur = 0; // إعادة تعيين الظل
+    ctx.shadowBlur = 0;
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // رسم طريق الحارات
-    ctx.strokeStyle = "#334155"; ctx.setLineDash([15, 15]);
+    // خطوط الطريق
+    ctx.strokeStyle = "#1e293b"; ctx.setLineDash([15, 15]);
     ctx.beginPath(); 
     ctx.moveTo(130, 0); ctx.lineTo(130, canvas.height); 
     ctx.moveTo(250, 0); ctx.lineTo(250, canvas.height); 
     ctx.stroke(); ctx.setLineDash([]);
 
-    // رسم العوائق 3D والنار
-    obstacles.forEach(o => draw3DObstacleWithFire(o));
+    // رسم العوائق ثم نار الجزيئات فوقها
+    obstacles.forEach(o => draw3DObstacle(o));
+    drawFireParticles();
 
-    // رسم العملات
+    // العملات
     ctx.fillStyle = "#eab308";
     coins.forEach(c => {
       ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill();
     });
 
-    // رسم اللاعب
     drawPlayer();
   }
 
