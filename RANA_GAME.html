@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rana - لعبة الاستحواذ على المساحة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+        body {
+            background-color: #0d0e15;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            background-color: #12131c;
+        }
+        #ui {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .score-title {
+            font-size: 14px;
+            color: #aaa;
+        }
+        .score-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00ffcc;
+        }
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(18, 19, 28, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #ff0055;
+            display: none;
+            box-shadow: 0 0 30px rgba(255, 0, 85, 0.4);
+        }
+        #game-over h1 {
+            color: #ff0055;
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+        #restart-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #00ffcc, #0099ff);
+            border: none;
+            border-radius: 25px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00ffcc;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui">
+            <div class="score-title">السيطرة على الخريطة</div>
+            <div class="score-value" id="score">0.0%</div>
+        </div>
+        <div id="game-over">
+            <h1>لقد خسرت!</h1>
+            <p>تم تقاطع مسارك أو الاصطدام بالحدود.</p>
+            <button id="restart-btn" onclick="resetGame()">إعادة اللعب</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const gameOverEl = document.getElementById('game-over');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const GRID_SIZE = 20;
+        let isGameOver = false;
+
+        // Player Config
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            size: 8,
+            speed: 3,
+            dx: 3,
+            dy: 0,
+            color: '#00ffcc',
+            trailColor: 'rgba(0, 255, 204, 0.4)',
+            path: [],
+            territory: []
+        };
+
+        // Initialize Territory (Starting Safe Zone)
+        function initTerritory() {
+            player.territory = [];
+            const radius = 60;
+            for (let x = player.x - radius; x <= player.x + radius; x += 5) {
+                for (let y = player.y - radius; y <= player.y + radius; y += 5) {
+                    if (Math.hypot(x - player.x, y - player.y) <= radius) {
+                        player.territory.push({ x, y });
+                    }
+                }
+            }
+        }
+
+        // Controls
+        window.addEventListener('keydown', (e) => {
+            if (isGameOver) return;
+            if (e.key === 'ArrowUp' && player.dy === 0) { player.dx = 0; player.dy = -player.speed; }
+            if (e.key === 'ArrowDown' && player.dy === 0) { player.dx = 0; player.dy = player.speed; }
+            if (e.key === 'ArrowLeft' && player.dx === 0) { player.dx = -player.speed; player.dy = 0; }
+            if (e.key === 'ArrowRight' && player.dx === 0) { player.dx = player.speed; player.dy = 0; }
+        });
+
+        function inTerritory(x, y) {
+            return player.territory.some(pt => Math.hypot(pt.x - x, pt.y - y) < 10);
+        }
+
+        function update() {
+            if (isGameOver) return;
+
+            player.x += player.dx;
+            player.y += player.dy;
+
+            // Boundary collision
+            if (player.x < 0 || player.x > canvas.width || player.y < 0 || player.y > canvas.height) {
+                endGame();
+                return;
+            }
+
+            const safe = inTerritory(player.x, player.y);
+
+            if (!safe) {
+                // Check self trail collision
+                for (let pt of player.path) {
+                    if (Math.hypot(pt.x - player.x, pt.y - player.y) < player.size / 2) {
+                        endGame();
+                        return;
+                    }
+                }
+                player.path.push({ x: player.x, y: player.y });
+            } else if (player.path.length > 0) {
+                // Returned to territory: conquer the area
+                player.territory.push(...player.path);
+                player.path = [];
+                updateScore();
+            }
+        }
+
+        function updateScore() {
+            const totalArea = canvas.width * canvas.height;
+            const conqueredArea = player.territory.length * 25; // Approximate block size
+            const percentage = ((conqueredArea / totalArea) * 100).toFixed(1);
+            scoreEl.innerText = `${percentage}%`;
+        }
+
+        function drawGrid() {
+            ctx.strokeStyle = '#1e202d';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += GRID_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += GRID_SIZE) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+
+            // Draw Territory
+            ctx.fillStyle = player.trailColor;
+            for (let pt of player.territory) {
+                ctx.fillRect(pt.x - 5, pt.y - 5, 10, 10);
+            }
+
+            // Draw Path (Trail)
+            if (player.path.length > 0) {
+                ctx.strokeStyle = player.color;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(player.path[0].x, player.path[0].y);
+                for (let i = 1; i < player.path.length; i++) {
+                    ctx.lineTo(player.path[i].x, player.path[i].y);
+                }
+                ctx.lineTo(player.x, player.y);
+                ctx.stroke();
+            }
+
+            // Draw Player Head
+            ctx.fillStyle = player.color;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = player.color;
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0; // Reset blur
+        }
+
+        function loop() {
+            update();
+            draw();
+            if (!isGameOver) requestAnimationFrame(loop);
+        }
+
+        function endGame() {
+            isGameOver = true;
+            gameOverEl.style.display = 'block';
+        }
+
+        function resetGame() {
+            isGameOver = false;
+            gameOverEl.style.display = 'none';
+            player.x = canvas.width / 2;
+            player.y = canvas.height / 2;
+            player.dx = player.speed;
+            player.dy = 0;
+            player.path = [];
+            initTerritory();
+            loop();
+        }
+
+        initTerritory();
+        loop();
+    </script>
+</body>
+</html>
