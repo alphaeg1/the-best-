@@ -43,15 +43,25 @@
     }
 
     .btn {
-      background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: 2px solid rgba(255,255,255,0.4); padding: 14px 20px;
-      border-radius: 14px; font-size: 1.1rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
+      background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: 2px solid rgba(255,255,255,0.4); padding: 12px 20px;
+      border-radius: 14px; font-size: 1.05rem; cursor: pointer; transition: 0.2s; width: 90%; font-weight: bold;
       box-shadow: 0 8px 20px rgba(239,68,68,0.4); text-align: center;
     }
     .btn:active { transform: scale(0.96); }
     .btn-secondary { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16,185,129,0.3); }
     .btn-shop { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; box-shadow: 0 8px 20px rgba(245,158,11,0.3); }
 
-    /* متجر الشخصيات بالدين */
+    .diff-selector {
+      display: flex; gap: 8px; width: 90%; justify-content: center; margin-bottom: 5px;
+    }
+    .diff-btn {
+      flex: 1; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1); color: #fff; font-size: 0.85rem; font-weight: bold; cursor: pointer;
+    }
+    .diff-btn.active {
+      background: #f59e0b; border-color: #fff; color: #000;
+    }
+
     .shop-container {
       width: 100%; height: 62%; background: rgba(15, 23, 42, 0.6); border-radius: 16px;
       display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 8px; padding: 10px;
@@ -75,7 +85,6 @@
       position: absolute; top: 10px; right: 10px; z-index: 6;
       background: #ef4444; border: 2px solid #fff; padding: 6px 12px; border-radius: 10px; cursor: pointer; color: white; font-weight: bold;
     }
-    .debt-badge { color: #f87171; font-size: 0.8rem; display: block; }
   </style>
 </head>
 <body>
@@ -98,19 +107,25 @@
       <div class="game-subtitle">ضد الرصاص</div>
     </div>
     
-    <canvas id="menuCharCanvas" width="180" height="230"></canvas>
+    <canvas id="menuCharCanvas" width="180" height="210"></canvas>
     
-    <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:10px;">
+    <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+      <div style="font-size: 0.85rem; color:#cbd5e1; font-weight:bold;">مستوى الصعوبة:</div>
+      <div class="diff-selector">
+        <button class="diff-btn" id="diff-easy" onclick="setDifficulty('easy')">سهل</button>
+        <button class="diff-btn active" id="diff-medium" onclick="setDifficulty('medium')">متوسط</button>
+        <button class="diff-btn" id="diff-hard" onclick="setDifficulty('hard')">صعب</button>
+      </div>
       <button class="btn" onclick="startGame()">ابدأ الجري 🔥</button>
       <button class="btn btn-shop" onclick="openShop()">متجر الشخصيات 🛒</button>
     </div>
   </div>
 
-  <!-- متجر ALPHA بالدين -->
+  <!-- متجر ALPHA -->
   <div class="overlay hidden" id="shopMenu">
     <div style="text-align:center;">
       <div class="game-logo" style="font-size: 1.8rem;">متجر ALPHA 🛒</div>
-      <div style="font-size: 0.85rem; color: #cbd5e1;">يمكنك الشراء الآن والسداد لاحقاً من الأرباح!</div>
+      <div style="font-size: 0.85rem; color: #cbd5e1;">اختر شخصيتك المفضلّة!</div>
     </div>
     
     <div class="shop-container" id="shopItems"></div>
@@ -134,16 +149,23 @@
   const menuCanvas = document.getElementById("menuCharCanvas");
   const menuCtx = menuCanvas.getContext("2d");
 
-  // تشكيلة شخصيات ALPHA
+  // تشكيلة شخصيات ALPHA مع إضافة Reem
   const skins = [
-    { id: 'classic', name: 'ALPHA الأصلي', price: 0, cape: '#dc2626', capeDark: '#991b1b', shirt: '#f59e0b', pants: '#1e293b', skinTone: '#ffb703' },
-    { id: 'tactical', name: 'ALPHA التكتيكي', price: 80, cape: '#059669', capeDark: '#047857', shirt: '#334155', pants: '#0f172a', skinTone: '#ffb703' },
-    { id: 'gold', name: 'ALPHA الذهبي', price: 150, cape: '#d97706', capeDark: '#b45309', shirt: '#fbbf24', pants: '#78350f', skinTone: '#ffe3a8' },
-    { id: 'cyber', name: 'ALPHA السايبر', price: 250, cape: '#06b6d4', capeDark: '#0891b2', shirt: '#7c3aed', pants: '#4c1d95', skinTone: '#a5f3fc' },
-    { id: 'shadow', name: 'ALPHA الظل', price: 400, cape: '#475569', capeDark: '#1e293b', shirt: '#0f172a', pants: '#020617', skinTone: '#e2e8f0' }
+    { id: 'classic', name: 'ALPHA الأصلي', price: 0, cape: '#dc2626', capeDark: '#991b1b', shirt: '#f59e0b', pants: '#1e293b', skinTone: '#ffb703', gender: 'male' },
+    { id: 'reem', name: 'ريم (Reem) 🎀', price: 100, cape: '#ec4899', capeDark: '#be185d', shirt: '#f43f5e', pants: '#831843', skinTone: '#fed7aa', gender: 'female' },
+    { id: 'tactical', name: 'ALPHA التكتيكي', price: 80, cape: '#059669', capeDark: '#047857', shirt: '#334155', pants: '#0f172a', skinTone: '#ffb703', gender: 'male' },
+    { id: 'gold', name: 'ALPHA الذهبي', price: 150, cape: '#d97706', capeDark: '#b45309', shirt: '#fbbf24', pants: '#78350f', skinTone: '#ffe3a8', gender: 'male' },
+    { id: 'cyber', name: 'ALPHA السايبر', price: 250, cape: '#06b6d4', capeDark: '#0891b2', shirt: '#7c3aed', pants: '#4c1d95', skinTone: '#a5f3fc', gender: 'male' }
   ];
 
-  let totalCoins = parseInt(localStorage.getItem("alpha_coins")) || 0; // الرصيد يمكن أن يصبح بالسالب (ديون)
+  let currentDifficulty = 'medium';
+  let difficultySettings = {
+    easy: { baseSpeed: 6.5, speedInc: 0.002, spawnRate: 32, coinProb: 0.5 },
+    medium: { baseSpeed: 9.5, speedInc: 0.0035, spawnRate: 24, coinProb: 0.35 },
+    hard: { baseSpeed: 12.5, speedInc: 0.005, spawnRate: 18, coinProb: 0.25 }
+  };
+
+  let totalCoins = parseInt(localStorage.getItem("alpha_coins")) || 0;
   let unlockedSkins = JSON.parse(localStorage.getItem("alpha_skins")) || ['classic'];
   let currentSkinId = localStorage.getItem("alpha_active_skin") || 'classic';
 
@@ -153,6 +175,12 @@
   let obstacles = [], coins = [], score = 0, speed = 9, frameCount = 0;
   let isPlaying = false, isPaused = false, animationId;
   let runCycle = 0;
+
+  function setDifficulty(diff) {
+    currentDifficulty = diff;
+    document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`diff-${diff}`).classList.add('active');
+  }
 
   function getActiveSkin() {
     return skins.find(s => s.id === currentSkinId) || skins[0];
@@ -171,26 +199,23 @@
     localStorage.setItem("alpha_active_skin", currentSkinId);
   }
 
-  // 1. رسم شخصية ALPHA الواقعية في الواجهة الرئيسية (من الأمام - تفاصيل مجسمة)
+  // رسم شخصيات الذكور (ALPHA) من الأمام
   function drawRealisticFrontAlpha(targetCtx, x, y, scale = 1, skin) {
     targetCtx.save();
     targetCtx.translate(x, y);
     targetCtx.scale(scale, scale);
 
-    // الوشاح الخلفي
     targetCtx.fillStyle = skin.capeDark;
     targetCtx.beginPath();
     targetCtx.moveTo(-22, -85); targetCtx.lineTo(-40, 20); targetCtx.lineTo(40, 20); targetCtx.lineTo(22, -85);
     targetCtx.fill();
 
-    // السروال الواقعي بمفاصل الركبة
     targetCtx.fillStyle = skin.pants;
     targetCtx.beginPath();
     targetCtx.roundRect(-16, -35, 14, 45, 4);
     targetCtx.roundRect(2, -35, 14, 45, 4);
     targetCtx.fill();
 
-    // قميص ALPHA الرياضي العريض (أكتاف رياضية)
     let shirtGrad = targetCtx.createLinearGradient(0, -90, 0, -30);
     shirtGrad.addColorStop(0, skin.shirt);
     shirtGrad.addColorStop(1, '#d97706');
@@ -199,38 +224,73 @@
     targetCtx.roundRect(-20, -90, 40, 58, 8);
     targetCtx.fill();
 
-    // الوشاح حول العنق
     targetCtx.fillStyle = skin.cape;
     targetCtx.beginPath();
     targetCtx.ellipse(0, -88, 22, 10, 0, 0, Math.PI * 2);
     targetCtx.fill();
 
-    // الرأس وتفاصيل الوجه الفائقة
     targetCtx.fillStyle = skin.skinTone;
     targetCtx.beginPath();
     targetCtx.arc(0, -108, 18, 0, Math.PI * 2);
     targetCtx.fill();
 
-    // الشعر والتسريحة الحديثة
     targetCtx.fillStyle = "#0f172a";
     targetCtx.beginPath();
     targetCtx.arc(0, -114, 19, Math.PI * 0.8, Math.PI * 2.2);
     targetCtx.fill();
-    // خصل شعر أمامية
-    targetCtx.beginPath();
-    targetCtx.moveTo(-18, -112); targetCtx.lineTo(-5, -100); targetCtx.lineTo(2, -114);
-    targetCtx.lineTo(12, -98); targetCtx.lineTo(18, -112);
-    targetCtx.fill();
-
-    // العيون النسرية
-    targetCtx.fillStyle = "#0f172a";
-    targetCtx.fillRect(-7, -108, 4, 3);
-    targetCtx.fillRect(3, -108, 4, 3);
 
     targetCtx.restore();
   }
 
-  // 2. رسم شخصية ALPHA الواقعية أثناء الجري 3D (من الخلف المنظوري مع الحركة والتظليل)
+  // رسم شخصية ريم (Reem) من الأمام
+  function drawRealisticFrontReem(targetCtx, x, y, scale = 1, skin) {
+    targetCtx.save();
+    targetCtx.translate(x, y);
+    targetCtx.scale(scale, scale);
+
+    // الوشاح
+    targetCtx.fillStyle = skin.capeDark;
+    targetCtx.beginPath();
+    targetCtx.moveTo(-18, -85); targetCtx.lineTo(-35, 20); targetCtx.lineTo(35, 20); targetCtx.lineTo(18, -85);
+    targetCtx.fill();
+
+    // البنطال
+    targetCtx.fillStyle = skin.pants;
+    targetCtx.beginPath();
+    targetCtx.roundRect(-14, -35, 12, 45, 4);
+    targetCtx.roundRect(2, -35, 12, 45, 4);
+    targetCtx.fill();
+
+    // القميص الأنثوي
+    targetCtx.fillStyle = skin.shirt;
+    targetCtx.beginPath();
+    targetCtx.roundRect(-16, -88, 32, 55, 10);
+    targetCtx.fill();
+
+    // الرأس والوجه
+    targetCtx.fillStyle = skin.skinTone;
+    targetCtx.beginPath();
+    targetCtx.arc(0, -105, 16, 0, Math.PI * 2);
+    targetCtx.fill();
+
+    // الشعر الطويل لريم
+    targetCtx.fillStyle = "#451a03";
+    targetCtx.beginPath();
+    targetCtx.arc(0, -108, 19, Math.PI * 0.7, Math.PI * 2.3);
+    targetCtx.fill();
+    targetCtx.fillRect(-20, -108, 8, 35);
+    targetCtx.fillRect(12, -108, 8, 35);
+
+    // فيونكة شريطة
+    targetCtx.fillStyle = "#f43f5e";
+    targetCtx.beginPath();
+    targetCtx.arc(0, -122, 5, 0, Math.PI * 2);
+    targetCtx.fill();
+
+    targetCtx.restore();
+  }
+
+  // رسم الجري للشخصية الذكر 3D
   function drawRealisticRunningAlpha3D(targetCtx, x, y, animFrame, isJumping, skin) {
     targetCtx.save();
     targetCtx.translate(x, y);
@@ -238,40 +298,22 @@
     const legMove = isJumping ? 0 : Math.sin(animFrame * 0.35) * 16;
     const capeWave = Math.sin(animFrame * 0.45) * 14;
 
-    // ظل البطل الديناميكي على الطريق
     targetCtx.fillStyle = "rgba(0,0,0,0.35)";
     targetCtx.beginPath();
     targetCtx.ellipse(0, 15, 26, 9, 0, 0, Math.PI * 2);
     targetCtx.fill();
 
-    // الأرجل المجسمة ببنطال رياضي ومحاكاة خطوات الجري
     targetCtx.fillStyle = skin.pants;
-    // رجل يسرى
-    targetCtx.beginPath();
-    targetCtx.roundRect(-16, -25 + legMove, 13, 38, 4);
-    targetCtx.fill();
-    // رجل يمنى
-    targetCtx.beginPath();
-    targetCtx.roundRect(3, -25 - legMove, 13, 38, 4);
-    targetCtx.fill();
+    targetCtx.beginPath(); targetCtx.roundRect(-16, -25 + legMove, 13, 38, 4); targetCtx.fill();
+    targetCtx.beginPath(); targetCtx.roundRect(3, -25 - legMove, 13, 38, 4); targetCtx.fill();
 
-    // الحذاء التكتيكي
-    targetCtx.fillStyle = "#020617";
-    targetCtx.fillRect(-16, 10 + legMove, 13, 8);
-    targetCtx.fillRect(3, 10 - legMove, 13, 8);
-
-    // ظهر القميص الرياضي العريض (نسب واقعية للأكتاف)
     targetCtx.fillStyle = skin.shirt;
-    targetCtx.beginPath();
-    targetCtx.roundRect(-22, -75, 44, 52, 6);
-    targetCtx.fill();
+    targetCtx.beginPath(); targetCtx.roundRect(-22, -75, 44, 52, 6); targetCtx.fill();
 
-    // تموج الوشاح 3D بالطبقات والتظليل المتدرج
     let capeGrad = targetCtx.createLinearGradient(0, -75, 0, 30);
     capeGrad.addColorStop(0, skin.cape);
     capeGrad.addColorStop(1, skin.capeDark);
     targetCtx.fillStyle = capeGrad;
-    
     targetCtx.beginPath();
     targetCtx.moveTo(-20, -75);
     targetCtx.quadraticCurveTo(-32 - capeWave, -30, -22 - capeWave, 25);
@@ -279,23 +321,57 @@
     targetCtx.quadraticCurveTo(32 + capeWave, -30, 20, -75);
     targetCtx.fill();
 
-    // خلفية الرأس والشعر من الخلف
     targetCtx.fillStyle = skin.skinTone;
+    targetCtx.beginPath(); targetCtx.arc(0, -88, 16, 0, Math.PI * 2); targetCtx.fill();
+    targetCtx.fillStyle = "#0f172a";
+    targetCtx.beginPath(); targetCtx.arc(0, -91, 17, 0, Math.PI * 2); targetCtx.fill();
+
+    targetCtx.restore();
+  }
+
+  // رسم شخصية ريم (Reem) أثناء الجري
+  function drawRealisticRunningReem3D(targetCtx, x, y, animFrame, isJumping, skin) {
+    targetCtx.save();
+    targetCtx.translate(x, y);
+
+    const legMove = isJumping ? 0 : Math.sin(animFrame * 0.35) * 14;
+    const hairWave = Math.sin(animFrame * 0.3) * 8;
+
+    targetCtx.fillStyle = "rgba(0,0,0,0.35)";
     targetCtx.beginPath();
-    targetCtx.arc(0, -88, 16, 0, Math.PI * 2);
+    targetCtx.ellipse(0, 15, 22, 8, 0, 0, Math.PI * 2);
     targetCtx.fill();
 
-    targetCtx.fillStyle = "#0f172a";
+    targetCtx.fillStyle = skin.pants;
+    targetCtx.beginPath(); targetCtx.roundRect(-13, -25 + legMove, 11, 38, 4); targetCtx.fill();
+    targetCtx.beginPath(); targetCtx.roundRect(2, -25 - legMove, 11, 38, 4); targetCtx.fill();
+
+    targetCtx.fillStyle = skin.shirt;
+    targetCtx.beginPath(); targetCtx.roundRect(-18, -75, 36, 50, 8); targetCtx.fill();
+
+    // شعر ريم المتحرك من الخلف
+    targetCtx.fillStyle = "#451a03";
     targetCtx.beginPath();
-    targetCtx.arc(0, -91, 17, 0, Math.PI * 2);
+    targetCtx.moveTo(-16, -90);
+    targetCtx.quadraticCurveTo(-22 + hairWave, -50, -18 + hairWave, -20);
+    targetCtx.quadraticCurveTo(0, -30, 18 - hairWave, -20);
+    targetCtx.quadraticCurveTo(22 - hairWave, -50, 16, -90);
     targetCtx.fill();
+
+    targetCtx.fillStyle = skin.skinTone;
+    targetCtx.beginPath(); targetCtx.arc(0, -88, 14, 0, Math.PI * 2); targetCtx.fill();
 
     targetCtx.restore();
   }
 
   function renderMenuHero() {
     menuCtx.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
-    drawRealisticFrontAlpha(menuCtx, menuCanvas.width / 2, 185, 1.25, getActiveSkin());
+    const activeSkin = getActiveSkin();
+    if (activeSkin.gender === 'female') {
+      drawRealisticFrontReem(menuCtx, menuCanvas.width / 2, 170, 1.2, activeSkin);
+    } else {
+      drawRealisticFrontAlpha(menuCtx, menuCanvas.width / 2, 170, 1.2, activeSkin);
+    }
     if (!isPlaying) requestAnimationFrame(renderMenuHero);
   }
 
@@ -323,9 +399,8 @@
       if (isActive) {
         btnHTML = `<button class="skin-btn" style="background:#10b981; color:#fff;" disabled>مفعل</button>`;
       } else if (isUnlocked) {
-        btnHTML = `<button class="skin-btn" style="background:#f59e0b; color:#fff;" onclick="selectSkin('${skin.id}')">اركتدائه</button>`;
+        btnHTML = `<button class="skin-btn" style="background:#f59e0b; color:#fff;" onclick="selectSkin('${skin.id}')">ارتداء</button>`;
       } else {
-        // زر الشراء بالدين
         btnHTML = `
           <button class="skin-btn" style="background:#ef4444; color:#fff;" onclick="buySkinWithDebt('${skin.id}', ${skin.price})">
             شراء بالدَّيْن 💳 (${skin.price} 🪙)
@@ -336,7 +411,7 @@
         <div class="skin-card">
           <div>
             <div style="font-weight:bold; font-size:1.05rem;">${skin.name}</div>
-            <span style="font-size:0.75rem; color:#94a3b8;">السعر الأصلي: ${skin.price} عملة</span>
+            <span style="font-size:0.75rem; color:#94a3b8;">السعر: ${skin.price} عملة</span>
           </div>
           ${btnHTML}
         </div>
@@ -344,9 +419,8 @@
     });
   }
 
-  // شراء الشخصيات بالدين حتى لو الرصيد غير كافي
   function buySkinWithDebt(id, price) {
-    totalCoins -= price; // ينزل دين بالسالب على الحساب
+    totalCoins -= price;
     unlockedSkins.push(id);
     currentSkinId = id;
     updateUI();
@@ -360,7 +434,9 @@
   }
 
   function startGame() {
-    speed = 9.5; obstacles = []; coins = []; score = 0; frameCount = 0; currentLane = 1;
+    const settings = difficultySettings[currentDifficulty];
+    speed = settings.baseSpeed;
+    obstacles = []; coins = []; score = 0; frameCount = 0; currentLane = 1;
     player.x = lanes[1]; player.jumpY = 0; player.isJumping = false;
     
     document.getElementById("mainMenu").classList.add("hidden");
@@ -421,7 +497,8 @@
   }, { passive: true });
 
   function update() {
-    speed += 0.0035;
+    const settings = difficultySettings[currentDifficulty];
+    speed += settings.speedInc;
     runCycle++;
 
     player.x += (lanes[currentLane] - player.x) * 0.25;
@@ -432,9 +509,9 @@
     }
 
     frameCount++;
-    if (frameCount % 24 === 0) {
+    if (frameCount % settings.spawnRate === 0) {
       const lane = Math.floor(Math.random() * 3);
-      if (Math.random() > 0.35) {
+      if (Math.random() > settings.coinProb) {
         obstacles.push({ x: lanes[lane], y: -80, w: 45, h: 50 });
       } else {
         coins.push({ x: lanes[lane], y: -30, r: 12 });
@@ -453,12 +530,11 @@
       if (o.y > canvas.height) obstacles.splice(i, 1);
     }
 
-    // تسديد الديون تلقائياً عند جمع العملات
     for (let i = coins.length - 1; i >= 0; i--) {
       let c = coins[i]; c.y += speed;
       if (Math.abs(c.x - player.x) < 30 && Math.abs(c.y - (player.y + player.jumpY)) < 40) {
         score += 20; 
-        totalCoins += 1; // يزيد الرصيد ويسدد الدين بالسالب
+        totalCoins += 1;
         updateUI();
         coins.splice(i, 1);
       } else if (c.y > canvas.height) coins.splice(i, 1);
@@ -466,7 +542,6 @@
   }
 
   function draw() {
-    // بيئة طريق واقعية ثنائية التدرج
     ctx.fillStyle = "#1e293b";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -478,7 +553,6 @@
     ctx.moveTo(250, 0); ctx.lineTo(250, canvas.height); 
     ctx.stroke(); ctx.setLineDash([]);
 
-    // رسم الرصاص التكتيكي
     obstacles.forEach(o => {
       ctx.fillStyle = "#ef4444";
       ctx.beginPath(); ctx.arc(o.x, o.y + 20, 18, 0, Math.PI * 2); ctx.fill();
@@ -486,7 +560,6 @@
       ctx.fillRect(o.x - 10, o.y + 10, 20, 30);
     });
 
-    // رسم الكوينز الذهبية
     ctx.fillStyle = "#fbbf24";
     ctx.strokeStyle = "#fff";
     ctx.lineWidth = 2;
@@ -494,8 +567,12 @@
       ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     });
 
-    // رسم ALPHA المنظوري المجسم (3D Realistic Runner)
-    drawRealisticRunningAlpha3D(ctx, player.x, player.y + player.jumpY, runCycle, player.isJumping, getActiveSkin());
+    const activeSkin = getActiveSkin();
+    if (activeSkin.gender === 'female') {
+      drawRealisticRunningReem3D(ctx, player.x, player.y + player.jumpY, runCycle, player.isJumping, activeSkin);
+    } else {
+      drawRealisticRunningAlpha3D(ctx, player.x, player.y + player.jumpY, runCycle, player.isJumping, activeSkin);
+    }
   }
 
   function gameLoop() {
